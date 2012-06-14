@@ -21,7 +21,7 @@ function renderStartScreen() {
 
   ctx.font = '24pt Helvetica';
   ctx.fillText('Press [Enter] to continue', 75, 250);
-};
+}
 
 function renderInstructionScreen() {
   ctx.clearRect(0, 0, WIDTH, HEIGHT);
@@ -32,19 +32,19 @@ function renderInstructionScreen() {
   ctx.fillStyle = 'black';
   ctx.font = '24pt Helvetica';
   ctx.fillText('Press [s] to continue', 100, 250);
-};
+}
 
 function renderChooseLevelScreen() {
   ctx.clearRect(0, 0, WIDTH, HEIGHT);
 
   ctx.fillStyle = 'rgb(0, 0, 255)';
   ctx.fillRect(0, 0, WIDTH, HEIGHT);
-};
+}
 
 function renderLevel1Screen() {
 
-};
+}
 
 function renderResultsScreen() {
 
-};
+}

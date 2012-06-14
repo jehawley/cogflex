@@ -17,7 +17,7 @@ function init() {
   ctx = document.getElementById('mainC').getContext('2d');
   renderData.loadImages();
   changeScreen(startScreen, handleStartScreen);
-};
+}
 
 function changeScreen(newUpdate, newEvent) {
   if (loopID > 0) {
@@ -29,4 +29,4 @@ function changeScreen(newUpdate, newEvent) {
   eventFun = newEvent;
   window.addEventListener('keydown', eventFun, true);
   window.addEventListener('keyup', eventFun, true);
-};
+}

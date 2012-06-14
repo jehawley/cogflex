@@ -3,20 +3,20 @@
 
 function startScreen() {
   renderStartScreen();
-};
+}
 
 function instructionScreen() {
   renderInstructionScreen();
-};
+}
 
 function chooseLevelScreen() {
   renderChooseLevelScreen();
-};
+}
 
 function levelScreen() {
 
-};
+}
 
 function resultsScreen() {
 
-};
+}
