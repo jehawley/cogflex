@@ -13,6 +13,7 @@ function GameObject(topHeight, posX, posY, drawFun, type) {
 function Ship(posX, posY, drawFun) {
   this.base = GameObject;
   this.base(OFFSET, posX, posY, drawFun, "Composite");
+  this.move = moveShip;
 }
 Ship.prototype = new GameObject;
 
@@ -37,6 +38,9 @@ function Barrier(topHeight, length, drawFun) {
 }
 Barrier.prototype = new GameObject;
 
+
+// Drawing Methods
+
 function drawBasicShip() {
   ctx.beginPath();
 
@@ -58,4 +62,11 @@ function drawBasicEnemy() {
 
 function drawBasicBarrier() {
 
+}
+
+// Movement Methods
+
+function moveShip(step) {
+  // TODO: Account for collisions
+  this.posX += step;
 }
