@@ -14,7 +14,7 @@ function chooseLevelScreen() {
 }
 
 function levelScreen() {
-
+  renderLevel1Screen();
 }
 
 function resultsScreen() {

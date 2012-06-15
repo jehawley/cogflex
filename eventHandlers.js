@@ -1,5 +1,7 @@
 // eventHandlers.js
 // Contains all key event handling functions for the game window
+var keysDown = [];
+var powerupUsed = false;
 
 function handleStartScreen(e) {
   if ((e.type === 'keydown') && (e.keyCode === 13)) {
@@ -14,11 +16,22 @@ function handleInstructionScreen(e) {
 }
 
 function handleChooseLevelScreen(e) {
-
+  if ((e.type === 'keydown') && (e.keyCode == 13)) {
+    changeScreen(levelScreen, handleLevelScreen);
+  }
 }
 
 function handleLevelScreen(e) {
-
+  if (e.type === 'keydown') {
+    keysDown[e.keyCode] = true;
+  }
+  if (e.type === 'keyup') {
+    keysDown[e.keyCode] = false;
+    // TODO: Add "use powerup" button
+    /* if(e.keyCode === [[code]]){
+         powerupUsed = false;
+       }*/
+  }
 }
 
 function handleResultsScreen(e) {

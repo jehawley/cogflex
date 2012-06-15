@@ -5,6 +5,7 @@
 var testSide = [];
 
 var objectQueue = [];
+var player = new Ship(WIDTH / 2, OFFSET + SHIP_WIDTH / 2, drawBasicShip);
 
 function buildLevel1() {
   initTestValues(1, [1.0], [10]);

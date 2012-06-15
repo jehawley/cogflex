@@ -6,13 +6,13 @@ function GameObject(topHeight, posX, posY, drawFun, type) {
   this.posX = posX || 0;
   this.posY = posY || 0;
   this.draw = drawFun;
-  // "Intersection types are: BB, AABB, Circle, Ellipse, None
+  // "Intersection types are: Composite, BB, AABB, Circle, Ellipse, None
   this.intersectionType = type || "None";
 }
 
-function Ship(posX, posY) {
+function Ship(posX, posY, drawFun) {
   this.base = GameObject;
-  this.base(OFFSET, posX, posY, drawFun, "BB");
+  this.base(OFFSET, posX, posY, drawFun, "Composite");
 }
 Ship.prototype = new GameObject;
 
@@ -37,18 +37,25 @@ function Barrier(topHeight, length, drawFun) {
 }
 Barrier.prototype = new GameObject;
 
-function drawShip() {
+function drawBasicShip() {
+  ctx.beginPath();
+
+  ctx.fillStyle = 'rgb(0, 0, 200)';
+  ctx.moveTo(this.posX - SHIP_WIDTH / 2, this.posY - SHIP_WIDTH / 2);
+  ctx.lineTo(this.posX, this.posY - SHIP_WIDTH / 4);
+  ctx.lineTo(this.posX + SHIP_WIDTH / 2, this.posY - SHIP_WIDTH / 2);
+  ctx.lineTo(this.posX, this.posY + SHIP_WIDTH / 2);
+  ctx.fill();
+}
+
+function drawBasicCoin() {
 
 }
 
-function drawCoint() {
+function drawBasicEnemy() {
 
 }
 
-function drawEnemy() {
-
-}
-
-function drawBarrier() {
+function drawBasicBarrier() {
 
 }
