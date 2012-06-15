@@ -53,15 +53,23 @@ function drawBasicShip() {
 }
 
 function drawBasicCoin() {
-
+  ctx.fillStyle = 'rgb(255, 196, 20)';
+  ctx.beginPath();
+  ctx.arc(this.posX, this.posY, this.radius, 0, 2 * Math.PI, false);
+  ctx.fill();
 }
 
 function drawBasicEnemy() {
-
+  ctx.fillStyle = 'rgb(255, 0, 0)';
+  ctx.rect(this.posX - this.sideLength / 2,
+           this.posY - this.sideLength / 2,
+           this.sideLength,
+           this.sideLength);
 }
 
 function drawBasicBarrier() {
-
+  ctx.fillStyle = 'rgb(0, 170, 0)';
+  ctx.rect(WIDTH / 2 - 3, this.topHeight, 6, this.length); 
 }
 
 // Movement Methods

@@ -1,0 +1,141 @@
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.5.21)  15 JUN 2012 13:40
+entering extended mode
+ %&-line parsing enabled.
+**initialGameDesign.tex
+(./initialGameDesign.tex
+LaTeX2e <2009/09/24>
+Babel <v3.8l> and hyphenation patterns for english, usenglishmax, dumylang, noh
+yphenation, loaded.
+(/usr/share/texmf-texlive/tex/latex/base/article.cls
+Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
+(/usr/share/texmf-texlive/tex/latex/base/size10.clo
+File: size10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(/usr/share/texmf-texlive/tex/latex/graphics/graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf-texlive/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+(/usr/share/texmf-texlive/tex/latex/graphics/graphics.sty
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf-texlive/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/etc/texmf/tex/latex/config/graphics.cfg
+File: graphics.cfg 2009/08/28 v1.8 graphics configuration of TeX Live
+)
+Package graphics Info: Driver file: pdftex.def on input line 91.
+
+(/usr/share/texmf-texlive/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2010/03/12 v0.04p Graphics/color for pdfTeX
+\Gread@gobject=\count87
+))
+\Gin@req@height=\dimen103
+\Gin@req@width=\dimen104
+)
+(/usr/share/texmf-texlive/tex/latex/caption/caption.sty
+Package: caption 2009/10/09 v3.1k Customizing captions (AR)
+
+(/usr/share/texmf-texlive/tex/latex/caption/caption3.sty
+Package: caption3 2009/10/09 v3.1k caption3 kernel (AR)
+\captionmargin=\dimen105
+\captionmargin@=\dimen106
+\captionwidth=\dimen107
+\caption@indent=\dimen108
+\caption@parindent=\dimen109
+\caption@hangindent=\dimen110
+)
+\c@ContinuedFloat=\count88
+)
+(/usr/share/texmf-texlive/tex/latex/caption/subcaption.sty
+Package: subcaption 2008/08/31 v1.0b Adding subcaptions (AR)
+\c@subfigure=\count89
+\c@subtable=\count90
+)
+(./initialGameDesign.aux)
+\openout1 = `initialGameDesign.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+
+(/usr/share/texmf-texlive/tex/context/base/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count91
+\scratchdimen=\dimen111
+\scratchbox=\box26
+\nofMPsegments=\count92
+\nofMParguments=\count93
+\everyMPshowfont=\toks15
+\MPscratchCnt=\count94
+\MPscratchDim=\dimen112
+\MPnumerator=\count95
+\everyMPtoPDFconversion=\toks16
+)
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
+ <levelEx2ed.pdf, id=1, 597.23125pt x 845.1575pt>
+File: levelEx2ed.pdf Graphic file (type pdf)
+ <use levelEx2ed.pdf>
+<coin.pdf, id=3, 90.3375pt x 91.34125pt>
+File: coin.pdf Graphic file (type pdf)
+ <use coin.pdf>
+<obstacle.pdf, id=4, 132.495pt x 133.49875pt>
+File: obstacle.pdf Graphic file (type pdf)
+ <use obstacle.pdf>
+<powerup.pdf, id=5, 243.91125pt x 244.915pt>
+File: powerup.pdf Graphic file (type pdf)
+ <use powerup.pdf>
+<player.pdf, id=6, 174.6525pt x 168.63pt>
+File: player.pdf Graphic file (type pdf)
+ <use player.pdf> [1
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./levelEx2ed.pdf> <./coin.
+pdf> <./obstacle.pdf> <./powerup.pdf> <./player.pdf>]
+Overfull \hbox (2.70354pt too wide) in paragraph at lines 64--65
+[]\OT1/cmr/m/n/10 The game could track scores for the player
+ []
+
+[2] (./initialGameDesign.aux) ) 
+Here is how much of TeX's memory you used:
+ 1920 strings out of 495061
+ 29272 string characters out of 1182621
+ 90975 words of memory out of 3000000
+ 5139 multiletter control sequences out of 15000+50000
+ 4852 words of font info for 18 fonts, out of 3000000 for 9000
+ 28 hyphenation exceptions out of 8191
+ 36i,8n,38p,426b,426s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/share/texmf-texlive/fonts/type1/public/ams
+fonts/cm/cmbx10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cm
+bx12.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr10.pfb></u
+sr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr9.pfb>
+Output written on initialGameDesign.pdf (2 pages, 92554 bytes).
+PDF statistics:
+ 43 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 32 words of extra memory for PDF output out of 10000 (max. 10000000)
+

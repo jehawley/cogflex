@@ -1,0 +1,68 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\begin{document}
+\section{Game Concept}
+In this game, the player controls a vessel as it falls through each level. The player will try to collect coins (which gain the player points) and powerups while avoiding obstacles (which lose the player points).
+
+Figure \ref{levelEx} shows part of a theoretical level whose contents are labeled in Figure \ref{gameObj}. 
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale = 0.5, trim= 0mm 125mm 125mm 0mm, clip]{levelEx2ed}
+\caption{A level section - black represents impassable terrain}
+\label{levelEx}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+  \begin{subfigure}[b]{0.2\textwidth}
+    \centering
+    \includegraphics[scale = 0.1]{coin}
+    \caption{Coin}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.2\textwidth}
+    \centering
+    \includegraphics[scale = 0.07]{obstacle}
+    \caption{Obstacle}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.2\textwidth}
+    \centering
+    \includegraphics[scale = 0.05]{powerup}
+    \caption{Powerup}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.2\textwidth}
+    \centering
+    \includegraphics[scale = 0.1]{player}
+    \caption{Player}
+  \end{subfigure}
+\caption{The kinds of game objects}
+\label{gameObj}
+\end{figure}
+
+\section{Gameplay}
+
+The player will control the horizontal position of the vessel as it progresses downward through the level. By moving across the screen, the player will try to collide with coins in order to gain points while avoiding obstacles. There will also be powerups throughout the level that can be used by the player at any time. These will have level-dependent beneficial effects for the player when used.
+
+As the player accrues points, a bonus multiplier will also increase. When the player hits an obstacle, the bonus multiplier will decrease. This will afford an advanced player the opportunity to make more strategic decisions.
+
+\section{Major Feature}
+
+The decisions for which the player is either rewarded or punished come at predefined points where the level narrows. There, the player is forced to choose either to go \textbf{left} or \textbf{right} to pass a barrier. After the player has chosen, the player will either pass through an area filled with coins and powerups (the reward) or an area filled with obstacles (the punishment).
+
+In the sample level segment in Figure \ref{levelEx}, choosing left will reward the player while choosing right will punish the player. 
+
+The game will also include an interface that allows an observer fine-grained control over the choices given to the player. This will allow the observer to evaluate and teach the desired reversal learning skills.
+
+\section{Additional Features}
+Some additional features that are not essential to the basic gameplay are listed below:
+
+\begin{description}
+\item[Multiple Levels: ] The game could support multiple levels, each with its own distinct look and minor variations in gameplay. This additional variety will hopefully help the player stay engaged.
+
+\item[Achievements and High Scores: ] The game could track scores for the player in each level across play sessions to give the player a sense of continuity. Achievements that are tangentially related to the reversal learning aspect of the game could also increase replay value by giving the player a variety of objectives.
+
+\end{description}
+
+\end{document}

@@ -5,4 +5,4 @@ var FPS = 60;
 var OFFSET = 50;
 var BAR_WIDTH = 5;
 var SHIP_WIDTH = 50;
-var SHIP_SPEED = 200;
+var SHIP_SPEED = 450;
