@@ -28,9 +28,11 @@ function handleLevelScreen(e) {
   if (e.type === 'keyup') {
     keysDown[e.keyCode] = false;
     // TODO: Add "use powerup" button
-    /* if(e.keyCode === [[code]]){
-         powerupUsed = false;
-       }*/
+    /*
+      if (e.keyCode === [[code]]) {
+           powerupUsed = false;
+         }
+    */
   }
 }
 

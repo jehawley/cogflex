@@ -1,6 +1,4 @@
 var GameState = {
-  currentScreen: 0,
-
   score: 0,
   multiplier: 1,
   multiplierBar: 0,

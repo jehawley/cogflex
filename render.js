@@ -6,12 +6,12 @@ var renderData = {
     this.level1Icon.onload = renderData.imageLoaded;
     this.level1Icon.src = 'images/level1Icon.png';
   },
-  imageLoaded: function() {
+  imageLoaded: function () {
     renderData.loadCount += 1;
   },
   loadCount: 0,
   // The total number of images in renderData
-  totalImages: 1,
+  totalImages: 1
 };
 renderData.level1Icon = new Image();
 
@@ -68,4 +68,49 @@ function renderLevel1Screen() {
 
 function renderResultsScreen() {
 
+}
+
+// Object Drawing Methods
+
+function drawBasicShip() {
+  ctx.beginPath();
+
+  ctx.fillStyle = 'rgb(0, 0, 200)';
+  ctx.moveTo(this.posX - SHIP_WIDTH / 2, OFFSET);
+  ctx.lineTo(this.posX, OFFSET + SHIP_WIDTH / 4);
+  ctx.lineTo(this.posX + SHIP_WIDTH / 2, OFFSET);
+  ctx.lineTo(this.posX, OFFSET + SHIP_WIDTH);
+  ctx.fill();
+}
+
+function drawBasicCoin() {
+  ctx.fillStyle = 'rgb(255, 196, 20)';
+  ctx.beginPath();
+  ctx.arc(this.posX, this.posY - player.topHeight + OFFSET,
+          this.radius, 0, 2 * Math.PI, false);
+  ctx.fill();
+}
+
+function drawBasicEnemy() {
+  ctx.fillStyle = 'rgb(255, 0, 0)';
+  ctx.rect(this.posX - this.sideLength / 2,
+           this.posY - this.sideLength / 2 - player.topHeight + OFFSET,
+           this.sideLength,
+           this.sideLength);
+}
+
+function drawBasicBarrier() {
+  ctx.fillStyle = 'rgb(0, 20, 100)';
+  ctx.rect(WIDTH / 2 - 3, this.topHeight - player.topHeight + OFFSET,
+           6, this.length); 
+}
+
+function drawBasicPowerup() {
+  ctx.fillStyle = 'rgb(0, 255, 0)';
+  ctx.beginPath();
+  ctx.moveTo(this.posX, this.posY - player.topHeight + OFFSET - WIDTH / 2);
+  ctx.lineTo(this.posX - WIDTH / 2, this.posY - player.topHeight + OFFSET);
+  ctx.lineTo(this.posX, this.posY - player.topHeight + OFFSET + WIDTH / 2);
+  ctx.lineTo(this.posX + WIDTH / 2, this.posY - player.topHeight + OFFSET);
+  ctx.fill();
 }

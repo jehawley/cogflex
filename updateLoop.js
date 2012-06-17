@@ -14,7 +14,19 @@ function chooseLevelScreen() {
 }
 
 function levelScreen() {
-  renderLevel1Screen();
+  var i;
+
+  player.posY += player.speed / FPS;
+  player.topHeight = player.posY;
+
+  for (i = floor(player.topHeight);
+       i < ceil(player.topHeight - OFFSET + HEIGHT);
+       ++i) {
+    objectQueue[i].forEach(function (element, index, array) {
+                             element.draw();
+                           });
+  }
+
   // left arrow
   if (keysDown[37]) {
     player.move(-SHIP_SPEED / FPS);
@@ -23,6 +35,7 @@ function levelScreen() {
   if (keysDown[39]) {
     player.move(SHIP_SPEED / FPS);
   }
+  renderLevel1Screen();
 }
 
 function resultsScreen() {
