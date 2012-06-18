@@ -19,14 +19,6 @@ function levelScreen() {
   player.posY += player.speed / FPS;
   player.topHeight = player.posY;
 
-  for (i = floor(player.topHeight);
-       i < ceil(player.topHeight - OFFSET + HEIGHT);
-       ++i) {
-    objectQueue[i].forEach(function (element, index, array) {
-                             element.draw();
-                           });
-  }
-
   // left arrow
   if (keysDown[37]) {
     player.move(-SHIP_SPEED / FPS);

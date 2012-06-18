@@ -10,6 +10,11 @@ var player = new Ship(WIDTH / 2, drawBasicShip);
 
 function buildLevel1() {
   initTestValues(1, [1.0], [10]);
+  objectQueue[500] = [];
+  objectQueue[500].push(new Coin(100, 480, 20, drawBasicCoin));
+  objectQueue[500].push(new Enemy(200, 485, 15, drawBasicEnemy));
+  objectQueue[500].push(new Powerup(300, 500, 15, drawBasicPowerup));
+  objectQueue[500].push(new Barrier(500, 300, drawBasicBarrier));
 }
 
 // splits: The number of probability regions

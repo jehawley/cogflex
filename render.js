@@ -64,6 +64,17 @@ function renderLevel1Screen() {
   ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
   player.draw();
+
+  for (i = Math.floor(player.topHeight);
+       i < Math.ceil(player.topHeight - OFFSET + HEIGHT);
+       ++i) {
+    if (objectQueue[i]) {
+      objectQueue[i].forEach(function (element, index, array) {
+                               element.draw();
+                           });
+    }
+  }
+
 }
 
 function renderResultsScreen() {
@@ -77,9 +88,9 @@ function drawBasicShip() {
 
   ctx.fillStyle = 'rgb(0, 0, 200)';
   ctx.moveTo(this.posX - SHIP_WIDTH / 2, OFFSET);
-  ctx.lineTo(this.posX, OFFSET + SHIP_WIDTH / 4);
+  ctx.lineTo(this.posX, OFFSET + SHIP_WIDTH / 8);
   ctx.lineTo(this.posX + SHIP_WIDTH / 2, OFFSET);
-  ctx.lineTo(this.posX, OFFSET + SHIP_WIDTH);
+  ctx.lineTo(this.posX, OFFSET + SHIP_WIDTH / 2);
   ctx.fill();
 }
 
@@ -93,24 +104,25 @@ function drawBasicCoin() {
 
 function drawBasicEnemy() {
   ctx.fillStyle = 'rgb(255, 0, 0)';
-  ctx.rect(this.posX - this.sideLength / 2,
-           this.posY - this.sideLength / 2 - player.topHeight + OFFSET,
-           this.sideLength,
-           this.sideLength);
+  ctx.fillRect(this.posX - this.sideLength / 2,
+               this.posY - this.sideLength / 2 - player.topHeight + OFFSET,
+               this.sideLength,
+               this.sideLength);
 }
 
 function drawBasicBarrier() {
-  ctx.fillStyle = 'rgb(0, 20, 100)';
-  ctx.rect(WIDTH / 2 - 3, this.topHeight - player.topHeight + OFFSET,
-           6, this.length); 
+  ctx.fillStyle = 'rgb(128, 0, 128)';
+  ctx.fillRect(WIDTH / 2 - 3, this.topHeight - player.topHeight + OFFSET,
+               6, this.length);
+   
 }
 
 function drawBasicPowerup() {
   ctx.fillStyle = 'rgb(0, 255, 0)';
   ctx.beginPath();
-  ctx.moveTo(this.posX, this.posY - player.topHeight + OFFSET - WIDTH / 2);
-  ctx.lineTo(this.posX - WIDTH / 2, this.posY - player.topHeight + OFFSET);
-  ctx.lineTo(this.posX, this.posY - player.topHeight + OFFSET + WIDTH / 2);
-  ctx.lineTo(this.posX + WIDTH / 2, this.posY - player.topHeight + OFFSET);
+  ctx.moveTo(this.posX, this.posY - player.topHeight + OFFSET - this.width/2);
+  ctx.lineTo(this.posX - this.width/2, this.posY - player.topHeight + OFFSET);
+  ctx.lineTo(this.posX, this.posY - player.topHeight + OFFSET + this.width/2);
+  ctx.lineTo(this.posX + this.width/2, this.posY - player.topHeight + OFFSET);
   ctx.fill();
 }
