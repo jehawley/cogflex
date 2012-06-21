@@ -1,8 +1,11 @@
 // gameObjects.js
 // Contains Game Object prototype and all game objects
 
-function GameObject(topHeight, posX, posY, drawFun, intersectFun) {
+function GameObject(topHeight, bottomHeight,
+                    posX, posY,
+                    drawFun, intersectFun) {
   this.topHeight = topHeight || 0;
+  this.bottomHeight = bottomHeight || 0;
   this.posX = posX || 0;
   this.posY = posY || 0;
   this.draw = drawFun;
@@ -11,7 +14,9 @@ function GameObject(topHeight, posX, posY, drawFun, intersectFun) {
 
 function Ship(posX, drawFun) {
   this.base = GameObject;
-  this.base(OFFSET, posX, OFFSET, drawFun, function () { return false; });
+  this.base(OFFSET, OFFSET + SHIP_WIDTH / 2,
+            posX, OFFSET,
+            drawFun, function () { return false; });
   this.move = moveShip;
   this.speed = SHIP_DESCENT;
 }
@@ -19,34 +24,42 @@ Ship.prototype = new GameObject;
 
 function Coin(centerX, centerY, radius, drawFun) {
   this.base = GameObject;
-  this.base(centerY - radius, centerX, centerY, drawFun, shipCoinTest);
+  this.base(centerY - radius, centerY + radius,
+            centerX, centerY,
+            drawFun, shipCoinTest);
   this.radius = radius;
 }
 Coin.prototype = new GameObject;
 
 function Enemy(centerX, centerY, sideLength, drawFun) {
   this.base = GameObject;
-  this.base(centerY - sideLength / 2, centerX, centerY, drawFun, shipEnemyTest);
+  this.base(centerY - sideLength / 2, centerY + sideLength / 2,
+            centerX, centerY,
+            drawFun, shipEnemyTest);
   this.sideLength = sideLength;
 }
 Enemy.prototype = new GameObject;
 
 function Powerup(centerX, centerY, width, drawFun) {
   this.base = GameObject;
-  this.base(centerY - width / 2, centerX, centerY, drawFun, shipPowerupTest);
+  this.base(centerY - width / 2, centerY + width / 2,
+            centerX, centerY,
+            drawFun, shipPowerupTest);
   this.width = width;
 }
 Powerup.prototype = new GameObject;
 
 function Barrier(topHeight, length, drawFun) {
   this.base = GameObject;
-  this.base(topHeight, WIDTH / 2, topHeight, drawFun, shipBarrierTest);
+  this.base(topHeight, topHeight + length,
+            WIDTH / 2, topHeight,
+            drawFun, shipBarrierTest);
   this.length = length;
 }
 Barrier.prototype = new GameObject;
 
 function moveShip(step) {
-  // TODO: Account for collisions
+  // TODO: Account for collisions against world
   this.posX += step;
 }
 
@@ -61,7 +74,7 @@ function shipCoinTest() {
   lowS = player.posX - SHIP_WIDTH / 2;
   highS = player.posX + SHIP_WIDTH / 2;
   lowC = this.posX - this.radius;
-  highC = this.posX - this.radius;
+  highC = this.posX + this.radius;
 
   if ((highS < lowC) || (highC < lowS)) {
     return false;
@@ -185,5 +198,45 @@ function shipPowerupTest() {
 // An AABB vs. right triangle test
 function shipBarrierTest() { 
   var lowS, lowB, highS, highB;
-  
+  // x axis 
+  lowS = player.posX - SHIP_WIDTH / 2;
+  highS = player.posX + SHIP_WIDTH / 2;
+  lowB = this.posX - BAR_WIDTH / 2;
+  highB = this.posX + BAR_WIDTH / 2;
+
+  if ((lowB > highS) || (lowS > highB)) {
+    return false;
+  }
+
+  // y axis
+  lowS = player.posY;
+  highS = player.posY + SHIP_WIDTH / 2;
+  lowB = this.posY;
+  highB = this.posY + this.length;
+
+  if ((lowB > highS) || (lowS > highB)) {
+    return false;
+  }
+
+  // y = x axis
+  lowS = player.posX - SHIP_WIDTH / 2 + player.posY;
+  highS = player.posX + SHIP_WIDTH / 2 + player.posY;
+  lowB = this.posX - BAR_WIDTH / 2 + this.posY;
+  highB = this.posX + BAR_WIDTH / 2 + this.posY + this.length;
+
+  if ((lowB > highS) || (lowS > highB)) {
+    return false;
+  }
+
+  // y = -x axis
+  lowS = player.posX - SHIP_WIDTH / 2 - player.posY;
+  highS = player.posX + SHIP_WIDTH / 2 - player.posY;
+  lowB = this.posX - BAR_WIDTH / 2 - this.posY - this.length;
+  highB = this.posX + BAR_WIDTH / 2 - this.posY;
+
+  if ((lowB > highS) || (lowS > highB)) {
+    return false;
+  }
+
+  return true;
 }

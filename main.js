@@ -4,6 +4,7 @@ $(document).ready(function () {
 
 function init() {
   ctx = document.getElementById('mainC').getContext('2d');
+  dataCtx = document.getElementById('dataC').getContext('2d');
   renderData.loadImages();
   buildLevel1();
   changeScreen(startScreen, handleStartScreen);

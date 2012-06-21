@@ -65,20 +65,34 @@ function renderLevel1Screen() {
 
   player.draw();
 
-  for (i = Math.floor(player.topHeight);
+  for (i = 0;
        i < Math.ceil(player.topHeight - OFFSET + HEIGHT);
        ++i) {
     if (objectQueue[i]) {
       objectQueue[i].forEach(function (element, index, array) {
                                element.draw();
-                           });
+                          });
     }
   }
-
 }
 
 function renderResultsScreen() {
 
+}
+
+function renderDataScreen() {
+  dataCtx.clearRect(0, 0, DATA_WIDTH, DATA_HEIGHT);
+  
+  dataCtx.fillStyle = 'black';
+  dataCtx.font = '20pt Helvetica';
+  dataCtx.textAlign = 'center';
+  dataCtx.fillText('Score:', DATA_WIDTH / 2, 20);
+  dataCtx.fillText(GameState.score, DATA_WIDTH / 2, 40);
+
+  dataCtx.fillText('Multiplier:', DATA_WIDTH / 2, 70);
+  dataCtx.fillText(GameState.multiplier, DATA_WIDTH / 2, 90);
+  dataCtx.fillStyle = 'yellow';
+  // TODO: Add working multiplier bar
 }
 
 // Object Drawing Methods
