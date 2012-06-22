@@ -16,9 +16,16 @@ function chooseLevelScreen() {
 function levelScreen() {
   var i;
 
-  player.posY += player.speed / FPS;
-  player.topHeight = player.posY;
-  player.bottomHeight = player.posY + SHIP_WIDTH / 2;
+  if (player.canMove) {
+    player.posY += player.speed / FPS;
+    player.topHeight = player.posY;
+    player.bottomHeight = player.posY + SHIP_WIDTH / 2;
+  } else {
+    if (!player.barrier.intersect()) {
+      player.canMove = true;
+      player.barrier = undefined;
+    }
+  }
 
   // left arrow
   if (keysDown[37]) {
@@ -39,7 +46,27 @@ function levelScreen() {
                                }
                                if (element.intersect()) {
                                  if (element.length) {
-                                   // TODO: Barrier case
+                                   if (player.canMove) {
+                                     if (player.bottomHeight <
+                                         (element.topHeight + 0.05)) {
+                                       player.canMove = false;
+                                       player.barrier = element;
+                                     } else {
+                                       if (player.posX < (WIDTH / 2)) {
+                                         player.posX = WIDTH -
+                                                       SHIP_WIDTH -
+                                                       BAR_WIDTH;
+                                         player.posX *= 0.5;
+                                       } else {
+                                         player.posX = WIDTH +
+                                                       SHIP_WIDTH +
+                                                       BAR_WIDTH;
+                                         player.posX *= 0.5;
+                                       }
+                                     }
+                                   } else {
+                                     // TODO? Add sliding option
+                                   }
                                  } else if (element.width) {
                                    GameState.powerupCount += 1;
                                    delete array[index];

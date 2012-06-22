@@ -19,6 +19,8 @@ function Ship(posX, drawFun) {
             drawFun, function () { return false; });
   this.move = moveShip;
   this.speed = SHIP_DESCENT;
+  this.canMove = true;
+  this.barrier = undefined;
 }
 Ship.prototype = new GameObject;
 
@@ -68,9 +70,6 @@ function moveShip(step) {
 // A circle vs. right triangle test
 function shipCoinTest() {
   var lowS, lowC, highS, highC;
-  var yS1, yS2, yC;
-  var x, y;
-  var dot;
 
   // y axis
   lowS = player.posY
@@ -98,54 +97,6 @@ function shipCoinTest() {
   lowC = this.posX - this.posY - this.radius;
   highC = this.posX - this.posY + this.radius;
  
-  if ((highS < lowC) || (highC < lowS)) {
-    return false;
-  }
-
-  // Down vertex
-  x = this.posX - player.posX;
-  y = this.posY - player.posY - SHIP_WIDTH / 2;
-  dot = x * x + y * y;
-  yS1 = y * (x * (player.posX - SHIP_WIDTH / 2) + y * player.posY) / dot;
-  yS2 = y * (x * (player.posX + SHIP_WIDTH / 2) + y * player.posY) / dot;
-  lowS = Math.min(yS1, yS2);
-  highS = Math.max(yS1, yS2);
-  yC = y * (x * this.posX + y * this.posY) / dot;
-  lowC = yC - y * radius / Math.abs(dot);
-  highC = yC + y * radius / Math.abs(dot);
-
-  if ((highS < lowC) || (highC < lowS)) {
-    return false;
-  }
-
-  // Left vertex
-  x = this.posX - player.posX + SHIP_WIDTH / 2;
-  y = this.posY - player.posY;
-  dot = x * x + y * y;
-  yS1 = y * (x * (player.posX + SHIP_WIDTH / 2) + y * player.posY) / dot;
-  yS2 = y * (x * player.posX + y * (player.posY + SHIP_WIDTH / 2)) / dot;
-  lowS = Math.min(yS1, yS2);
-  highS = Math.max(yS1, yS2);
-  yC = y * (x * this.posX + y * this.posY) / dot;
-  lowC = yC - y * radius / Math.abs(dot);
-  highC = yC + y * radius / Math.abs(dot);
-
-  if ((highS < lowC) || (highC < lowS)) {
-    return false;
-  }
-
-  // Right vertex
-  x = this.posX - player.posX - SHIP_WIDTH / 2;
-  y = this.posY - player.posY;
-  dot = x * x + y * y;
-  yS1 = y * (x * (player.posX - SHIP_WIDTH / 2) + y * player.posY) / dot;
-  yS2 = y * (x * player.posX + y * (player.posY + SHIP_WIDTH / 2)) / dot;
-  lowS = Math.min(yS1, yS2);
-  highS = Math.max(yS1, yS2);
-  yC = y * (x * this.posX + y * this.posY) / dot;
-  lowC = yC - y * radius / Math.abs(dot);
-  highC = yC + y * radius / Math.abs(dot);
-
   if ((highS < lowC) || (highC < lowS)) {
     return false;
   }

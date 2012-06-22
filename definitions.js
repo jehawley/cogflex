@@ -7,7 +7,7 @@ var FPS = 60;
 
 // TODO: Determine appropriate values for these constants
 var OFFSET = 40;
-var BAR_WIDTH = 6;
+var BAR_WIDTH = 16;
 var SHIP_WIDTH = 50;
 var SHIP_SPEED = 450;
 var SHIP_DESCENT = 100;
