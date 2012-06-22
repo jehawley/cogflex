@@ -2,6 +2,7 @@
 <html>
   <head>
     <title> [To Be Titled] </title>
+    <link rel="stylesheet" type="text/css" href="style1.css">
     <script src="definitions.js"></script>
     <script src="lib/jquery-1.7.2.min.js"></script>
     <script src="lib/alea.js"></script>
@@ -15,11 +16,13 @@
   </head>
 
   <body>
-    <div id="container" style="border:1px solid; cursor:none; width:500px; height:300px; margin:0 auto">
-      <canvas id='mainC' width='500' height='300'></canvas>
-    </div>
-    <div id = "cont2" style="border1px solid; cursor:none; width:200px; height:200px; margin:0 auto">
-      <canvas id='dataC' width='200' height='200'></canvas>
+    <div id="container" class="outer">
+      <div id="mainContainer" class="main">
+        <canvas id='mainC' width='500' height='550'></canvas>
+      </div>
+      <div id = "dataContainer">
+        <canvas id='dataC' width='200' height='200'></canvas>
+      </div>
     </div>
   </body>
 </html>

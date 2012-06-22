@@ -6,15 +6,41 @@ var testSide = [];
 
 var objectQueue = [];
 var levelSides = [];
+var levelEnd = 11*400 + 200;
 var player = new Ship(WIDTH / 2, drawBasicShip);
 
 function buildLevel1() {
-  initTestValues(1, [1.0], [10]);
-  objectQueue[500] = [];
-  objectQueue[500].push(new Coin(100, 515, 15, drawBasicCoin));
-  objectQueue[500].push(new Enemy(200, 510, 20, drawBasicEnemy));
-  objectQueue[500].push(new Powerup(300, 510, 20, drawBasicPowerup));
-  objectQueue[500].push(new Barrier(500, 300, drawBasicBarrier));
+  var i, sep = 400, sep2, sep3;
+  initTestValues(2, [1.0, 0.0], [10, 10]);
+  for (i = 1; i < 11; ++i) {
+    objectQueue[sep*i] = [];
+    objectQueue[sep*i].push(new Coin(80, sep*i+10, 10, drawBasicCoin));
+    objectQueue[sep*i].push(new Coin(140, sep*i+10, 10, drawBasicCoin));
+    objectQueue[sep*i].push(new Coin(200, sep*i+10, 10, drawBasicCoin));
+    objectQueue[sep*i].push(new Enemy(260, sep*i+10, 20, drawBasicEnemy));
+    objectQueue[sep*i].push(new Enemy(320, sep*i+10, 20, drawBasicEnemy));
+    objectQueue[sep*i].push(new Coin(380, sep*i+10, 10, drawBasicCoin));
+    objectQueue[sep*i].push(new Coin(440, sep*i+10, 10, drawBasicCoin));
+    sep2 = sep*i + 60;
+    objectQueue[sep2] = [];
+    objectQueue[sep2].push(new Enemy(80, sep2+10, 20, drawBasicEnemy));
+    objectQueue[sep2].push(new Enemy(140, sep2+10, 20, drawBasicEnemy));
+    objectQueue[sep2].push(new Enemy(200, sep2+10, 20, drawBasicEnemy));
+    objectQueue[sep2].push(new Coin(260, sep2+10, 10, drawBasicCoin));
+    objectQueue[sep2].push(new Coin(320, sep2+10, 10, drawBasicCoin));
+    objectQueue[sep2].push(new Enemy(380, sep2+10, 20, drawBasicEnemy));
+    objectQueue[sep*i].push(new Enemy(440, sep2+10, 20, drawBasicEnemy));
+    objectQueue[sep2+120] = [];
+    objectQueue[sep2+120].push(new Barrier(sep2+120, 100, drawBasicBarrier));
+    sep3 = sep2+180;
+    objectQueue[sep3] = [];
+    objectQueue[sep3].push(new Coin(100, sep3+10, 10, drawBasicCoin));
+    objectQueue[sep3].push(new Powerup(150, sep3+10, 20, drawBasicPowerup));
+    objectQueue[sep3].push(new Coin(200, sep3+10, 10, drawBasicCoin));
+    objectQueue[sep3].push(new Enemy(300, sep3+10, 20, drawBasicEnemy));
+    objectQueue[sep3].push(new Enemy(350, sep3+10, 20, drawBasicEnemy));
+    objectQueue[sep3].push(new Enemy(400, sep3+10, 20, drawBasicEnemy)); 
+  }
 }
 
 // splits: The number of probability regions

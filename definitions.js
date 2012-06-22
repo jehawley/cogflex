@@ -1,6 +1,5 @@
 var WIDTH = 500;
-// var HEIGHT = 650;
-var HEIGHT = 300;
+var HEIGHT = 550;
 var DATA_WIDTH = 200;
 var DATA_HEIGHT = 200;
 var FPS = 60;

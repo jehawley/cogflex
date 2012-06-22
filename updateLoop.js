@@ -77,7 +77,8 @@ function levelScreen() {
                                    }
                                    delete array[index];
                                  } else if (element.radius) {
-                                   GameState.score += BASE_POINTS;
+                                   GameState.score += BASE_POINTS *
+                                                      GameState.multiplier;
                                    GameState.multiplierBar += MULT_INCR;
                                    while (GameState.multiplierBar >
                                           (GameState.multiplier * MULT_MAX)) {
@@ -95,8 +96,12 @@ function levelScreen() {
   
   renderLevel1Screen();
   renderDataScreen();
+
+  if (player.bottomHeight > levelEnd) {
+    changeScreen(resultsScreen, handleResultsScreen);
+  }
 }
 
 function resultsScreen() {
-
+  renderResultsScreen();
 }

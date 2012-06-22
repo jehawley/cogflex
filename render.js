@@ -40,6 +40,9 @@ function renderInstructionScreen() {
   ctx.font = '24pt Helvetica';
   ctx.textAlign = 'center';
   ctx.fillText('Press [s] to continue', WIDTH / 2, 250);
+
+  ctx.font = '18pt Helvetica';
+  ctx.fillText('Use the left and right arrow keys to move', WIDTH / 2, 100);
 }
 
 function renderChooseLevelScreen() {
@@ -77,7 +80,13 @@ function renderLevel1Screen() {
 }
 
 function renderResultsScreen() {
+  ctx.clearRect(0, 0, WIDTH, HEIGHT);
 
+  ctx.fillStyle = 'black';
+  ctx.font = '20pt Helvetica';
+  ctx.textAlign = 'center';
+  ctx.fillText('Score:', WIDTH / 2, 50);
+  ctx.fillText(GameState.score, WIDTH / 2, 100);
 }
 
 function renderDataScreen() {
@@ -90,9 +99,12 @@ function renderDataScreen() {
   dataCtx.fillText(GameState.score, DATA_WIDTH / 2, 40);
 
   dataCtx.fillText('Multiplier:', DATA_WIDTH / 2, 70);
-  dataCtx.fillText(GameState.multiplier, DATA_WIDTH / 2, 90);
-  dataCtx.fillStyle = 'yellow';
+  dataCtx.fillText(GameState.multiplier, DATA_WIDTH / 2, 95);
+  // dataCtx.fillStyle = 'yellow';
   // TODO: Add working multiplier bar
+
+  dataCtx.fillText('Powerups: ', DATA_WIDTH / 2, 130);
+  dataCtx.fillText(GameState.powerupCount, DATA_WIDTH / 2, 150);
 }
 
 // Object Drawing Methods
@@ -140,3 +152,4 @@ function drawBasicPowerup() {
   ctx.lineTo(this.posX + this.width/2, this.posY - player.topHeight + OFFSET);
   ctx.fill();
 }
+
