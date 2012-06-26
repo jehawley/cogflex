@@ -32,7 +32,7 @@ function renderStartScreen() {
 
 function renderInstructionScreen() {
   ctx.clearRect(0, 0, WIDTH, HEIGHT);
- 
+
   ctx.fillStyle = 'rgb(0, 0, 255)';
   ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
@@ -52,7 +52,7 @@ function renderChooseLevelScreen() {
   ctx.font = '24pt Helvetica';
   ctx.textAlign = 'center';
   ctx.fillText('Select a level, then press [Enter]', WIDTH / 2, 50);
-  
+
   ctx.drawImage(renderData.level1Icon, 50, 100, (WIDTH-200)/3, (WIDTH-200)/3);
   ctx.lineWidth = 5;
   ctx.lineJoin = 'round';
@@ -61,10 +61,44 @@ function renderChooseLevelScreen() {
 }
 
 function renderLevel1Screen() {
+  var ind, lowInd, highInd, i;
+
   ctx.clearRect(0, 0, WIDTH, HEIGHT);
 
   ctx.fillStyle = 'rgb(135, 206, 235)';
   ctx.fillRect(0, 0, WIDTH, HEIGHT);
+
+  ind = 0;
+  lowInd = 0;
+  while (ind < (player.posY - OFFSET)) {
+    lowInd = ind;
+    ind = levelSides[ind].next;
+  }
+
+  highInd = ind;
+  while (ind < (player.posY - OFFSET + HEIGHT)) {
+    ind = levelSides[ind].next;
+    if (ind === undefined) {
+      break;
+    }
+    highInd = ind;
+  }
+  ctx.fillStyle = 'black';
+  ctx.beginPath();
+  ctx.moveTo(0, lowInd - (player.posY - OFFSET));
+  for (ind = lowInd; ind <= highInd; ind = levelSides[ind].next) {
+    ctx.lineTo(levelSides[ind].x, ind - (player.posY - OFFSET));
+  }
+  ctx.lineTo(0, highInd - (player.posY - OFFSET));
+  ctx.closePath();
+  ctx.moveTo(WIDTH, lowInd - (player.posY - OFFSET));
+  for (ind = lowInd; ind <= highInd; ind = levelSides[ind].next) {
+    ctx.lineTo(WIDTH - levelSides[ind].x,
+               ind - (player.posY - OFFSET));
+  }
+  ctx.lineTo(WIDTH, highInd - (player.posY - OFFSET));
+  ctx.closePath();
+  ctx.fill();
 
   player.draw();
 
@@ -91,7 +125,7 @@ function renderResultsScreen() {
 
 function renderDataScreen() {
   dataCtx.clearRect(0, 0, DATA_WIDTH, DATA_HEIGHT);
-  
+
   dataCtx.fillStyle = 'black';
   dataCtx.font = '20pt Helvetica';
   dataCtx.textAlign = 'center';
@@ -140,7 +174,7 @@ function drawBasicBarrier() {
   ctx.fillStyle = 'rgb(128, 0, 128)';
   ctx.fillRect(WIDTH / 2 - 3, this.topHeight - player.topHeight + OFFSET,
                6, this.length);
-   
+
 }
 
 function drawBasicPowerup() {

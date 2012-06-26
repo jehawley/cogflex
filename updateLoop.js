@@ -40,7 +40,7 @@ function levelScreen() {
        ++i) {
     if (objectQueue[i]) {
       objectQueue[i].forEach(function (element, index, array) {
-                               if (element.bottomHeight < 
+                               if (element.bottomHeight <
                                    (player.topHeight - OFFSET)) {
                                  delete array[index];
                                }
@@ -72,7 +72,7 @@ function levelScreen() {
                                    delete array[index];
                                  } else if (element.sideLength) {
                                    GameState.multiplierBar = 0;
-                                   if(GameState.multiplier > 1) {
+                                   if (GameState.multiplier > 1) {
                                      GameState.multiplier -= 1;
                                    }
                                    delete array[index];
@@ -82,7 +82,7 @@ function levelScreen() {
                                    GameState.multiplierBar += MULT_INCR;
                                    while (GameState.multiplierBar >
                                           (GameState.multiplier * MULT_MAX)) {
-                                     GameState.multiplierBar -= 
+                                     GameState.multiplierBar -=
                                        GameState.multiplier * MULT_MAX;
                                      GameState.multiplier += 1;
                                    }
@@ -93,7 +93,7 @@ function levelScreen() {
     }
   }
 
-  
+
   renderLevel1Screen();
   renderDataScreen();
 

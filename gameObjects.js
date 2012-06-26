@@ -61,8 +61,57 @@ function Barrier(topHeight, length, drawFun) {
 Barrier.prototype = new GameObject;
 
 function moveShip(step) {
-  // TODO: Account for collisions against world
+  var lowInd, ind, nextInd, highInd;
+  var slope, intercept;
+  var EPS = 0.001;
+
   this.posX += step;
+
+  ind = 0;
+  lowInd = 0;
+  while (ind < player.posY) {
+    lowInd = ind;
+    ind = levelSides[ind].next;
+  }
+
+  highInd = ind;
+  while (ind < (player.posY + SHIP_WIDTH / 2)) {
+    ind = levelSides[ind].next;
+    if(ind === undefined) {
+      break;
+    }
+    highInd = ind;
+  }
+
+  for (ind = lowInd; ind < highInd; ind = levelSides[ind].next) {
+    nextInd = levelSides[ind].next;
+    // Left side
+    if (Math.abs(levelSides[ind].x - levelSides[nextInd].x) < EPS) {
+      if ((player.posX - SHIP_WIDTH / 2) <= levelSides[ind].x) {
+        player.posX = levelSides[ind].x + SHIP_WIDTH / 2 + EPS;
+      }
+    } else if (levelSides[ind].x > levelSides[nextInd].x) {
+      if ((player.posX - SHIP_WIDTH / 2) <= levelSides[ind].x) {
+        slope = (nextInd - ind) / (levelSides[nextInd].x - levelSides[ind].x);
+        intercept = ind - slope * levelSides[ind].x;
+        if (player.posY <= (slope*(player.posX - SHIP_WIDTH / 2)+intercept)) {
+          player.posX = (player.posY - intercept) / slope +
+                        SHIP_WIDTH / 2 +
+                        EPS;
+        }
+      }
+    } else {
+
+    }
+    // Right side
+    if (Math.abs(levelSides[ind].x - levelSides[nextInd].x) < EPS) {
+      if ((player.posX + SHIP_WIDTH / 2) >= (WIDTH - levelSides[ind].x)) {
+        player.posX = WIDTH - levelSides[ind].x - SHIP_WIDTH / 2 - EPS;
+      }
+    } else {
+
+    }
+  }
 }
 
 // Collision Tests
@@ -72,7 +121,7 @@ function shipCoinTest() {
   var lowS, lowC, highS, highC;
 
   // y axis
-  lowS = player.posY
+  lowS = player.posY;
   highS = player.posY + SHIP_WIDTH / 2;
   lowC = this.posY - this.radius;
   highC = this.posY + this.radius;

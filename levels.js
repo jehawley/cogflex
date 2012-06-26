@@ -3,8 +3,9 @@
 
 // 0 for left = good, 1 for right = good
 var testSide = [];
-
+// Holds arrays of game objects indexed by object top
 var objectQueue = [];
+// Indexed by y coordinate, contains {x, next}
 var levelSides = [];
 var levelEnd = 11*400 + 200;
 var player = new Ship(WIDTH / 2, drawBasicShip);
@@ -39,8 +40,16 @@ function buildLevel1() {
     objectQueue[sep3].push(new Coin(200, sep3+10, 10, drawBasicCoin));
     objectQueue[sep3].push(new Enemy(300, sep3+10, 20, drawBasicEnemy));
     objectQueue[sep3].push(new Enemy(350, sep3+10, 20, drawBasicEnemy));
-    objectQueue[sep3].push(new Enemy(400, sep3+10, 20, drawBasicEnemy)); 
+    objectQueue[sep3].push(new Enemy(400, sep3+10, 20, drawBasicEnemy));
   }
+
+  levelSides[0] = { x: SIDE_WIDTH, next: 510 };
+  levelSides[510] = { x: SIDE_WIDTH, next: 530 };
+  levelSides[530] = { x: WIDTH / 2 - SHIP_WIDTH / 2 - 1, next: 550 };
+  levelSides[550] = { x: SIDE_WIDTH, next: 1000 };
+  levelSides[1000] = { x: SIDE_WIDTH, next: 2000 };
+  levelSides[2000] = { x: SIDE_WIDTH, next: 3000 };
+  levelSides[3000] = { x: SIDE_WIDTH, next: undefined };
 }
 
 // splits: The number of probability regions

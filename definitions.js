@@ -2,6 +2,7 @@ var WIDTH = 500;
 var HEIGHT = 550;
 var DATA_WIDTH = 200;
 var DATA_HEIGHT = 200;
+var SIDE_WIDTH = 50;
 var FPS = 60;
 
 // TODO: Determine appropriate values for these constants
