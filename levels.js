@@ -32,7 +32,7 @@ function buildLevel1() {
     objectQueue[sep2].push(new Enemy(380, sep2+10, 20, drawBasicEnemy));
     objectQueue[sep*i].push(new Enemy(440, sep2+10, 20, drawBasicEnemy));
     objectQueue[sep2+120] = [];
-    objectQueue[sep2+120].push(new Barrier(sep2+120, 100, drawBarrierWithFog));
+    objectQueue[sep2+120].push(new Barrier(sep2+120, 100, drawBasicBarrier));
     sep3 = sep2+180;
     objectQueue[sep3] = [];
     objectQueue[sep3].push(new Coin(100, sep3+10, 10, drawBasicCoin));
@@ -54,7 +54,10 @@ function buildLevel1() {
   levelSides[1310] = { x: SIDE_WIDTH, next: 1330 };
   levelSides[1330] = { x: WIDTH / 2 - SHIP_WIDTH / 2 - 1, next: 1350 };
   levelSides[1350] = { x: SIDE_WIDTH, next: 2000 };
-  levelSides[2000] = { x: SIDE_WIDTH, next: 3000 };
+  levelSides[2000] = { x: SIDE_WIDTH, next: 2100 };
+  levelSides[2100] = { x: SIDE_WIDTH, next: 2200 };
+  levelSides[2200] = { x: WIDTH / 2 - 50, next: 2300 };
+  levelSides[2300] = { x: SIDE_WIDTH, next: 3000 };
   levelSides[3000] = { x: SIDE_WIDTH, next: 4000 };
   levelSides[4000] = { x: SIDE_WIDTH, next: undefined };
 }

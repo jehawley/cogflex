@@ -180,13 +180,6 @@ function drawBasicBarrier() {
 
 }
 
-function drawBarrierWithFog() {
-  var leftGrad, rightGrad;
-  ctx.fillStyle = 'rgb(128, 0, 128)';
-  ctx.fillRect(WIDTH/2 - BAR_WIDTH/2, this.posY - player.topHeight + OFFSET,
-               BAR_WIDTH, this.length);
-}
-
 function drawBasicPowerup() {
   ctx.fillStyle = 'rgb(0, 255, 0)';
   ctx.beginPath();

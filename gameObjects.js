@@ -95,14 +95,18 @@ function moveShip(step) {
         slope = (nextInd - ind) / (levelSides[nextInd].x - levelSides[ind].x);
         intercept = ind - slope * levelSides[ind].x;
         if (player.posY <= (slope*(player.posX - SHIP_WIDTH / 2)+intercept)) {
-
-          player.posX = (player.posY - intercept) / slope +
-                        SHIP_WIDTH / 2 +
-                        EPS;
+          if (player.posY > ind) {
+            player.posX = (player.posY - intercept) / slope +
+                          SHIP_WIDTH / 2 +
+                          EPS;
+          } else {
+            player.posX = player.posY + SHIP_WIDTH / 2 -
+                          ind + levelSides[ind].x; 
+          }
         }
       }
     } else {
-
+      
     }
     // Right side
     if (Math.abs(levelSides[ind].x - levelSides[nextInd].x) < EPS) {
