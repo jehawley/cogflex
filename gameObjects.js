@@ -63,6 +63,7 @@ Barrier.prototype = new GameObject;
 function moveShip(step) {
   var lowInd, ind, nextInd, highInd;
   var slope, intercept;
+  var tempX;
   var EPS = 0.001;
 
   this.posX += step;
@@ -101,12 +102,33 @@ function moveShip(step) {
                           EPS;
           } else {
             player.posX = player.posY + SHIP_WIDTH / 2 -
-                          ind + levelSides[ind].x; 
+                          ind + levelSides[ind].x + EPS; 
           }
         }
       }
     } else {
-      
+      if ((player.posX - SHIP_WIDTH / 2) <= levelSides[nextInd].x) {
+        slope = (nextInd - ind) / (levelSides[nextInd].x - levelSides[ind].x);
+        intercept = ind - slope * levelSides[ind].x;
+        if (slope > 1) {
+          if (player.posY >= (slope*(player.posX-SHIP_WIDTH/2)+intercept)) {
+            player.posX = (player.posY - intercept) / slope +
+                          SHIP_WIDTH / 2 + 
+                          EPS;
+          }
+        } else {
+          if ((player.posY+SHIP_WIDTH/2) >= (slope*player.posX+intercept)) {
+            if ((player.posY + SHIP_WIDTH / 2) > nextInd) {
+              player.posX = player.posY + SHIP_WIDTH / 2 -
+                            nextInd + levelSides[nextInd].x + EPS;
+            } else {
+              player.posX = (player.posY - intercept) / slope +
+                            SHIP_WIDTH / 2 +
+                            EPS;
+            }
+          }
+        }
+      }
     }
     // Right side
     if (Math.abs(levelSides[ind].x - levelSides[nextInd].x) < EPS) {

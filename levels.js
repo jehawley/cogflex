@@ -56,7 +56,7 @@ function buildLevel1() {
   levelSides[1350] = { x: SIDE_WIDTH, next: 2000 };
   levelSides[2000] = { x: SIDE_WIDTH, next: 2100 };
   levelSides[2100] = { x: SIDE_WIDTH, next: 2200 };
-  levelSides[2200] = { x: WIDTH / 2 - 50, next: 2300 };
+  levelSides[2200] = { x: SIDE_WIDTH+15, next: 2300 };
   levelSides[2300] = { x: SIDE_WIDTH, next: 3000 };
   levelSides[3000] = { x: SIDE_WIDTH, next: 4000 };
   levelSides[4000] = { x: SIDE_WIDTH, next: undefined };
