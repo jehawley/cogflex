@@ -95,6 +95,7 @@ function moveShip(step) {
         slope = (nextInd - ind) / (levelSides[nextInd].x - levelSides[ind].x);
         intercept = ind - slope * levelSides[ind].x;
         if (player.posY <= (slope*(player.posX - SHIP_WIDTH / 2)+intercept)) {
+
           player.posX = (player.posY - intercept) / slope +
                         SHIP_WIDTH / 2 +
                         EPS;

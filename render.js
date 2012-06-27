@@ -132,13 +132,16 @@ function renderDataScreen() {
   dataCtx.fillText('Score:', DATA_WIDTH / 2, 20);
   dataCtx.fillText(GameState.score, DATA_WIDTH / 2, 40);
 
+  dataCtx.fillText('Powerups: ', DATA_WIDTH / 2, 160);
+  dataCtx.fillText(GameState.powerupCount, DATA_WIDTH / 2, 180);
+
   dataCtx.fillText('Multiplier:', DATA_WIDTH / 2, 70);
   dataCtx.fillText(GameState.multiplier, DATA_WIDTH / 2, 95);
-  // dataCtx.fillStyle = 'yellow';
-  // TODO: Add working multiplier bar
-
-  dataCtx.fillText('Powerups: ', DATA_WIDTH / 2, 130);
-  dataCtx.fillText(GameState.powerupCount, DATA_WIDTH / 2, 150);
+  dataCtx.fillStyle = 'yellow';
+  dataCtx.fillRect(0, 115,
+                   200 *
+                   GameState.multiplierBar /
+                   (10*GameState.multiplier), 20);
 }
 
 // Object Drawing Methods
@@ -172,9 +175,16 @@ function drawBasicEnemy() {
 
 function drawBasicBarrier() {
   ctx.fillStyle = 'rgb(128, 0, 128)';
-  ctx.fillRect(WIDTH / 2 - 3, this.topHeight - player.topHeight + OFFSET,
-               6, this.length);
+  ctx.fillRect(WIDTH/2 - BAR_WIDTH/2, this.posY - player.topHeight + OFFSET,
+               BAR_WIDTH, this.length);
 
+}
+
+function drawBarrierWithFog() {
+  var leftGrad, rightGrad;
+  ctx.fillStyle = 'rgb(128, 0, 128)';
+  ctx.fillRect(WIDTH/2 - BAR_WIDTH/2, this.posY - player.topHeight + OFFSET,
+               BAR_WIDTH, this.length);
 }
 
 function drawBasicPowerup() {
