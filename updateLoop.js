@@ -16,6 +16,24 @@ function chooseLevelScreen() {
 function levelScreen() {
   var i;
 
+  if (keysDown['A'.charCodeAt(0)] && !powerupUsed) {
+    if (GameState.powerupCount > 0) {
+      powerupUsed = false;
+      GameState.powerupCount -= 1; 
+      for (i = 0;
+           i < Math.ceil(player.bottomHeight - OFFSET + HEIGHT / 2);
+           ++i) {
+        if (objectQueue[i]) {
+          objectQueue[i].forEach(function (element, index, array) {
+                                   if (element.sideLength) {
+                                     delete array[index];
+                                   }
+                                 } );
+        }
+      }
+    }
+  }
+
   if (player.canMove) {
     player.posY += player.speed / FPS;
     player.topHeight = player.posY;
@@ -49,7 +67,9 @@ function levelScreen() {
                                  if (element.length) {
                                    if (player.canMove) {
                                      if (player.bottomHeight <
-                                         (element.topHeight + 0.05)) {
+                                         (element.topHeight +
+                                          SHIP_DESCENT/FPS +
+                                          0.1)) {
                                        player.canMove = false;
                                        player.barrier = element;
                                      } else {

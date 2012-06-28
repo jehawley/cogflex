@@ -43,6 +43,8 @@ function renderInstructionScreen() {
 
   ctx.font = '18pt Helvetica';
   ctx.fillText('Use the left and right arrow keys to move', WIDTH / 2, 100);
+
+  ctx.fillText('Press [a] to use a powerup', WIDTH / 2, 140);
 }
 
 function renderChooseLevelScreen() {
@@ -61,7 +63,8 @@ function renderChooseLevelScreen() {
 }
 
 function renderLevel1Screen() {
-  var ind, lowInd, highInd, i;
+  var fogged = false, fogHeight, fogGrad;
+  var ind, lowInd, highInd, i, j, len;
 
   ctx.clearRect(0, 0, WIDTH, HEIGHT);
 
@@ -107,9 +110,31 @@ function renderLevel1Screen() {
        ++i) {
     if (objectQueue[i]) {
       objectQueue[i].forEach(function (element, index, array) {
-                               element.draw();
+                               if (!fogged){
+                                element.draw();
+                               }
+                               if (element.length &&
+                                   (player.posY < (element.posY +
+                                                   SHIP_DESCENT/FPS+0.01))) {
+                                 fogged = true;
+                                 fogHeight = element.posY;
+                               }
                           });
+      if (fogged) {
+        break;
+      }
     }
+  }
+
+  if (fogged) {
+    fogGrad = ctx.createLinearGradient(0, fogHeight + 5 -
+                                          player.posY + OFFSET,
+                                       0, HEIGHT);
+    fogGrad.addColorStop(0, 'rgba(0, 0, 128, 0.6)');
+    fogGrad.addColorStop(0.15, 'rgba(0, 0, 128, 1)');
+    ctx.fillStyle = fogGrad;
+    ctx.fillRect(0, fogHeight + 5 - player.posY + OFFSET,
+                 WIDTH, HEIGHT);
   }
 }
 

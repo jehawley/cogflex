@@ -20,3 +20,5 @@ var ctx;
 var dataCtx;
 var loopID = -1;
 var eventFun;
+var powerupUsed = false;
+var keysDown = [];

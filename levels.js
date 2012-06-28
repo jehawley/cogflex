@@ -41,25 +41,14 @@ function buildLevel1() {
     objectQueue[sep3].push(new Enemy(300, sep3+10, 20, drawBasicEnemy));
     objectQueue[sep3].push(new Enemy(350, sep3+10, 20, drawBasicEnemy));
     objectQueue[sep3].push(new Enemy(400, sep3+10, 20, drawBasicEnemy));
+
+    levelSides[sep*i+110] = { x: SIDE_WIDTH, next: sep*i+130 };
+    levelSides[sep*i+130] = { x: WIDTH/2-SHIP_WIDTH/2-1, next: sep*i+150 };
+    levelSides[sep*i+150] = { x: SIDE_WIDTH, next: sep*(i+1)+110 };
   }
 
-  levelSides[0] = { x: SIDE_WIDTH, next: 510 };
-  levelSides[510] = { x: SIDE_WIDTH, next: 530 };
-  levelSides[530] = { x: WIDTH / 2 - SHIP_WIDTH / 2 - 1, next: 550 };
-  levelSides[550] = { x: SIDE_WIDTH, next: 910 };
-  levelSides[910] = { x: SIDE_WIDTH, next: 930 };
-  levelSides[930] = { x: WIDTH / 2 - SHIP_WIDTH / 2 - 1, next: 950 };
-  levelSides[950] = { x: SIDE_WIDTH, next: 1000 };
-  levelSides[1000] = { x: SIDE_WIDTH, next: 1310 };
-  levelSides[1310] = { x: SIDE_WIDTH, next: 1330 };
-  levelSides[1330] = { x: WIDTH / 2 - SHIP_WIDTH / 2 - 1, next: 1350 };
-  levelSides[1350] = { x: SIDE_WIDTH, next: 2000 };
-  levelSides[2000] = { x: SIDE_WIDTH, next: 2100 };
-  levelSides[2100] = { x: SIDE_WIDTH, next: 2200 };
-  levelSides[2200] = { x: SIDE_WIDTH+15, next: 2300 };
-  levelSides[2300] = { x: SIDE_WIDTH, next: 3000 };
-  levelSides[3000] = { x: SIDE_WIDTH, next: 4000 };
-  levelSides[4000] = { x: SIDE_WIDTH, next: undefined };
+  levelSides[0] = { x: SIDE_WIDTH, next: sep+110 };
+  levelSides[sep*11+110] = { x: SIDE_WIDTH, next: undefined };
 }
 
 // splits: The number of probability regions
