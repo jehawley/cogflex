@@ -111,8 +111,6 @@ function shipWallTest() {
             player.posX = (player.posY - intercept) / slope +
                           SHIP_WIDTH / 2 + 
                           EPS;
-            console.log('x: ' + player.posX);
-            console.log('y: ' + player.posY);
           }
         } else {
           if ((player.posY+SHIP_WIDTH/2) >= (slope*player.posX+intercept)) {
@@ -133,8 +131,46 @@ function shipWallTest() {
       if ((player.posX + SHIP_WIDTH / 2) >= (WIDTH - levelSides[ind].x)) {
         player.posX = WIDTH - levelSides[ind].x - SHIP_WIDTH / 2 - EPS;
       }
+    } else if (levelSides[ind].x > levelSides[nextInd].x) {
+      if ((player.posX + SHIP_WIDTH / 2) >= (WIDTH - levelSides[ind].x)) {
+        slope = -(nextInd - ind) / (levelSides[nextInd].x - levelSides[ind].x);
+        intercept = ind - slope * (WIDTH - levelSides[ind].x);
+        if (player.posY <= (slope * (player.posX+SHIP_WIDTH/2) + intercept)) {
+          if (player.posY > ind) {
+            player.posX = (player.posY - intercept) / slope - 
+                          SHIP_WIDTH / 2 -
+                          EPS;
+          } else {
+            player.posX = player.posY - SHIP_WIDTH / 2 -
+                          ind + levelSides[ind].x -
+                          WIDTH - EPS;
+          }
+        }
+      }
     } else {
-
+      if ((player.posX + SHIP_WIDTH / 2) >= (WIDTH - levelSides[nextInd].x)) {
+        slope = -(nextInd - ind) / (levelSides[nextInd].x - levelSides[ind].x);
+        intercept = ind - slope * (WIDTH - levelSides[ind].x);
+        if (slope < -1) {
+          if (player.posY >= (slope*(player.posX+SHIP_WIDTH/2)+intercept)) {
+            player.posX = (player.posY - intercept) / slope -
+                          SHIP_WIDTH / 2 -
+                          EPS;
+          }
+        } else {
+          if ((player.posY+SHIP_WIDTH/2) >= (slope*player.posX+intercept)) {
+            if ((player.posY + SHIP_WIDTH / 2) > nextInd) {
+              player.posX = player.posY - SHIP_WIDTH / 2 -
+                            nextInd + levelSides[nextInd].x -
+                            WIDTH - EPS;
+            } else {
+              player.posX = (player.posY + SHIP_WIDTH/2 - intercept) / slope -
+                            SHIP_WIDTH / 2 -
+                            EPS;
+            }
+          }
+        }
+      }
     }
   }
   return undefined;
