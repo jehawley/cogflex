@@ -29,12 +29,13 @@ function levelScreen() {
 
   // left arrow
   if (keysDown[37]) {
-    player.move(-SHIP_SPEED / FPS);
+    player.posX += -SHIP_SPEED / FPS;
   }
   // right arrow
   if (keysDown[39]) {
-    player.move(SHIP_SPEED / FPS);
+    player.posX += SHIP_SPEED / FPS;
   }
+  player.intersect();
   for (i = 0;
        i < Math.ceil(player.bottomHeight);
        ++i) {

@@ -16,8 +16,7 @@ function Ship(posX, drawFun) {
   this.base = GameObject;
   this.base(OFFSET, OFFSET + SHIP_WIDTH / 2,
             posX, OFFSET,
-            drawFun, function () { return false; });
-  this.move = moveShip;
+            drawFun, shipWallTest);
   this.speed = SHIP_DESCENT;
   this.canMove = true;
   this.barrier = undefined;
@@ -60,13 +59,10 @@ function Barrier(topHeight, length, drawFun) {
 }
 Barrier.prototype = new GameObject;
 
-function moveShip(step) {
+function shipWallTest() {
   var lowInd, ind, nextInd, highInd;
   var slope, intercept;
-  var tempX;
   var EPS = 0.001;
-
-  this.posX += step;
 
   ind = 0;
   lowInd = 0;
@@ -115,6 +111,8 @@ function moveShip(step) {
             player.posX = (player.posY - intercept) / slope +
                           SHIP_WIDTH / 2 + 
                           EPS;
+            console.log('x: ' + player.posX);
+            console.log('y: ' + player.posY);
           }
         } else {
           if ((player.posY+SHIP_WIDTH/2) >= (slope*player.posX+intercept)) {
@@ -122,7 +120,7 @@ function moveShip(step) {
               player.posX = player.posY + SHIP_WIDTH / 2 -
                             nextInd + levelSides[nextInd].x + EPS;
             } else {
-              player.posX = (player.posY - intercept) / slope +
+              player.posX = (player.posY + SHIP_WIDTH/2 - intercept) / slope +
                             SHIP_WIDTH / 2 +
                             EPS;
             }
@@ -139,6 +137,7 @@ function moveShip(step) {
 
     }
   }
+  return undefined;
 }
 
 // Collision Tests
