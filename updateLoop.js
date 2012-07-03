@@ -16,20 +16,20 @@ function chooseLevelScreen() {
 function levelScreen() {
   var i;
 
-  if (keysDown['A'.charCodeAt(0)] && !powerupUsed) {
-    if (GameState.powerupCount > 0) {
-      powerupUsed = false;
-      GameState.powerupCount -= 1; 
-      for (i = 0;
-           i < Math.ceil(player.bottomHeight - OFFSET + HEIGHT / 2);
-           ++i) {
-        if (objectQueue[i]) {
-          objectQueue[i].forEach(function (element, index, array) {
-                                   if (element.sideLength) {
-                                     delete array[index];
-                                   }
-                                 } );
-        }
+  if (keysDown['A'.charCodeAt(0)] &&
+      (GameState.powerupCount > 0) &&
+      !powerupUsed) {
+    powerupUsed = true;
+    GameState.powerupCount -= 1;
+    for (i = 0;
+         i < Math.ceil(player.bottomHeight - OFFSET + HEIGHT / 2);
+         ++i) {
+      if (objectQueue[i]) {
+        objectQueue[i].forEach(function (element, index, array) {
+                                 if (element.sideLength) {
+                                   delete array[index];
+                                 }
+                               } );
       }
     }
   }

@@ -1,7 +1,15 @@
 Questions for Dan:
-* Is it ok for the choice to be "go left or right", or should the choice be "red or blue" where red and blue are presented on different sides?
+* Let me outline how I imagine the player interacting with the game:
+  (level selection, play level, see achievements, choose level again, etc)
+  What do you think?
 
-* How long will the participant play the game during the test?
+* What do you think of the mechanic now?
 
-* How many decisions do you want each participant to make in a session? In a discrete level (if that's important to you)? 
+* Web security - what do you want to do with it?
 
+* What information do you want to record?
+-> My Ideas
+--> Subject Name
+--> Subject ID
+--> Date of Trials
+--> Trials/trial probabilities
