@@ -12,8 +12,6 @@ var SHIP_WIDTH = 50;
 var SHIP_SPEED = 450;
 var SHIP_DESCENT = 180;
 
-var LEVEL_LENGTH = 80;
-
 var BASE_POINTS = 10;
 var MULT_INCR = 1;
 var MULT_MAX = 10;

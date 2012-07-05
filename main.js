@@ -6,7 +6,7 @@ function init() {
   ctx = document.getElementById('mainC').getContext('2d');
   dataCtx = document.getElementById('dataC').getContext('2d');
   renderData.loadImages();
-  initTestValues(4, [1.0, 0.0, 0.8, 0.2], [20, 20, 20, 20]);
+  initTestValues(4, [1.0, 0.0, 0.8, 0.2], [15, 15, 15, 15]);
   buildLevel1();
   changeScreen(startScreen, handleStartScreen);
 }

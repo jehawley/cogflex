@@ -13,3 +13,22 @@ Questions for Dan:
 --> Subject ID
 --> Date of Trials
 --> Trials/trial probabilities
+
+* Let's talk about my future plans, and see if this makes sense
+-> Add an introductory page explaining the game
+-> Massive graphical improvements
+--> Look and feel of whole thing
+--> Animations
+--> Decision signaling (i.e., giant arrows)
+--> Hopefully decent-looking graphics
+-->? Move score to an overhead view
+-> Sound feedback
+--> Positive sound for "benefit"
+--> Negative sound for "obstacle"
+-->? Additional feedback after making a "choice"
+-> Dealing with choice refusal
+-> Form for specifying trials
+-> Data viewer
+-> Recording + saving of data
+-> Multiple levels
+->? Achievements/High Scores
