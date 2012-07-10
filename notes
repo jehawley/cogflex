@@ -5,13 +5,14 @@ Questions for Dan:
 
 * What do you think of the mechanic now?
 
-* Web security - what do you want to do with it?
+* Web security - what do you want to do with it? (see below)
 
 * What information do you want to record?
 -> My Ideas
 --> Subject Name
 --> Subject ID
---> Date of Trials
+--> Date of Session
+--> Session number
 --> Trials/trial probabilities
 
 * Let's talk about my future plans, and see if this makes sense
@@ -32,3 +33,9 @@ Questions for Dan:
 -> Recording + saving of data
 -> Multiple levels
 ->? Achievements/High Scores
+->? Secure communication
+--> Options:
+---> [Try SSL or secure connection w/ authentication somehow]
+---> [Do everything with physical files]
+---> [Only associate participant ID to data, keep real name offline]
+---> [Save data locally, distribute script to forward it to server]
