@@ -14,6 +14,9 @@ function autoSaveAndUpdate() {
       $('#section' + i + 'R').attr('checked', item);
     }
   }
+  for (i = 1; i <= count; ++i) {
+    
+  }
 }
 
 function clearForm() {
@@ -31,7 +34,11 @@ function generateTrials() {
              'Trials"> Success Probability </label>\n';
     entry += '<input id="section' + i + 'Trials" class="probField" ' +
              'name="section' + i + 'Trials" type="number"' +
-             ' min="0.5" max="1.0" value="1" required> \n';
+             ' min="0.5" max="1.0"> \n';
+    entry += '<label for="section' + i + 'Count">' + 
+             ' Number of Trials </label>';
+    entry += '<input id="section' + i + 'Count" class="countField" ' +
+             ' type="number" min="1" step="1">';
     entry += '<label for="section' + i +
              'R"> Reversal? </label>';
     if (i === 1) {

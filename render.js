@@ -5,6 +5,7 @@ var renderData = {
   loadImages: function () {
     this.level1Icon.onload = renderData.imageLoaded;
     this.level1Icon.src = 'images/level1Icon.png';
+    this.level1Background.src = 'images/level1Background.png';
   },
   imageLoaded: function () {
     renderData.loadCount += 1;
@@ -14,6 +15,7 @@ var renderData = {
   totalImages: 1
 };
 renderData.level1Icon = new Image();
+renderData.level1Background = new Image();
 
 function renderStartScreen() {
   ctx.clearRect(0, 0, WIDTH, HEIGHT);
@@ -68,8 +70,7 @@ function renderLevel1Screen() {
 
   ctx.clearRect(0, 0, WIDTH, HEIGHT);
 
-  ctx.fillStyle = 'rgb(135, 206, 235)';
-  ctx.fillRect(0, 0, WIDTH, HEIGHT);
+  ctx.drawImage(renderData.level1Background, 0, 0, WIDTH, HEIGHT);
 
   ind = 0;
   lowInd = 0;
@@ -110,17 +111,15 @@ function renderLevel1Screen() {
        ++i) {
     if (objectQueue[i]) {
       objectQueue[i].forEach(function (element, index, array) {
-                               if (!fogged){
-                                element.draw();
-                               }
+                               element.draw();
                                if (element.length &&
-                                   (player.posY < (element.posY +
-                                                   SHIP_DESCENT/FPS+0.01))) {
+                                   ((player.posY + SHIP_WIDTH / 2) <
+                                    (element.posY + element.length))) {
                                  fogged = true;
-                                 fogHeight = element.posY;
+                                 fogHeight = element.posY + element.length;
                                }
                           });
-      if (fogged) {
+      if (fogged && (i >= fogHeight)) {
         break;
       }
     }
@@ -174,12 +173,16 @@ function renderDataScreen() {
 function drawBasicShip() {
   ctx.beginPath();
 
-  ctx.fillStyle = 'rgb(0, 0, 200)';
+  ctx.fillStyle = 'rgb(0, 50, 255)';
+  ctx.strokeStyle = 'rgb(100, 150, 235)';
+  ctx.lineWidth = 1.5;
   ctx.moveTo(this.posX - SHIP_WIDTH / 2, OFFSET);
   ctx.lineTo(this.posX, OFFSET + SHIP_WIDTH / 8);
   ctx.lineTo(this.posX + SHIP_WIDTH / 2, OFFSET);
   ctx.lineTo(this.posX, OFFSET + SHIP_WIDTH / 2);
+  ctx.closePath();
   ctx.fill();
+  ctx.stroke();
 }
 
 function drawBasicCoin() {
