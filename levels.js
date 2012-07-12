@@ -46,7 +46,7 @@ function buildLevel1() {
     if (tsSlice[i] > -1) {
       narrowSides(accum);
       accum += 100;
-      barWaves[waveSeq[i].b + tsSlice[i]](accum);
+      barWaves[waveSeq[i].b + tsSlice[i] + 2 * Math.round(random())](accum);
       accum += (barWaves[waveSeq[i].b].height +
                 Math.floor(random() * 20) + 150);
     } else {
@@ -69,82 +69,82 @@ function buildTestWaves(waveSeq) {
 }
 
 function buildLevel1Waves(waveSeq) {
-  waveSeq[0] = { w: [15], wa: [80], b: 6 };
-  waveSeq[1] = { w: [15], wa: [220], b: 6 };
-  waveSeq[2] = { w: [15], wa: [150], b: 6 };
-  waveSeq[3] = { w: [15], wa: [150], b: 8 };
-  waveSeq[4] = { w: [16], wa: [80], b: 6 };
-  waveSeq[5] = { w: [16], wa: [220], b: 6 };
-  waveSeq[6] = { w: [16], wa: [150], b: 6 };
-  waveSeq[7] = { w: [16], wa: [80], b: 6 };
-  waveSeq[8] = { w: [16], wa: [220], b: 6 };
+  waveSeq[0] = { w: [15], wa: [80], b: 14 };
+  waveSeq[1] = { w: [15], wa: [220], b: 14 };
+  waveSeq[2] = { w: [15], wa: [150], b: 14 };
+  waveSeq[3] = { w: [15], wa: [150], b: 14 };
+  waveSeq[4] = { w: [16], wa: [80], b: 14 };
+  waveSeq[5] = { w: [16], wa: [220], b: 14 };
+  waveSeq[6] = { w: [16], wa: [150], b: 14 };
+  waveSeq[7] = { w: [16], wa: [80], b: 14 };
+  waveSeq[8] = { w: [16], wa: [220], b: 14 };
   shuffleArray(waveSeq, 0, 9);  
 
-  waveSeq[9] = { w: [17], wa: [120], b: 6 };
-  waveSeq[10] = { w: [17], wa: [180], b: 6 };
-  waveSeq[11] = { w: [18], wa: [120], b: 6 };
-  waveSeq[12] = { w: [18], wa: [120], b: 6 };
+  waveSeq[9] = { w: [17], wa: [120], b: 14 };
+  waveSeq[10] = { w: [17], wa: [180], b: 14 };
+  waveSeq[11] = { w: [18], wa: [120], b: 14 };
+  waveSeq[12] = { w: [18], wa: [120], b: 14 };
   shuffleArray(waveSeq, 7, 13);
 
-  waveSeq[13] = { w: [13], wa: [60], b: 6 };
-  waveSeq[14] = { w: [14], wa: [60], b: 6 };
-  waveSeq[15] = { w: [13], wa: [60], b: 6 };
+  waveSeq[13] = { w: [13], wa: [60], b: 14 };
+  waveSeq[14] = { w: [14], wa: [60], b: 14 };
+  waveSeq[15] = { w: [13], wa: [60], b: 14 };
   shuffleArray(waveSeq, 12, 16);
 
-  waveSeq[16] = { w: [17, 15], wa: [70, 180], b: 10 };
-  waveSeq[17] = { w: [17, 16], wa: [70, 180], b: 6 };
-  waveSeq[18] = { w: [17, 15], wa: [180, 70], b: 6 };
-  waveSeq[19] = { w: [18, 16], wa: [70, 180], b: 6 };
-  waveSeq[20] = { w: [18, 15], wa: [70, 180], b: 6 };
-  waveSeq[21] = { w: [18, 16], wa: [180, 70], b: 6 };
+  waveSeq[16] = { w: [17, 15], wa: [70, 180], b: 14 };
+  waveSeq[17] = { w: [17, 16], wa: [70, 180], b: 14 };
+  waveSeq[18] = { w: [17, 15], wa: [180, 70], b: 14 };
+  waveSeq[19] = { w: [18, 16], wa: [70, 180], b: 14 };
+  waveSeq[20] = { w: [18, 15], wa: [70, 180], b: 14 };
+  waveSeq[21] = { w: [18, 16], wa: [180, 70], b: 14 };
   shuffleArray(waveSeq, 15, 22);
 
-  waveSeq[22] = { w: [6, 7], wa: [60, 60], b: 6 };
-  waveSeq[23] = { w: [6, 7], wa: [60, 60], b: 6 };
-  waveSeq[24] = { w: [7, 6], wa: [60, 60], b: 6 };
-  waveSeq[25] = { w: [7, 7], wa: [60, 60], b: 6 };
-  waveSeq[26] = { w: [7, 6], wa: [60, 60], b: 6 };
-  waveSeq[27] = { w: [6, 6], wa: [60, 60], b: 6 };
+  waveSeq[22] = { w: [6, 7], wa: [60, 60], b: 14 };
+  waveSeq[23] = { w: [6, 7], wa: [60, 60], b: 14 };
+  waveSeq[24] = { w: [7, 6], wa: [60, 60], b: 14 };
+  waveSeq[25] = { w: [7, 7], wa: [60, 60], b: 14 };
+  waveSeq[26] = { w: [7, 6], wa: [60, 60], b: 14 };
+  waveSeq[27] = { w: [6, 6], wa: [60, 60], b: 14 };
   shuffleArray(waveSeq, 21, 28);
 
-  waveSeq[28] = { w: [13, 0, 1], wa: [60, 60, 180], b: 12 };
-  waveSeq[29] = { w: [13, 1, 0], wa: [60, 60, 180], b: 6 };
-  waveSeq[30] = { w: [13, 0, 1], wa: [60, 100, 180], b: 6 };
-  waveSeq[31] = { w: [13, 1, 0], wa: [60, 100, 180], b: 6 };
-  waveSeq[32] = { w: [13, 0, 1], wa: [60, 100, 60], b: 6 };
-  waveSeq[33] = { w: [13, 1, 0], wa: [60, 100, 60], b: 6 };
-  waveSeq[34] = { w: [13, 0, 1], wa: [60, 180, 180], b: 6 };
-  waveSeq[35] = { w: [13, 0, 1, 1], wa: [60, 60, 100, 180], b: 6 };
-  waveSeq[36] = { w: [13, 1, 0, 0], wa: [60, 60, 180, 100], b: 6 };
-  waveSeq[37] = { w: [13, 0, 1, 0], wa: [60, 180, 60, 100], b: 6 };
+  waveSeq[28] = { w: [13, 0, 1], wa: [60, 60, 180], b: 14 };
+  waveSeq[29] = { w: [13, 1, 0], wa: [60, 60, 180], b: 14 };
+  waveSeq[30] = { w: [13, 0, 1], wa: [60, 100, 180], b: 14 };
+  waveSeq[31] = { w: [13, 1, 0], wa: [60, 100, 180], b: 14 };
+  waveSeq[32] = { w: [13, 0, 1], wa: [60, 100, 60], b: 14 };
+  waveSeq[33] = { w: [13, 1, 0], wa: [60, 100, 60], b: 14 };
+  waveSeq[34] = { w: [13, 0, 1], wa: [60, 180, 180], b: 14 };
+  waveSeq[35] = { w: [13, 0, 1, 1], wa: [60, 60, 100, 180], b: 14 };
+  waveSeq[36] = { w: [13, 1, 0, 0], wa: [60, 60, 180, 100], b: 14 };
+  waveSeq[37] = { w: [13, 0, 1, 0], wa: [60, 180, 60, 100], b: 14 };
   shuffleArray(waveSeq, 28, 38);
 
-  waveSeq[38] = { w: [2], wa: [60], b: 6 };
-  waveSeq[39] = { w: [2], wa: [100], b: 6 };
-  waveSeq[40] = { w: [19], wa: [60], b: 6 };
-  waveSeq[41] = { w: [3], wa: [80], b: 6 };
-  waveSeq[42] = { w: [3] , wa: [60], b: 6 };
-  waveSeq[43] = { w: [4], wa: [60], b: 6 };
-  waveSeq[44] = { w: [5], wa: [100], b: 6 };
-  waveSeq[45] = { w: [4], wa: [80], b: 6 };
-  waveSeq[46] = { w: [5], wa: [60], b: 6 };
+  waveSeq[38] = { w: [2], wa: [60], b: 14 };
+  waveSeq[39] = { w: [2], wa: [100], b: 14 };
+  waveSeq[40] = { w: [19], wa: [60], b: 14 };
+  waveSeq[41] = { w: [3], wa: [80], b: 14 };
+  waveSeq[42] = { w: [3] , wa: [60], b: 14 };
+  waveSeq[43] = { w: [4], wa: [60], b: 14 };
+  waveSeq[44] = { w: [5], wa: [100], b: 14 };
+  waveSeq[45] = { w: [4], wa: [80], b: 14 };
+  waveSeq[46] = { w: [5], wa: [60], b: 14 };
   shuffleArray(waveSeq, 37, 47);
 
-  waveSeq[47] = { w: [2, 0], wa: [70, 100], b: 6 };
-  waveSeq[48] = { w: [3, 0], wa: [90, 120], b: 6 };
-  waveSeq[49] = { w: [2, 1], wa: [100, 60], b: 6 };
-  waveSeq[50] = { w: [3, 1], wa: [100, 80], b: 8 };
-  waveSeq[51] = { w: [2, 20], wa: [60, 60], b: 6 };
-  waveSeq[52] = { w: [4, 5], wa: [100, 100], b: 6 };
-  waveSeq[53] = { w: [3, 2], wa: [60, 60], b: 6 };
-  waveSeq[54] = { w: [3, 2], wa: [100, 100], b: 6 };
-  waveSeq[55] = { w: [4, 4], wa: [60, 100], b: 6 };
-  waveSeq[56] = { w: [3, 3], wa: [100, 60], b: 6 };
-  waveSeq[57] = { w: [17, 5], wa: [160, 80], b: 6 };
-  waveSeq[58] = { w: [18, 4], wa: [190, 60], b: 6 };
+  waveSeq[47] = { w: [2, 0], wa: [70, 100], b: 14 };
+  waveSeq[48] = { w: [3, 0], wa: [90, 120], b: 14 };
+  waveSeq[49] = { w: [2, 1], wa: [100, 60], b: 14 };
+  waveSeq[50] = { w: [3, 1], wa: [100, 80], b: 14 };
+  waveSeq[51] = { w: [2, 20], wa: [60, 60], b: 14 };
+  waveSeq[52] = { w: [4, 5], wa: [100, 100], b: 14 };
+  waveSeq[53] = { w: [3, 2], wa: [60, 60], b: 14 };
+  waveSeq[54] = { w: [3, 2], wa: [100, 100], b: 14 };
+  waveSeq[55] = { w: [4, 4], wa: [60, 100], b: 14 };
+  waveSeq[56] = { w: [3, 3], wa: [100, 60], b: 14 };
+  waveSeq[57] = { w: [17, 5], wa: [160, 80], b: 14 };
+  waveSeq[58] = { w: [18, 4], wa: [190, 60], b: 14 };
   shuffleArray(waveSeq, 46, 59);  
 
-  waveSeq[59] = { w: [2, 3, 4, 5, 4, 5], wa: [60, 60, 60, 60, 60, 60], b: 6 };
+  waveSeq[59] = { w: [2, 3, 4, 5, 4, 5], wa: [60, 60, 60, 60, 60, 60], b: 14 };
 }
 
 // splits: The number of probability regions
@@ -794,7 +794,7 @@ barWaves[5].height = 120;
 // Height = 80
 barWaves[6] = function (y) {
   objectQueue[y] = [];
-  objectQueue[y].push(new Barrier(y, 100, drawBasicBarrier));
+  objectQueue[y].push(new Barrier(y, 80, drawBasicBarrier));
 
   objectQueue[y+50] = [];
   objectQueue[y+50].push(new Coin(100, y+60, 10, drawBasicCoin));
@@ -809,7 +809,7 @@ barWaves[6].height = 80;
 // Height = 80
 barWaves[7] = function (y) {
   objectQueue[y] = [];
-  objectQueue[y].push(new Barrier(y, 100, drawBasicBarrier));
+  objectQueue[y].push(new Barrier(y, 80, drawBasicBarrier));
 
   objectQueue[y+50] = [];
   objectQueue[y+50].push(new Enemy(100, y+60, 20, drawBasicEnemy));
@@ -824,7 +824,7 @@ barWaves[7].height = 80;
 // Height = 80
 barWaves[8] = function (y) {
   objectQueue[y] = [];
-  objectQueue[y].push(new Barrier(y, 100, drawBasicBarrier));
+  objectQueue[y].push(new Barrier(y, 80, drawBasicBarrier));
 
   objectQueue[y+50] = [];
   objectQueue[y+50].push(new Coin(100, y+60, 10, drawBasicCoin));
@@ -839,7 +839,7 @@ barWaves[8].height = 80;
 // Height = 80
 barWaves[9] = function (y) {
   objectQueue[y] = [];
-  objectQueue[y].push(new Barrier(y, 100, drawBasicBarrier));
+  objectQueue[y].push(new Barrier(y, 80, drawBasicBarrier));
 
   objectQueue[y+50] = [];
   objectQueue[y+50].push(new Enemy(100, y+60, 20, drawBasicEnemy));
@@ -854,7 +854,7 @@ barWaves[9].height = 80;
 // Height = 80
 barWaves[10] = function (y) {
   objectQueue[y] = [];
-  objectQueue[y].push(new Barrier(y, 100, drawBasicBarrier));
+  objectQueue[y].push(new Barrier(y, 80, drawBasicBarrier));
 
   objectQueue[y+50] = [];
   objectQueue[y+50].push(new Powerup(100, y+60, 20, drawBasicPowerup));
@@ -869,7 +869,7 @@ barWaves[10].height = 80;
 // Height = 80
 barWaves[11] = function (y) {
   objectQueue[y] = [];
-  objectQueue[y].push(new Barrier(y, 100, drawBasicBarrier));
+  objectQueue[y].push(new Barrier(y, 80, drawBasicBarrier));
 
   objectQueue[y+50] = [];
   objectQueue[y+50].push(new Enemy(100, y+60, 20, drawBasicEnemy));
@@ -884,7 +884,7 @@ barWaves[11].height = 80;
 // Height = 80
 barWaves[12] = function (y) {
   objectQueue[y] = [];
-  objectQueue[y].push(new Barrier(y, 100, drawBasicBarrier));
+  objectQueue[y].push(new Barrier(y, 80, drawBasicBarrier));
 
   objectQueue[y+50] = [];
   objectQueue[y+50].push(new Coin(100, y+60, 10, drawBasicCoin));
@@ -899,7 +899,7 @@ barWaves[12].height = 80;
 // Height = 80
 barWaves[13] = function (y) {
   objectQueue[y] = [];
-  objectQueue[y].push(new Barrier(y, 100, drawBasicBarrier));
+  objectQueue[y].push(new Barrier(y, 80, drawBasicBarrier));
 
   objectQueue[y+50] = [];
   objectQueue[y+50].push(new Enemy(100, y+60, 20, drawBasicEnemy));
@@ -910,6 +910,50 @@ barWaves[13] = function (y) {
   objectQueue[y+50].push(new Powerup(400, y+60, 20, drawBasicPowerup));
 };
 barWaves[13].height = 80;
+
+// Height = 160
+barWaves[14] = function (y) {
+  objectQueue[y] = [];
+  objectQueue[y].push(new Barrier(y, 160, drawBasicBarrier));
+
+  objectQueue[y+20] = [];
+  objectQueue[y+20].push(new Side(150, y+90, 70, true, drawBasic1SideA));
+  objectQueue[y+20].push(new Side(350, y+90, 70, false, drawBasic1SideB));
+}
+barWaves[14].height = 160;
+
+// Height = 160
+barWaves[15] = function (y) {
+  objectQueue[y] = [];
+  objectQueue[y].push(new Barrier(y, 160, drawBasicBarrier));
+
+  objectQueue[y+20] = [];
+  objectQueue[y+20].push(new Side(150, y+90, 70, false, drawBasic1SideA));
+  objectQueue[y+20].push(new Side(350, y+90, 70, true, drawBasic1SideB));
+}
+barWaves[15].height = 160;
+
+// Height = 160
+barWaves[16] = function (y) {
+  objectQueue[y] = [];
+  objectQueue[y].push(new Barrier(y, 160, drawBasicBarrier));
+
+  objectQueue[y+20] = [];
+  objectQueue[y+20].push(new Side(150, y+90, 70, true, drawBasic1SideB));
+  objectQueue[y+20].push(new Side(350, y+90, 70, false, drawBasic1SideA));
+}
+barWaves[16].height = 160;
+
+// Height = 160
+barWaves[17] = function (y) {
+  objectQueue[y] = [];
+  objectQueue[y].push(new Barrier(y, 160, drawBasicBarrier));
+
+  objectQueue[y+20] = [];
+  objectQueue[y+20].push(new Side(150, y+90, 70, false, drawBasic1SideB));
+  objectQueue[y+20].push(new Side(350, y+90, 70, true, drawBasic1SideA));
+}
+barWaves[17].height = 160;
 
 function narrowSides(y) {
   levelSides[nextInd].next = y;

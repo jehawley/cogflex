@@ -3,19 +3,31 @@
 
 var renderData = {
   loadImages: function () {
-    this.level1Icon.onload = renderData.imageLoaded;
     this.level1Icon.src = 'images/level1Icon.png';
     this.level1Background.src = 'images/level1Background.png';
+    this.level1SideL.src = 'images/level1SideL.png';
+    this.level1SideR.src = 'images/level1SideR.png';
+    this.level1SideLNarrow.src = 'images/level1SideLNarrow.png';
+    this.level1SideRNarrow.src = 'images/level1SideRNarrow.png';
+    this.level1SideA.src = 'images/level1SideA.png';
+    this.level1SideB.src = 'images/level1SideB.png';
   },
   imageLoaded: function () {
     renderData.loadCount += 1;
+    alert(renderData.loadCount);
   },
   loadCount: 0,
   // The total number of images in renderData
-  totalImages: 1
+  totalImages: 8
 };
 renderData.level1Icon = new Image();
 renderData.level1Background = new Image();
+renderData.level1SideL = new Image();
+renderData.level1SideR = new Image();
+renderData.level1SideLNarrow = new Image();
+renderData.level1SideRNarrow = new Image();
+renderData.level1SideA = new Image();
+renderData.level1SideB = new Image();
 
 function renderStartScreen() {
   ctx.clearRect(0, 0, WIDTH, HEIGHT);
@@ -64,13 +76,16 @@ function renderChooseLevelScreen() {
   ctx.strokeRect(50, 100, (WIDTH - 200) / 3, (WIDTH - 200) / 3);
 }
 
+function initRenderLevel1Screen() {
+  backCtx.clearRect(0, 0, WIDTH, HEIGHT);
+  backCtx.drawImage(renderData.level1Background, 0, 0, WIDTH, HEIGHT);
+}
+
 function renderLevel1Screen() {
   var fogged = false, fogHeight, fogGrad;
   var ind, lowInd, highInd, i, j, len;
 
   ctx.clearRect(0, 0, WIDTH, HEIGHT);
-
-  ctx.drawImage(renderData.level1Background, 0, 0, WIDTH, HEIGHT);
 
   ind = 0;
   lowInd = 0;
@@ -87,6 +102,37 @@ function renderLevel1Screen() {
     }
     highInd = ind;
   }
+
+  for (ind = lowInd; ind < highInd; ind = levelSides[ind].next) {
+    if (levelSides[levelSides[ind].next].x > SIDE_WIDTH) {
+      //ctx.drawImage(renderData.level1SideLNarrow,
+      //              0, ind - player.posY + OFFSET);
+    } else if (levelSides[ind].x > SIDE_WIDTH) {
+      ctx.drawImage(renderData.level1SideLNarrow, 0,
+                    ind - 60 - player.posY + OFFSET);
+    } else {
+      ctx.drawImage(renderData.level1SideL,
+                    0, 0, 50, levelSides[ind].next - ind,
+                    0, ind - player.posY + OFFSET,
+                    50, levelSides[ind].next - ind);
+    }
+  }
+
+  for (ind = lowInd; ind < highInd; ind = levelSides[ind].next) {
+    if (levelSides[levelSides[ind].next].x > SIDE_WIDTH) {
+      //ctx.drawImage(renderData.level1SideRNarrow,
+      //              WIDTH/2+SHIP_WIDTH/2+1, ind - player.posY + OFFSET);
+    } else if (levelSides[ind].x > SIDE_WIDTH) {
+      ctx.drawImage(renderData.level1SideRNarrow,
+                    WIDTH/2+SHIP_WIDTH/2+1, ind - 60 - player.posY + OFFSET);
+    } else {
+      ctx.drawImage(renderData.level1SideR,
+                    0, 0, 50, levelSides[ind].next - ind,
+                    WIDTH-SIDE_WIDTH, ind - player.posY + OFFSET,
+                    50, levelSides[ind].next - ind);
+    }
+  }
+  /* TODO: Save this for later 
   ctx.fillStyle = 'black';
   ctx.beginPath();
   ctx.moveTo(0, lowInd - (player.posY - OFFSET));
@@ -103,6 +149,7 @@ function renderLevel1Screen() {
   ctx.lineTo(WIDTH, highInd - (player.posY - OFFSET));
   ctx.closePath();
   ctx.fill();
+  */
 
   player.draw();
 
@@ -114,7 +161,7 @@ function renderLevel1Screen() {
                                element.draw();
                                if (element.length &&
                                    ((player.posY + SHIP_WIDTH / 2) <
-                                    (element.posY + element.length))) {
+                                    (element.posY + element.length / 2))) {
                                  fogged = true;
                                  fogHeight = element.posY + element.length;
                                }
@@ -203,7 +250,7 @@ function drawBasicEnemy() {
 
 function drawBasicBarrier() {
   ctx.fillStyle = 'rgb(128, 0, 128)';
-  ctx.fillRect(WIDTH/2 - BAR_WIDTH/2, this.posY - player.topHeight + OFFSET,
+  ctx.fillRect(WIDTH/2 - BAR_WIDTH/2, this.posY - player.posY + OFFSET,
                BAR_WIDTH, this.length);
 
 }
@@ -211,10 +258,23 @@ function drawBasicBarrier() {
 function drawBasicPowerup() {
   ctx.fillStyle = 'rgb(0, 255, 0)';
   ctx.beginPath();
-  ctx.moveTo(this.posX, this.posY - player.topHeight + OFFSET - this.width/2);
-  ctx.lineTo(this.posX - this.width/2, this.posY - player.topHeight + OFFSET);
-  ctx.lineTo(this.posX, this.posY - player.topHeight + OFFSET + this.width/2);
-  ctx.lineTo(this.posX + this.width/2, this.posY - player.topHeight + OFFSET);
+  ctx.moveTo(this.posX, this.posY - player.posY + OFFSET - this.width/2);
+  ctx.lineTo(this.posX - this.width/2, this.posY - player.posY + OFFSET);
+  ctx.lineTo(this.posX, this.posY - player.posY + OFFSET + this.width/2);
+  ctx.lineTo(this.posX + this.width/2, this.posY - player.posY + OFFSET);
   ctx.fill();
 }
 
+function drawBasic1SideA() {
+  ctx.drawImage(renderData.level1SideA,
+                this.posX - this.radius,
+                this.posY - this.radius - player.posY + OFFSET,
+                2 * this.radius, 2 * this.radius);
+}
+
+function drawBasic1SideB() {
+  ctx.drawImage(renderData.level1SideB,
+                this.posX - this.radius,
+                this.posY - this.radius - player.posY + OFFSET,
+                2 * this.radius, 2 * this.radius);
+}

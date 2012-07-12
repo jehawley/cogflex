@@ -1,3 +1,6 @@
 .outer {width: 710px; height: 550px}
 .main {width: 500px; height: 550px; border:1px solid; float:left}
 .data {width: 200px; height: 200px; border:1px solid; float:right}
+.gameC {position: absolute; left: 9px; top: 9px}
+#mainC{z-index: 2}
+#backC{z-index: 1}

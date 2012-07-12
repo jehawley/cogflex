@@ -18,6 +18,7 @@ var MULT_MAX = 10;
 
 var ctx;
 var dataCtx;
+var backCtx;
 var loopID = -1;
 var eventFun;
 var powerupUsed = false;

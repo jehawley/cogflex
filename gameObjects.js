@@ -59,6 +59,16 @@ function Barrier(topHeight, length, drawFun) {
 }
 Barrier.prototype = new GameObject;
 
+function Side(centerX, centerY, radius, good, drawFun) {
+  this.base = GameObject;
+  this.base(centerY - radius, centerY + radius,
+            centerX, centerY,
+            drawFun, shipCoinTest);
+  this.radius = radius;
+  this.good = good;
+}
+Side.prototype = new GameObject;
+
 function shipWallTest() {
   var lowInd, ind, nextInd, highInd;
   var slope, intercept;

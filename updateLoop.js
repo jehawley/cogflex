@@ -85,8 +85,6 @@ function levelScreen() {
                                          player.posX *= 0.5;
                                        }
                                      }
-                                   } else {
-                                     // TODO? Add sliding option
                                    }
                                  } else if (element.width) {
                                    GameState.powerupCount += 1;
@@ -95,6 +93,19 @@ function levelScreen() {
                                    GameState.multiplierBar = 0;
                                    if (GameState.multiplier > 1) {
                                      GameState.multiplier -= 1;
+                                   }
+                                   delete array[index];
+                                 } else if (typeof element.good !==
+                                            "undefined") {
+                                   if (element.good) {
+                                     GameState.score += BASE_POINTS *
+                                                        GameState.multiplier *
+                                                        3;
+                                   } else {
+                                     GameState.multiplierBar = 0;
+                                     if (GameState.multiplier > 1) {
+                                       GameState.multiplier -= 1;
+                                     }
                                    }
                                    delete array[index];
                                  } else if (element.radius) {
