@@ -16,6 +16,7 @@ var player = new Ship(WIDTH / 2, drawBasicShip);
 function buildLevel1() {
   var L1_LENGTH = 60;
   var i, j;
+  var temp;
   // Each object has parameters w (array of wave ids),
   // wa (arguments to wave functions), and b (array of barWave ids)
   var waveSeq = [];
@@ -939,8 +940,8 @@ barWaves[16] = function (y) {
   objectQueue[y].push(new Barrier(y, 160, drawBasicBarrier));
 
   objectQueue[y+20] = [];
-  objectQueue[y+20].push(new Side(150, y+90, 70, true, drawBasic1SideB));
-  objectQueue[y+20].push(new Side(350, y+90, 70, false, drawBasic1SideA));
+  objectQueue[y+20].push(new Side(150, y+90, 70, false, drawBasic1SideB));
+  objectQueue[y+20].push(new Side(350, y+90, 70, true, drawBasic1SideA));
 }
 barWaves[16].height = 160;
 
@@ -950,8 +951,8 @@ barWaves[17] = function (y) {
   objectQueue[y].push(new Barrier(y, 160, drawBasicBarrier));
 
   objectQueue[y+20] = [];
-  objectQueue[y+20].push(new Side(150, y+90, 70, false, drawBasic1SideB));
-  objectQueue[y+20].push(new Side(350, y+90, 70, true, drawBasic1SideA));
+  objectQueue[y+20].push(new Side(150, y+90, 70, true, drawBasic1SideB));
+  objectQueue[y+20].push(new Side(350, y+90, 70, false, drawBasic1SideA));
 }
 barWaves[17].height = 160;
 
