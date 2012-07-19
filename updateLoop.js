@@ -22,7 +22,7 @@ function levelScreen() {
     powerupUsed = true;
     GameState.powerupCount -= 1;
     for (i = 0;
-         i < Math.ceil(player.bottomHeight - OFFSET + HEIGHT / 2);
+         i < Math.ceil(player.bottomHeight - OFFSET + HEIGHT);
          ++i) {
       if (objectQueue[i]) {
         objectQueue[i].forEach(function (element, index, array) {
@@ -101,6 +101,13 @@ function levelScreen() {
                                      GameState.score += BASE_POINTS *
                                                         GameState.multiplier *
                                                         3;
+                                     GameState.multiplierBar += 2 * MULT_INCR;
+                                     while (GameState.multiplierBar >
+                                            (GameState.multiplier*MULT_MAX)) {
+                                       GameState.multiplierBar -=
+                                         GameState.multiplier * MULT_MAX;
+                                       GameState.multiplier += 1;
+                                     }
                                    } else {
                                      GameState.multiplierBar = 0;
                                      if (GameState.multiplier > 1) {

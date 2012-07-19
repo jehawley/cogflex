@@ -3,6 +3,11 @@
 
 var renderData = {
   loadImages: function () {
+    this.ship.src = 'images/ship1.png';
+    this.coin.src = 'images/coin3.png';
+    this.enemy.src = 'images/enemy2.png';
+    this.powerup.src = 'images/powerup1.png';
+
     this.level1Icon.src = 'images/level1Icon.png';
     this.level1Background.src = 'images/level1Background.png';
     this.level1SideL.src = 'images/level1SideL.png';
@@ -20,6 +25,11 @@ var renderData = {
   // The total number of images in renderData
   totalImages: 8
 };
+renderData.ship = new Image();
+renderData.coin = new Image();
+renderData.enemy = new Image();
+renderData.powerup = new Image();
+
 renderData.level1Icon = new Image();
 renderData.level1Background = new Image();
 renderData.level1SideL = new Image();
@@ -232,20 +242,40 @@ function drawBasicShip() {
   ctx.stroke();
 }
 
+function drawShip() {
+  ctx.drawImage(renderData.ship,
+                this.posX - SHIP_WIDTH, this.posY - player.posY + OFFSET,
+                SHIP_WIDTH, SHIP_WIDTH / 2);
+}
+
 function drawBasicCoin() {
   ctx.fillStyle = 'rgb(255, 196, 20)';
   ctx.beginPath();
-  ctx.arc(this.posX, this.posY - player.topHeight + OFFSET,
+  ctx.arc(this.posX, this.posY - player.posY + OFFSET,
           this.radius, 0, 2 * Math.PI, false);
   ctx.fill();
+}
+
+function drawCoin() {
+  ctx.drawImage(renderData.coin,
+                this.posX - this.radius,
+                this.posY - this.radius - player.posY + OFFSET,
+                2 * this.radius, 2 * this.radius);
 }
 
 function drawBasicEnemy() {
   ctx.fillStyle = 'rgb(255, 0, 0)';
   ctx.fillRect(this.posX - this.sideLength / 2,
-               this.posY - this.sideLength / 2 - player.topHeight + OFFSET,
+               this.posY - this.sideLength / 2 - player.posY + OFFSET,
                this.sideLength,
                this.sideLength);
+}
+
+function drawEnemy() {
+  ctx.drawImage(renderData.enemy,
+                this.posX - this.sideLength / 2,
+                this.posY - this.sideLength / 2 - player.posY + OFFSET,
+                this.sideLength, this.sideLength);
 }
 
 function drawBasicBarrier() {
@@ -253,6 +283,14 @@ function drawBasicBarrier() {
   ctx.fillRect(WIDTH/2 - BAR_WIDTH/2, this.posY - player.posY + OFFSET,
                BAR_WIDTH, this.length);
 
+}
+
+function drawBarrier() {
+  ctx.drawImage(renderData.level1SideL,
+                0, 0,
+                BAR_WIDTH, this.length,
+                WIDTH/2 - BAR_WIDTH/2, this.posY - player.posY + OFFSET,
+                BAR_WIDTH, this.length); 
 }
 
 function drawBasicPowerup() {
@@ -263,6 +301,14 @@ function drawBasicPowerup() {
   ctx.lineTo(this.posX, this.posY - player.posY + OFFSET + this.width/2);
   ctx.lineTo(this.posX + this.width/2, this.posY - player.posY + OFFSET);
   ctx.fill();
+}
+
+function drawPowerup() {
+  ctx.drawImage(renderData.powerup,
+                this.posX - this.width / 2,
+                this.posY - this.width / 2 - player.posY + OFFSET,
+                this.width,
+                this.width);
 }
 
 function drawBasic1SideA() {

@@ -14,8 +14,8 @@ function handleInstructionScreen(e) {
 
 function handleChooseLevelScreen(e) {
   if ((e.type === 'keydown') && (e.keyCode == 13)) {
-    initRenderLevel1Screen();
     changeScreen(levelScreen, handleLevelScreen);
+    initRenderLevel1Screen();
   }
 }
 

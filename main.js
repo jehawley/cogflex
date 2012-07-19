@@ -13,6 +13,9 @@ function init() {
 }
 
 function changeScreen(newUpdate, newEvent) {
+  dataCtx.clearRect(0, 0, WIDTH, HEIGHT);
+  ctx.clearRect(0, 0, WIDTH, HEIGHT);
+  backCtx.clearRect(0, 0, WIDTH, HEIGHT);
   if (loopID > 0) {
     clearInterval(loopID);
     window.removeEventListener('keydown', eventFun, true);
