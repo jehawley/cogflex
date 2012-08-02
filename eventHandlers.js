@@ -25,7 +25,8 @@ function handleLevelScreen(e) {
   }
   if (e.type === 'keyup') {
     keysDown[e.keyCode] = false;
-    if (String.fromCharCode(e.keyCode) === 'A') {
+    // 32 = Space
+    if (e.keyCode === 32) {
       powerupUsed = false;
     }
   }

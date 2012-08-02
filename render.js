@@ -8,6 +8,8 @@ var renderData = {
     this.enemy.src = 'images/enemy2.png';
     this.powerup.src = 'images/powerup1.png';
 
+    this.star.src = 'images/star.png';
+
     this.level1Icon.src = 'images/level1Icon.png';
     this.level1Background.src = 'images/level1Background.png';
     this.level1SideL.src = 'images/level1SideL.png';
@@ -23,12 +25,14 @@ var renderData = {
   },
   loadCount: 0,
   // The total number of images in renderData
-  totalImages: 8
+  totalImages: 13
 };
 renderData.ship = new Image();
 renderData.coin = new Image();
 renderData.enemy = new Image();
 renderData.powerup = new Image();
+
+renderData.star = new Image();
 
 renderData.level1Icon = new Image();
 renderData.level1Background = new Image();
@@ -89,6 +93,9 @@ function renderChooseLevelScreen() {
 function initRenderLevel1Screen() {
   backCtx.clearRect(0, 0, WIDTH, HEIGHT);
   backCtx.drawImage(renderData.level1Background, 0, 0, WIDTH, HEIGHT);
+  ctx.translate(WIDTH/2, HEIGHT/2);
+  ctx.rotate(Math.PI);
+  ctx.translate(-WIDTH/2, -HEIGHT/2);
 }
 
 function renderLevel1Screen() {
@@ -115,8 +122,6 @@ function renderLevel1Screen() {
 
   for (ind = lowInd; ind < highInd; ind = levelSides[ind].next) {
     if (levelSides[levelSides[ind].next].x > SIDE_WIDTH) {
-      //ctx.drawImage(renderData.level1SideLNarrow,
-      //              0, ind - player.posY + OFFSET);
     } else if (levelSides[ind].x > SIDE_WIDTH) {
       ctx.drawImage(renderData.level1SideLNarrow, 0,
                     ind - 60 - player.posY + OFFSET);
@@ -130,8 +135,6 @@ function renderLevel1Screen() {
 
   for (ind = lowInd; ind < highInd; ind = levelSides[ind].next) {
     if (levelSides[levelSides[ind].next].x > SIDE_WIDTH) {
-      //ctx.drawImage(renderData.level1SideRNarrow,
-      //              WIDTH/2+SHIP_WIDTH/2+1, ind - player.posY + OFFSET);
     } else if (levelSides[ind].x > SIDE_WIDTH) {
       ctx.drawImage(renderData.level1SideRNarrow,
                     WIDTH/2+SHIP_WIDTH/2+1, ind - 60 - player.posY + OFFSET);
@@ -192,6 +195,100 @@ function renderLevel1Screen() {
     ctx.fillRect(0, fogHeight + 5 - player.posY + OFFSET,
                  WIDTH, HEIGHT);
   }
+
+  topCtx.clearRect(0, 0, WIDTH, HEIGHT);
+  topCtx.font = '42pt Helvetica';
+  topCtx.lineWidth = 1;
+  topCtx.textAlign = 'center'; 
+  topCtx.fillStyle = 'white';
+  topCtx.strokeStyle = 'rgb(0, 255, 50)';
+  topCtx.fillText(GameState.score, WIDTH / 2, 50);
+  topCtx.strokeText(GameState.score, WIDTH / 2, 50);
+  if (scoreFlashState > 0) {
+    topCtx.fillStyle = 'rgba(0, 255, 50, ' +
+                       (-scoreFlashState * scoreFlashState +
+                        14 * scoreFlashState)/60 +
+                       ')';
+    topCtx.fillText(GameState.score, WIDTH / 2, 50);
+    scoreFlashState -= 1;
+    topCtx.fillStyle = 'white';
+  }
+
+  topCtx.drawImage(renderData.powerup, WIDTH - 140, 5, 40, 40);
+  topCtx.font = '30pt Helvetica';
+  topCtx.fillText('x' + GameState.powerupCount, WIDTH - 75, 40);
+  topCtx.strokeText('x' + GameState.powerupCount, WIDTH - 75, 40);
+
+  topCtx.strokeStyle = 'rgb(0, 255, 50)';
+  topCtx.beginPath();
+  topCtx.arc(80, 32, 30, 0, 2 * Math.PI, true);
+  topCtx.closePath();
+  topCtx.stroke();
+  topCtx.beginPath();
+  topCtx.arc(80, 32, 15, 0, 2 * Math.PI, true);
+  topCtx.closePath();
+  topCtx.fill();
+  topCtx.fillStyle = 'white';
+  topCtx.beginPath();
+  topCtx.arc(80, 32,
+             30,
+             -Math.PI / 2,
+             2*Math.PI*GameState.multiplierBar/
+                       (10*GameState.multiplier) - Math.PI / 2,
+             false);
+  /*topCtx.lineTo(80 + 15*2*Math.PI*GameState.multiplierBar/
+                                 (10*GameState.multiplier),
+                30 + 15*2*Math.PI*GameState.multiplierBar/
+                                 (10*GameState.multiplier));*/
+  topCtx.arc(80, 32,
+             15,
+             2*Math.PI*GameState.multiplierBar/
+                       (10*GameState.multiplier) - Math.PI / 2,
+             -Math.PI / 2,
+             false);
+  topCtx.closePath();
+  topCtx.fill();
+  topCtx.fillStyle = 'rgb(0, 255, 50)';
+  topCtx.beginPath();
+  topCtx.arc(80, 32, 15, 0, 2 * Math.PI, true);
+  topCtx.closePath();
+  topCtx.fill();
+  topCtx.fillStyle = 'white';
+  topCtx.font = '16pt Helvetica'; 
+  topCtx.fillText('x' + GameState.multiplier, 80, 40);
+
+  if (redFlashState > 0) {
+    topCtx.fillStyle = 'rgba(255, 0, 0, ' +
+                       (-redFlashState*redFlashState+14*redFlashState)/60 +
+                       ')';
+    topCtx.fillRect(0, 0, WIDTH, HEIGHT);
+    redFlashState -= 1;
+  }
+
+  starQueue.forEach(function (element, index, array) {
+                      if (element.type === 'line') {
+                        element.x = element.frame/STAR_FRAMES * WIDTH * 0.5 +
+                                    (STAR_FRAMES-element.frame)/STAR_FRAMES *
+                                    element.xS + 
+                                    25 * Math.sin(element.frame *
+                                                  3 * Math.PI / 
+                                                  STAR_FRAMES);
+                        element.y = element.frame/STAR_FRAMES * 25 +
+                                    (STAR_FRAMES-element.frame)/STAR_FRAMES *
+                                    element.yS;
+                      } else if (element.type === 'Vee') {
+                      }
+                      element.frame += 1;
+                      if (element.frame > STAR_FRAMES) {
+                        delete array[index];
+                        scoreFlashState=20;
+                      }
+                      topCtx.drawImage(renderData.star,
+                                       element.x,
+                                       element.y,
+                                       20,
+                                       20);
+                    } );
 }
 
 function renderResultsScreen() {

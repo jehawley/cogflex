@@ -6,7 +6,7 @@ var SIDE_WIDTH = 50;
 var FPS = 60;
 
 // TODO: Determine appropriate values for these constants
-var OFFSET = 40;
+var OFFSET = 75;
 var BAR_WIDTH = 16;
 var SHIP_WIDTH = 50;
 var SHIP_SPEED = 450;
@@ -19,7 +19,18 @@ var MULT_MAX = 10;
 var ctx;
 var dataCtx;
 var backCtx;
+var topCtx;
 var loopID = -1;
 var eventFun;
 var powerupUsed = false;
 var keysDown = [];
+// TODO: Find out if this optimization is necessary
+// var topDirty = true;
+
+var starQueue = [];
+// Must always be even
+var STAR_FRAMES = 38;
+var redFlashState = 0;
+var scoreFlashState = -1;
+var multFlashState = -1;
+var powerupGetState = 0;

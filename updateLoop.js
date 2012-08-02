@@ -16,7 +16,8 @@ function chooseLevelScreen() {
 function levelScreen() {
   var i;
 
-  if (keysDown['A'.charCodeAt(0)] &&
+  // 32 = Space
+  if (keysDown[32] &&
       (GameState.powerupCount > 0) &&
       !powerupUsed) {
     powerupUsed = true;
@@ -47,11 +48,13 @@ function levelScreen() {
 
   // left arrow
   if (keysDown[37]) {
-    player.posX += -SHIP_SPEED / FPS;
+    // For ship moving up
+    player.posX += SHIP_SPEED / FPS;
   }
   // right arrow
   if (keysDown[39]) {
-    player.posX += SHIP_SPEED / FPS;
+    // For ship moving up
+    player.posX += -SHIP_SPEED / FPS;
   }
   player.intersect();
   for (i = 0;
@@ -94,20 +97,97 @@ function levelScreen() {
                                    if (GameState.multiplier > 1) {
                                      GameState.multiplier -= 1;
                                    }
+                                   redFlashState = 15;
                                    delete array[index];
                                  } else if (typeof element.good !==
                                             "undefined") {
                                    if (element.good) {
                                      GameState.score += BASE_POINTS *
                                                         GameState.multiplier *
-                                                        3;
+                                                        5;
                                      GameState.multiplierBar += 2 * MULT_INCR;
-                                     while (GameState.multiplierBar >
+                                     while (GameState.multiplierBar >=
                                             (GameState.multiplier*MULT_MAX)) {
                                        GameState.multiplierBar -=
                                          GameState.multiplier * MULT_MAX;
                                        GameState.multiplier += 1;
                                      }
+                                     starQueue.push( { xS: WIDTH - element.posX,
+                                                       yS: HEIGHT -
+                                                           element.posY +
+                                                           player.posY -
+                                                           OFFSET,
+                                                       type: 'line',
+                                                       frame: 0,
+                                                       x: WIDTH-element.posX,
+                                                       y: HEIGHT -
+                                                          element.posY +
+                                                          player.posY -
+                                                          OFFSET } );
+                                     starQueue.push( { xS: WIDTH - element.posX,
+                                                       yS: HEIGHT -
+                                                           element.posY +
+                                                           player.posY -
+                                                           OFFSET,
+                                                       type: 'Vee',
+                                                       frame: 0,
+                                                       x: WIDTH-element.posX,
+                                                       y: HEIGHT -
+                                                           element.posY +
+                                                           player.posY -
+                                                           OFFSET, 
+                                                       xV: WIDTH - 
+                                                           element.posX -
+                                                           65,
+                                                       yV: 200} );
+                                     starQueue.push( { xS: WIDTH - element.posX,
+                                                       yS: HEIGHT -
+                                                           element.posY +
+                                                           player.posY -
+                                                           OFFSET,
+                                                       type: 'Vee',
+                                                       frame: 0,
+                                                       x: WIDTH-element.posX,
+                                                       y: HEIGHT -
+                                                          element.posY +
+                                                          player.posY -
+                                                          OFFSET,
+                                                       xV: WIDTH -
+                                                           element.posX -
+                                                           120,
+                                                       yV: 220} );
+                                     starQueue.push( { xS: WIDTH - element.posX,
+                                                       yS: HEIGHT -
+                                                           element.posY +
+                                                           player.posY -
+                                                           OFFSET,
+                                                       type: 'Vee',
+                                                       frame: 0,
+                                                       x: WIDTH-element.posX,
+                                                       y: HEIGHT -
+                                                          element.posY +
+                                                          player.posY -
+                                                          OFFSET, 
+                                                       xV: WIDTH - 
+                                                           element.posX +
+                                                           65,
+                                                       yV: 210 } );
+                                     starQueue.push( { xS: WIDTH - element.posX,
+                                                       yS: HEIGHT -
+                                                           element.posY +
+                                                           player.posY -
+                                                           OFFSET,
+                                                       type: 'Vee',
+                                                       frame: 0,
+                                                       x: WIDTH-element.posX,
+                                                       y: HEIGHT -
+                                                          element.posY +
+                                                          player.posY -
+                                                          OFFSET, 
+                                                       xV: WIDTH -
+                                                           element.posX +
+                                                           120,
+                                                       yV: 230 } );
                                    } else {
                                      GameState.multiplierBar = 0;
                                      if (GameState.multiplier > 1) {
@@ -119,12 +199,20 @@ function levelScreen() {
                                    GameState.score += BASE_POINTS *
                                                       GameState.multiplier;
                                    GameState.multiplierBar += MULT_INCR;
-                                   while (GameState.multiplierBar >
+                                   while (GameState.multiplierBar >=
                                           (GameState.multiplier * MULT_MAX)) {
                                      GameState.multiplierBar -=
                                        GameState.multiplier * MULT_MAX;
                                      GameState.multiplier += 1;
                                    }
+                                   starQueue.push( { xS: WIDTH - element.posX,
+                                                     yS: HEIGHT - element.posY +
+                                                         player.posY - OFFSET, 
+                                                     type: 'line', 
+                                                     frame: 0,
+                                                     x: WIDTH - element.posX,
+                                                     y: HEIGHT - element.posY +
+                                                        player.posY-OFFSET } );
                                    delete array[index];
                                  }
                                }
@@ -134,7 +222,8 @@ function levelScreen() {
 
 
   renderLevel1Screen();
-  renderDataScreen();
+  // TODO: Remove with data canvas
+  //renderDataScreen();
 
   if (player.bottomHeight > levelEnd) {
     changeScreen(resultsScreen, handleResultsScreen);

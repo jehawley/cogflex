@@ -46,7 +46,7 @@ function buildLevel1() {
 
     if (tsSlice[i] > -1) {
       narrowSides(accum);
-      accum += 100;
+      accum += 130;
       barWaves[waveSeq[i].b + tsSlice[i] + 2 * Math.round(random())](accum);
       accum += (barWaves[waveSeq[i].b].height +
                 Math.floor(random() * 20) + 150);
@@ -60,6 +60,15 @@ function buildLevel1() {
     { x: SIDE_WIDTH, next: undefined };
   levelSides[nextInd].next = accum + HEIGHT + 50;
   levelEnd = levelSides.length - HEIGHT;
+
+  i = 0;
+  while (levelSides[i].next) {
+    if ((levelSides[i].next - i) > 2000) {
+      levelSides[i + 2000] = { x: SIDE_WIDTH, next: levelSides[i].next };
+      levelSides[i].next = i + 2000;
+    }
+    i = levelSides[i].next;
+  }
 }
 
 function buildTestWaves(waveSeq) {
