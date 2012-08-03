@@ -28,9 +28,9 @@ var keysDown = [];
 // var topDirty = true;
 
 var starQueue = [];
-// Must always be even
-var STAR_FRAMES = 38;
 var redFlashState = 0;
-var scoreFlashState = -1;
-var multFlashState = -1;
+var xFlashState = 0;
+var scoreFlashState = 0;
+var multFlashState = 0;
 var powerupGetState = 0;
+var powerupUseState = 0;

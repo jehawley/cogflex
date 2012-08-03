@@ -265,21 +265,45 @@ function renderLevel1Screen() {
     redFlashState -= 1;
   }
 
+  if (xFlashState > 0) {
+    topCtx.fillStyle = 'rgba(0, 0, 0, 1.0)';
+    topCtx.font = ((30 - xFlashState) * 10 + 250) + 'pt Helvetica';
+    topCtx.fillText('X', WIDTH/2, HEIGHT - 25);
+    xFlashState -= 1;
+
+    topCtx.fillStyle = 'rgba(255, 0, 0, ' +
+                       (0.4 * Math.sin(xFlashState * Math.PI / 10) + 0.55) +
+                       ')';
+    topCtx.fillRect(0, 0, WIDTH, HEIGHT);
+  }
+
+  if (powerupGetState > 0) {
+    topCtx.drawImage(renderData.powerup, WIDTH - 140, 5,
+                     40 + 2 * powerupGetState, 40 + 2 * powerupGetState);
+    powerupGetState -= 1;
+  }
+
+  if (powerupUseState > 0) {
+    topCtx.fillStyle = 'rgba(255, 255, 255, ' +
+                       (1 - powerupUseState/14) +
+                       ')';
+    topCtx.fillRect(0, 0, WIDTH, HEIGHT);
+    powerupUseState -= 1;
+  }
+
   starQueue.forEach(function (element, index, array) {
-                      if (element.type === 'line') {
-                        element.x = element.frame/STAR_FRAMES * WIDTH * 0.5 +
-                                    (STAR_FRAMES-element.frame)/STAR_FRAMES *
-                                    element.xS + 
-                                    25 * Math.sin(element.frame *
-                                                  3 * Math.PI / 
-                                                  STAR_FRAMES);
-                        element.y = element.frame/STAR_FRAMES * 25 +
-                                    (STAR_FRAMES-element.frame)/STAR_FRAMES *
-                                    element.yS;
-                      } else if (element.type === 'Vee') {
-                      }
+                      element.x = element.frame / element.s * WIDTH * 0.5 +
+                                  (element.s - element.frame) / element.s *
+                                  element.xS + 
+                                  element.a * Math.sin(element.frame *
+                                                       element.p *
+                                                       Math.PI / 
+                                                       element.s);
+                      element.y = element.frame / element.s * 25 +
+                                  (element.s-element.frame) / element.s *
+                                  element.yS;
                       element.frame += 1;
-                      if (element.frame > STAR_FRAMES) {
+                      if (element.frame > element.s) {
                         delete array[index];
                         scoreFlashState=20;
                       }
