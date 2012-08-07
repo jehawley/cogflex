@@ -16,17 +16,28 @@ var BASE_POINTS = 10;
 var MULT_INCR = 1;
 var MULT_MAX = 10;
 
+// Canvases
+// The main canvas
 var ctx;
+// Side canvas for debugging only
 var dataCtx;
+// Background canvas - usually cleared once per screen
 var backCtx;
+// Animation canvas - usually cleared once per frame
 var topCtx;
 var loopID = -1;
 var eventFun;
 var powerupUsed = false;
 var keysDown = [];
-// TODO: Find out if this optimization is necessary
-// var topDirty = true;
 
+// Indicates if the canvas background should be drawn and
+// whether setup should be done (if used)
+var dirty = true;
+
+// Instruction screen counters
+var instrArrow = 0;
+
+// Level screen counters
 var starQueue = [];
 var redFlashState = 0;
 var xFlashState = 0;

@@ -7,7 +7,16 @@ function handleStartScreen(e) {
 }
 
 function handleInstructionScreen(e) {
-  if ((e.type === 'keydown') && (String.fromCharCode(e.keyCode) === 'S')) {
+  if ((e.type === 'keydown') && (e.keyCode === 39)) {
+    changeScreen(instructionScreen2, handleInstructionScreen2);
+  }
+}
+
+function handleInstructionScreen2(e) {
+  if ((e.type === 'keydown') && (e.keyCode === 37)) {
+    changeScreen(instructionScreen, handleInstructionScreen);
+  }
+  if ((e.type === 'keydown') && (e.keyCode === 13)) {
     changeScreen(chooseLevelScreen, handleChooseLevelScreen);
   }
 }

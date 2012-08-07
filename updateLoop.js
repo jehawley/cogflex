@@ -9,6 +9,10 @@ function instructionScreen() {
   renderInstructionScreen();
 }
 
+function instructionScreen2() {
+  renderInstructionScreen2();
+}
+
 function chooseLevelScreen() {
   renderChooseLevelScreen();
 }
@@ -96,6 +100,10 @@ function levelScreen() {
                                    delete array[index];
                                  } else if (element.sideLength) {
                                    GameState.multiplierBar = 0;
+                                   GameState.score -= BASE_POINTS;
+                                   if (GameState.score < 0) {
+                                     GameState.score = 0;
+                                   }
                                    if (GameState.multiplier > 1) {
                                      GameState.multiplier -= 1;
                                    }
@@ -193,12 +201,17 @@ function levelScreen() {
                                                        p: 3,
                                                        a: -60,
                                                        s: 39 } );
+                                     //audioData.sparkleBig.play();
                                    } else {
                                      GameState.multiplierBar = 0;
                                      if (GameState.multiplier > 1) {
                                        GameState.multiplier -= 1;
                                      }
                                      xFlashState = 30;
+                                   }
+                                   GameState.score -= 2 * BASE_POINTS;
+                                   if (GameState.score < 0) {
+                                     GameState.score = 0;
                                    }
                                    delete array[index];
                                  } else if (element.radius) {
@@ -221,6 +234,7 @@ function levelScreen() {
                                                      p: 3,
                                                      a: 25,
                                                      s: 37} );
+                                   //audioData.sparkleSmall.play();
                                    delete array[index];
                                  }
                                }
