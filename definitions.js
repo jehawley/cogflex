@@ -34,8 +34,11 @@ var keysDown = [];
 // whether setup should be done (if used)
 var dirty = true;
 
-// Instruction screen counters
+// Instruction screen data
 var instrArrow = 0;
+
+// Level select screen data
+var chosenLevel = 0;
 
 // Level screen counters
 var starQueue = [];

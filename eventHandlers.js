@@ -22,7 +22,15 @@ function handleInstructionScreen2(e) {
 }
 
 function handleChooseLevelScreen(e) {
-  if ((e.type === 'keydown') && (e.keyCode == 13)) {
+  if ((e.type === 'keydown') && (e.keyCode === 39)) {
+    chosenLevel = Math.min(chosenLevel + 1, 2);
+  }
+
+  if ((e.type === 'keydown') && (e.keyCode === 37)) {
+    chosenLevel = Math.max(chosenLevel - 1, 0);
+  }
+
+  if ((e.type === 'keydown') && (e.keyCode === 13)) {
     changeScreen(levelScreen, handleLevelScreen);
     initRenderLevel1Screen();
   }

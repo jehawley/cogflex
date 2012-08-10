@@ -3,6 +3,8 @@
 
 // 0 for left = good, 1 for right = good
 var testSide = [];
+// The trial counts
+var testTrials = [];
 // Holds arrays of game objects indexed by object top
 var objectQueue = [];
 // Indexed by y coordinate, contains {x, next}
@@ -14,28 +16,33 @@ var levelEnd;
 var player = new Ship(WIDTH / 2, drawBasicShip);
 
 function buildLevel1() {
-  var L1_LENGTH = 60;
   var i, j;
   var temp;
   // Each object has parameters w (array of wave ids),
-  // wa (arguments to wave functions), and b (array of barWave ids)
+  //                            wa (arguments to wave functions)
   var waveSeq = [];
-  var tsSlice = testSide.slice(0, L1_LENGTH);
-  testSide = testSide.slice(L1_LENGTH);
-  // Initialized to starting delay
+  // The test sides for this particular level
+  var tsSlice = [];
   var accum = OFFSET + 300;
   var random = Alea();
 
-  for (i = tsSlice.length; i < L1_LENGTH; ++i) {
-    tsSlice.push(-1);
+  while (tsSlice.length < 60 && testTrials.length > 1) {
+    tsSlice = tsSlice.concat(testSide.slice(0, testTrials[0] + testTrials[1]));
+    testSide = testSide.slice(testTrials[0] + testTrials[1]);
+    testTrials.slice(2);
+  }
+  if (tsSlice.length < 60) {
+    while (tsSlice.length < 60) {
+      tsSlice.push(-1);
+    }
   }
 
   levelSides[0] = { x: SIDE_WIDTH, next: undefined };
   nextInd = 0;
 
-  buildLevel1Waves(waveSeq);
-
-  for (i = 0; i < L1_LENGTH; ++i) {
+  buildLevel1Waves(waveSeq, tsSlice.length);
+  
+  for (i = 0; i < tsSlice.length; ++i) {
     for (j = 0; j < waveSeq[i].w.length; ++j) {
       waves[waveSeq[i].w[j]](waveSeq[i].wa[j], accum);
       accum += (waves[waveSeq[i].w[j]].height +
@@ -47,9 +54,8 @@ function buildLevel1() {
     if (tsSlice[i] > -1) {
       narrowSides(accum);
       accum += 130;
-      barWaves[waveSeq[i].b + tsSlice[i] + 2 * Math.round(random())](accum);
-      accum += (barWaves[waveSeq[i].b].height +
-                Math.floor(random() * 20) + 150);
+      barWaves[14 + tsSlice[i] + 2 * Math.round(random())](accum);
+      accum += (barWaves[14].height + Math.floor(random() * 20) + 150);
     } else {
       accum += 30;
       waves[17](60, accum);
@@ -71,96 +77,103 @@ function buildLevel1() {
   }
 }
 
-function buildTestWaves(waveSeq) {
-  var i = 0;
-  for (i = 0; i < 60; ++i) {
-    waveSeq[i] = { w: [3], wa: [60], b: 6 };
+function buildLevel1Waves(waveSeq, levelLength) {
+  // The fractions of the level corresponding to each set of waves
+  // sector lengths : [0.12 0.8 0.15 0.2 0.2 0.25];
+  var sectors = [0.12, 0.2, 0.35, 0.55, 0.75];
+  var secStops = sectors.map(function (x) {
+                               return Math.floor(x * levelLength);
+                             } );
+  var i;
+  var waveQueues = [ [15, 16],
+                     [[6, 7], [7, 6]],
+                     [13, 21, 22, 23],
+                     [[24], [17], [18], [17], [18],
+                      [17, 16], [18, 15], [17, 18], [18, 17]],
+                     [2, 3, 4, 5],
+                     [[2, 2], [3, 3], [4, 4], [5, 5], [5, 20],
+                      [4, 5], [3, 2], [3, 5]]];
+  var random = Alea();
+  var num, tempY;
+  var singletonAdded = false;
+
+  for (i = 0; i < secStops[0]; ++i) {
+    num = waveQueues[0][0];
+    waveSeq[i] = { w: [num],
+                   wa: [60 + random() * (WIDTH - waves[num].width - 120)] };
+    waveQueues[0].push(waveQueues[0].shift());
   }
-}
+  shuffleArray(waveSeq, 0, secStops[0]);
 
-function buildLevel1Waves(waveSeq) {
-  waveSeq[0] = { w: [15], wa: [80], b: 14 };
-  waveSeq[1] = { w: [15], wa: [220], b: 14 };
-  waveSeq[2] = { w: [15], wa: [150], b: 14 };
-  waveSeq[3] = { w: [15], wa: [150], b: 14 };
-  waveSeq[4] = { w: [16], wa: [80], b: 14 };
-  waveSeq[5] = { w: [16], wa: [220], b: 14 };
-  waveSeq[6] = { w: [16], wa: [150], b: 14 };
-  waveSeq[7] = { w: [16], wa: [80], b: 14 };
-  waveSeq[8] = { w: [16], wa: [220], b: 14 };
-  shuffleArray(waveSeq, 0, 9);  
+  for (; i < secStops[1]; ++i) {
+    num = waveQueues[1][0];
+    waveSeq[i] = { w: num,
+                   wa: [60, 60] };
+    waveQueues[1].push(waveQueues[1].shift());
+  }
+  shuffleArray(waveSeq, secStops[0], secStops[1]);
 
-  waveSeq[9] = { w: [17], wa: [120], b: 14 };
-  waveSeq[10] = { w: [17], wa: [180], b: 14 };
-  waveSeq[11] = { w: [18], wa: [120], b: 14 };
-  waveSeq[12] = { w: [18], wa: [120], b: 14 };
-  shuffleArray(waveSeq, 7, 13);
+  singletonAdded = false;
+  for (; i < secStops[2]; ++i) {
+    if (singletonAdded) {
+      num = waveQueues[2][0];
+      waveSeq[i] = { w: [num],
+                     wa: [60] };
+      waveQueues[2].push(waveQueues[2].shift());
+    } else {
+      waveSeq[i] = { w: 14,
+                     wa: 60 };
+      singletonAdded = true;
+    }
+  }
+  shuffleArray(waveSeq, secStops[1], secStops[2]);
 
-  waveSeq[13] = { w: [13], wa: [60], b: 14 };
-  waveSeq[14] = { w: [14], wa: [60], b: 14 };
-  waveSeq[15] = { w: [13], wa: [60], b: 14 };
-  shuffleArray(waveSeq, 12, 16);
+  for (; i < secStops[3]; ++i) {
+    num = waveQueues[3][0];
+    if (num.length === 1) {
+      waveSeq[i] = { w: num,
+                     wa: [60] };
+    } else {
+      waveSeq[i] = { w: num,
+                     wa: [60, 60] };
+    }
+    waveQueues[3].push(waveQueues[3].shift());
+  }
+  shuffleArray(waveSeq, secStops[2], secStops[3]);
 
-  waveSeq[16] = { w: [17, 15], wa: [70, 180], b: 14 };
-  waveSeq[17] = { w: [17, 16], wa: [70, 180], b: 14 };
-  waveSeq[18] = { w: [17, 15], wa: [180, 70], b: 14 };
-  waveSeq[19] = { w: [18, 16], wa: [70, 180], b: 14 };
-  waveSeq[20] = { w: [18, 15], wa: [70, 180], b: 14 };
-  waveSeq[21] = { w: [18, 16], wa: [180, 70], b: 14 };
-  shuffleArray(waveSeq, 15, 22);
+  singletonAdded = false;
+  for (; i < secStops[4]; ++i) {
+    if (singletonAdded) {
+      num = waveQueues[4][0];
+      waveSeq[i] = { w: [num],
+                     wa: [60 + random() * (WIDTH-waves[num].width-120)] }; 
+      waveQueues[4].push(waveQueues[4].shift());
+    } else {
+      waveSeq[i] = { w: [19],
+                     wa: [100] };
+      singletonAdded = true;
+    }
+  }
+  shuffleArray(waveSeq, secStops[3], secStops[4]);
 
-  waveSeq[22] = { w: [6, 7], wa: [60, 60], b: 14 };
-  waveSeq[23] = { w: [6, 7], wa: [60, 60], b: 14 };
-  waveSeq[24] = { w: [7, 6], wa: [60, 60], b: 14 };
-  waveSeq[25] = { w: [7, 7], wa: [60, 60], b: 14 };
-  waveSeq[26] = { w: [7, 6], wa: [60, 60], b: 14 };
-  waveSeq[27] = { w: [6, 6], wa: [60, 60], b: 14 };
-  shuffleArray(waveSeq, 21, 28);
+  for (; i < (levelLength - 1); ++i) {
+    num = waveQueues[5][0];
+    waveSeq[i] = { w: num,
+                   wa: [60 + random() * (WIDTH-waves[num[0]].width-120),
+                        60 + random() * (WIDTH-waves[num[1]].width-120)] };
+    waveQueues[5].push(waveQueues[5].shift());
+  }
+  shuffleArray(waveSeq, secStops[4], i);
 
-  waveSeq[28] = { w: [13, 0, 1], wa: [60, 60, 180], b: 14 };
-  waveSeq[29] = { w: [13, 1, 0], wa: [60, 60, 180], b: 14 };
-  waveSeq[30] = { w: [13, 0, 1], wa: [60, 100, 180], b: 14 };
-  waveSeq[31] = { w: [13, 1, 0], wa: [60, 100, 180], b: 14 };
-  waveSeq[32] = { w: [13, 0, 1], wa: [60, 100, 60], b: 14 };
-  waveSeq[33] = { w: [13, 1, 0], wa: [60, 100, 60], b: 14 };
-  waveSeq[34] = { w: [13, 0, 1], wa: [60, 180, 180], b: 14 };
-  waveSeq[35] = { w: [13, 0, 1, 1], wa: [60, 60, 100, 180], b: 14 };
-  waveSeq[36] = { w: [13, 1, 0, 0], wa: [60, 60, 180, 100], b: 14 };
-  waveSeq[37] = { w: [13, 0, 1, 0], wa: [60, 180, 60, 100], b: 14 };
-  shuffleArray(waveSeq, 28, 38);
-
-  waveSeq[38] = { w: [2], wa: [60], b: 14 };
-  waveSeq[39] = { w: [2], wa: [100], b: 14 };
-  waveSeq[40] = { w: [19], wa: [60], b: 14 };
-  waveSeq[41] = { w: [3], wa: [80], b: 14 };
-  waveSeq[42] = { w: [3] , wa: [60], b: 14 };
-  waveSeq[43] = { w: [4], wa: [60], b: 14 };
-  waveSeq[44] = { w: [5], wa: [100], b: 14 };
-  waveSeq[45] = { w: [4], wa: [80], b: 14 };
-  waveSeq[46] = { w: [5], wa: [60], b: 14 };
-  shuffleArray(waveSeq, 37, 47);
-
-  waveSeq[47] = { w: [2, 0], wa: [70, 100], b: 14 };
-  waveSeq[48] = { w: [3, 0], wa: [90, 120], b: 14 };
-  waveSeq[49] = { w: [2, 1], wa: [100, 60], b: 14 };
-  waveSeq[50] = { w: [3, 1], wa: [100, 80], b: 14 };
-  waveSeq[51] = { w: [2, 20], wa: [60, 60], b: 14 };
-  waveSeq[52] = { w: [4, 5], wa: [100, 100], b: 14 };
-  waveSeq[53] = { w: [3, 2], wa: [60, 60], b: 14 };
-  waveSeq[54] = { w: [3, 2], wa: [100, 100], b: 14 };
-  waveSeq[55] = { w: [4, 4], wa: [60, 100], b: 14 };
-  waveSeq[56] = { w: [3, 3], wa: [100, 60], b: 14 };
-  waveSeq[57] = { w: [17, 5], wa: [160, 80], b: 14 };
-  waveSeq[58] = { w: [18, 4], wa: [190, 60], b: 14 };
-  shuffleArray(waveSeq, 46, 59);  
-
-  waveSeq[59] = { w: [2, 3, 4, 5, 4, 5], wa: [60, 60, 60, 60, 60, 60], b: 14 };
+  //Finale
+  waveSeq[i] = { w: [2, 3, 4, 5, 4, 5], wa: [60, 60, 60, 60, 60, 60]};
 }
 
 // splits: The number of probability regions
 // success: The probability of success in each region
 // trials: The number of trials in each region
 function initTestValues(splits, success, trials) {
+  testTrials = trials;
   var i, j;
   var random = Alea();
   var side = Math.round(random());
@@ -693,6 +706,95 @@ waves[20] = function (x, y) {
 };
 waves[20].width = 290;
 waves[20].height = 200;
+
+// Width = 380, Height = 80
+waves[21] = function (x, y) {
+  objectQueue[y] = [];
+  objectQueue[y].push(new Enemy(x+10, y+10, 20, drawEnemy));
+  objectQueue[y].push(new Enemy(x+70, y+10, 20, drawEnemy));
+  objectQueue[y].push(new Enemy(x+130, y+10, 20, drawEnemy));
+  objectQueue[y].push(new Coin(x+190, y+10, 10, drawCoin));
+  objectQueue[y].push(new Coin(x+250, y+10, 10, drawCoin));
+  objectQueue[y].push(new Enemy(x+310, y+10, 20, drawEnemy));
+  objectQueue[y].push(new Enemy(x+370, y+10, 20, drawEnemy));
+  
+  objectQueue[y+60] = [];
+  objectQueue[y+60].push(new Coin(x+10, y+70, 10, drawCoin));
+  objectQueue[y+60].push(new Coin(x+70, y+70, 10, drawCoin));
+  objectQueue[y+60].push(new Coin(x+130, y+70, 10, drawCoin));
+  objectQueue[y+60].push(new Enemy(x+190, y+70, 20, drawEnemy));
+  objectQueue[y+60].push(new Enemy(x+250, y+70, 20, drawEnemy));
+  objectQueue[y+60].push(new Coin(x+310, y+70, 10, drawCoin));
+  objectQueue[y+60].push(new Coin(x+370, y+70, 10, drawCoin));
+};
+waves[21].width = 380;
+waves[21].height = 80;
+
+// Width = 380, Height = 80
+waves[22] = function (x, y) {
+  objectQueue[y] = [];
+  objectQueue[y].push(new Coin(x+10, y+10, 10, drawCoin));
+  objectQueue[y].push(new Coin(x+70, y+10, 10, drawCoin));
+  objectQueue[y].push(new Enemy(x+130, y+10, 20, drawEnemy));
+  objectQueue[y].push(new Enemy(x+190, y+10, 20, drawEnemy));
+  objectQueue[y].push(new Coin(x+250, y+10, 10, drawCoin));
+  objectQueue[y].push(new Coin(x+310, y+10, 10, drawCoin));
+  objectQueue[y].push(new Coin(x+370, y+10, 10, drawCoin));
+  
+  objectQueue[y+60] = [];
+  objectQueue[y+60].push(new Enemy(x+10, y+70, 20, drawEnemy));
+  objectQueue[y+60].push(new Enemy(x+70, y+70, 20, drawEnemy));
+  objectQueue[y+60].push(new Coin(x+130, y+70, 10, drawCoin));
+  objectQueue[y+60].push(new Coin(x+190, y+70, 10, drawCoin));
+  objectQueue[y+60].push(new Enemy(x+250, y+70, 20, drawEnemy));
+  objectQueue[y+60].push(new Enemy(x+310, y+70, 20, drawEnemy));
+  objectQueue[y+60].push(new Enemy(x+370, y+70, 20, drawEnemy));
+};
+waves[22].width = 380;
+waves[22].height = 80;
+
+// Width = 380, Height = 80
+waves[23] = function (x, y) {
+  objectQueue[y] = [];
+  objectQueue[y].push(new Enemy(x+10, y+10, 20, drawEnemy));
+  objectQueue[y].push(new Enemy(x+70, y+10, 20, drawEnemy));
+  objectQueue[y].push(new Coin(x+130, y+10, 10, drawCoin));
+  objectQueue[y].push(new Coin(x+190, y+10, 10, drawCoin));
+  objectQueue[y].push(new Enemy(x+250, y+10, 20, drawEnemy));
+  objectQueue[y].push(new Enemy(x+310, y+10, 20, drawEnemy));
+  objectQueue[y].push(new Enemy(x+370, y+10, 20, drawEnemy));
+  
+  objectQueue[y+60] = [];
+  objectQueue[y+60].push(new Coin(x+10, y+70, 10, drawCoin));
+  objectQueue[y+60].push(new Coin(x+70, y+70, 10, drawCoin));
+  objectQueue[y+60].push(new Enemy(x+130, y+70, 20, drawEnemy));
+  objectQueue[y+60].push(new Enemy(x+190, y+70, 20, drawEnemy));
+  objectQueue[y+60].push(new Coin(x+250, y+70, 10, drawCoin));
+  objectQueue[y+60].push(new Coin(x+310, y+70, 10, drawCoin));
+  objectQueue[y+60].push(new Coin(x+370, y+70, 10, drawCoin));
+};
+waves[23].width = 380;
+waves[23].height = 80;
+
+// Width = 140, Height = 140
+waves[24] = function (x, y) {
+  objectQueue[y] = [];
+  objectQueue[y].push(new Coin(x+10, y+10, 10, drawCoin));
+  objectQueue[y].push(new Enemy(x+70, y+10, 20, drawEnemy));
+  objectQueue[y].push(new Coin(x+130, y+10, 10, drawCoin));
+
+  objectQueue[y+60] = [];
+  objectQueue[y+60].push(new Enemy(x+10, y+70, 20, drawEnemy));
+  objectQueue[y+60].push(new Powerup(x+70, y+70, 20, drawPowerup));
+  objectQueue[y+60].push(new Enemy(x+130, y+70, 20, drawEnemy));
+
+  objectQueue[y+120] = [];
+  objectQueue[y+120].push(new Coin(x+10, y+130, 10, drawCoin));
+  objectQueue[y+120].push(new Enemy(x+70, y+130, 20, drawEnemy));
+  objectQueue[y+120].push(new Coin(x+130, y+130, 10, drawCoin));
+}
+waves[24].width = 140;
+waves[24].height = 140;
 
 // Barrier Waves
 // Each wave takes a y coordinate of the top of the barrier

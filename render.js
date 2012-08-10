@@ -246,10 +246,12 @@ function renderChooseLevelScreen() {
   ctx.fillText('Select a level, then press [Enter]', WIDTH / 2, 50);
 
   ctx.drawImage(renderData.level1Icon, 50, 100, (WIDTH-200)/3, (WIDTH-200)/3);
+
   ctx.lineWidth = 5;
   ctx.lineJoin = 'round';
   ctx.strokeStyle = 'rgb(0, 255, 0)';
-  ctx.strokeRect(50, 100, (WIDTH - 200) / 3, (WIDTH - 200) / 3);
+  ctx.strokeRect(50 + (50 + (WIDTH-200)/3)*chosenLevel, 100,
+                 (WIDTH - 200) / 3, (WIDTH - 200) / 3);
 }
 
 function initRenderLevel1Screen() {
