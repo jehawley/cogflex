@@ -5,7 +5,6 @@ var DATA_HEIGHT = 200;
 var SIDE_WIDTH = 50;
 var FPS = 60;
 
-// TODO: Determine appropriate values for these constants
 var OFFSET = 75;
 var BAR_WIDTH = 16;
 var SHIP_WIDTH = 50;
@@ -38,7 +37,8 @@ var dirty = true;
 var instrArrow = 0;
 
 // Level select screen data
-var chosenLevel = 0;
+// 1-indexed
+var chosenLevel = 1;
 
 // Level screen counters
 var starQueue = [];
@@ -48,3 +48,10 @@ var scoreFlashState = 0;
 var multFlashState = 0;
 var powerupGetState = 0;
 var powerupUseState = 0;
+
+// Level building constants
+var LEVEL_LENGTH_MIN = [];
+LEVEL_LENGTH_MIN[1] = 60;
+
+// TODO: Remove or add toggle button in-game
+var AUDIO_ON = true;

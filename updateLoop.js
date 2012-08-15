@@ -26,18 +26,7 @@ function levelScreen() {
       !powerupUsed) {
     powerupUsed = true;
     GameState.powerupCount -= 1;
-    powerupUseState = 14;
-    for (i = 0;
-         i < Math.ceil(player.bottomHeight - OFFSET + HEIGHT);
-         ++i) {
-      if (objectQueue[i]) {
-        objectQueue[i].forEach(function (element, index, array) {
-                                 if (element.sideLength) {
-                                   delete array[index];
-                                 }
-                               } );
-      }
-    }
+    powerupFuns[chosenLevel]();
   }
 
   if (player.canMove) {
@@ -249,12 +238,29 @@ function levelScreen() {
   }
 
 
-  renderLevel1Screen();
+  renderLevelScreen();
   // TODO: Remove with data canvas
   //renderDataScreen();
 
   if (player.bottomHeight > levelEnd) {
     changeScreen(resultsScreen, handleResultsScreen);
+  }
+}
+
+powerupFuns = [];
+
+powerupFuns[1] = function () {
+  powerupUseState = 14;
+  for (i = 0;
+       i < Math.ceil(player.bottomHeight - OFFSET + HEIGHT);
+       ++i) {
+    if (objectQueue[i]) {
+      objectQueue[i].forEach(function (element, index, array) {
+                               if (element.sideLength) {
+                                 delete array[index];
+                               }
+                             } );
+    }
   }
 }
 

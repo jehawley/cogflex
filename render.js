@@ -90,6 +90,43 @@ renderData.level3SideRNarrow = new Image();
 renderData.level3SideA = new Image();
 renderData.level3SideB = new Image();
 
+var initLevelImages = [];
+initLevelImages[1] = function () {
+  return {
+           background: renderData.level1Background,
+           sideL: renderData.level1SideL,
+           sideR: renderData.level1SideR,
+           sideLNarrow: renderData.level1SideLNarrow,
+           sideRNarrow: renderData.level1SideRNarrow,
+           sideA: renderData.level1SideA,
+           sideB: renderData.level1SideB
+         };
+} 
+
+initLevelImages[2] = function () {
+  return {
+           background: renderData.level2Background,
+           sideL: renderData.level2SideL,
+           sideR: renderData.level2SideR,
+           sideLNarrow: renderData.level2SideLNarrow,
+           sideRNarrow: renderData.level2SideRNarrow,
+           sideA: renderData.level2SideA,
+           sideB: renderData.level2SideB
+         };
+} 
+
+initLevelImages[3] = function () {
+  return {
+           background: renderData.level3Background,
+           sideL: renderData.level3SideL,
+           sideR: renderData.level3SideR,
+           sideLNarrow: renderData.level3SideLNarrow,
+           sideRNarrow: renderData.level3SideRNarrow,
+           sideA: renderData.level3SideA,
+           sideB: renderData.level3SideB
+         };
+}
+ 
 function renderStartScreen() {
   ctx.clearRect(0, 0, WIDTH, HEIGHT);
 
@@ -306,14 +343,15 @@ function renderChooseLevelScreen() {
   ctx.lineWidth = 5;
   ctx.lineJoin = 'round';
   ctx.strokeStyle = 'rgb(0, 255, 0)';
-  ctx.strokeRect(50 + (50 + (WIDTH-200)/3)*chosenLevel, 100,
+  ctx.strokeRect(50 + (50 + (WIDTH-200)/3)*(chosenLevel - 1), 100,
                  (WIDTH - 200) / 3, (WIDTH - 200) / 3);
 }
 
-function renderLevel1Screen() {
+function renderLevelScreen() {
+  var levelImages = initLevelImages[chosenLevel]();
   if (dirty) {
     backCtx.clearRect(0, 0, WIDTH, HEIGHT);
-    backCtx.drawImage(renderData.level1Background, 0, 0, WIDTH, HEIGHT);
+    backCtx.drawImage(levelImages.background, 0, 0, WIDTH, HEIGHT);
     ctx.translate(WIDTH/2, HEIGHT/2);
     ctx.rotate(Math.PI);
     ctx.translate(-WIDTH/2, -HEIGHT/2);
@@ -345,10 +383,10 @@ function renderLevel1Screen() {
   for (ind = lowInd; ind < highInd; ind = levelSides[ind].next) {
     if (levelSides[levelSides[ind].next].x > SIDE_WIDTH) {
     } else if (levelSides[ind].x > SIDE_WIDTH) {
-      ctx.drawImage(renderData.level1SideLNarrow, 0,
+      ctx.drawImage(levelImages.sideLNarrow, 0,
                     ind - 60 - player.posY + OFFSET);
     } else {
-      ctx.drawImage(renderData.level1SideL,
+      ctx.drawImage(levelImages.sideL,
                     0, 0, 50, levelSides[ind].next - ind,
                     0, ind - player.posY + OFFSET,
                     50, levelSides[ind].next - ind);
@@ -358,10 +396,10 @@ function renderLevel1Screen() {
   for (ind = lowInd; ind < highInd; ind = levelSides[ind].next) {
     if (levelSides[levelSides[ind].next].x > SIDE_WIDTH) {
     } else if (levelSides[ind].x > SIDE_WIDTH) {
-      ctx.drawImage(renderData.level1SideRNarrow,
+      ctx.drawImage(levelImages.sideRNarrow,
                     WIDTH/2+SHIP_WIDTH/2+1, ind - 60 - player.posY + OFFSET);
     } else {
-      ctx.drawImage(renderData.level1SideR,
+      ctx.drawImage(levelImages.sideR,
                     0, 0, 50, levelSides[ind].next - ind,
                     WIDTH-SIDE_WIDTH, ind - player.posY + OFFSET,
                     50, levelSides[ind].next - ind);
@@ -458,10 +496,6 @@ function renderLevel1Screen() {
              2*Math.PI*GameState.multiplierBar/
                        (10*GameState.multiplier) - Math.PI / 2,
              false);
-  /*topCtx.lineTo(80 + 15*2*Math.PI*GameState.multiplierBar/
-                                 (10*GameState.multiplier),
-                30 + 15*2*Math.PI*GameState.multiplierBar/
-                                 (10*GameState.multiplier));*/
   topCtx.arc(80, 32,
              15,
              2*Math.PI*GameState.multiplierBar/
@@ -633,7 +667,7 @@ function drawBasicBarrier() {
 }
 
 function drawBarrier() {
-  ctx.drawImage(renderData.level1SideL,
+  ctx.drawImage(renderData['level'+chosenLevel+'SideL'],
                 0, 0,
                 BAR_WIDTH, this.length,
                 WIDTH/2 - BAR_WIDTH/2, this.posY - player.posY + OFFSET,

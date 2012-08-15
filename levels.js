@@ -19,9 +19,10 @@ var nextInd;
 var levelEnd;
 var player = new Ship(WIDTH / 2, drawBasicShip);
 
-function buildLevel(number, lengthBound) {
+function buildLevel() {
   objectQueue = [];
   levelSides = [];
+  player = new Ship(WIDTH / 2, drawBasicShip);
 
   var i, j;
   var temp;
@@ -33,13 +34,14 @@ function buildLevel(number, lengthBound) {
   var accum = OFFSET + 300;
   var random = Alea();
 
-  while (tsSlice.length < lengthBound && testTrials.length > 1) {
+  while (tsSlice.length < LEVEL_LENGTH_MIN[chosenLevel] &&
+         testTrials.length > 1) {
     tsSlice = tsSlice.concat(testSide.slice(0, testTrials[0] + testTrials[1]));
     testSide = testSide.slice(testTrials[0] + testTrials[1]);
     testTrials.slice(2);
   }
-  if (tsSlice.length < lengthBound) {
-    while (tsSlice.length < lengthBound) {
+  if (tsSlice.length < LEVEL_LENGTH_MIN[chosenLevel]) {
+    while (tsSlice.length < LEVEL_LENGTH_MIN[chosenLevel]) {
       tsSlice.push(-1);
     }
   }
@@ -47,7 +49,7 @@ function buildLevel(number, lengthBound) {
   levelSides[0] = { x: SIDE_WIDTH, next: undefined };
   nextInd = 0;
 
-  buildLevelWaves[1](waveSeq, tsSlice.length);
+  buildLevelWaves[chosenLevel](waveSeq, tsSlice.length);
   
   for (i = 0; i < tsSlice.length; ++i) {
     for (j = 0; j < waveSeq[i].w.length; ++j) {

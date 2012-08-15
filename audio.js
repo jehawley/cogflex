@@ -8,7 +8,16 @@ var audioData = {
   loadCount: 0,
   totalSounds: 4
 };
-audioData.sparkleSmall = new Audio('sounds/sparkleSmall2.wav');
-audioData.sparkleBig = new Audio('sounds/sparkleBig2.wav');
-audioData.buzzSmall = new Audio('sounds/buzzSmall.wav');
-audioData.buzzBig = new Audio('sounds/buzzBig.wav');
+// Lets me turn sound off
+// TODO: Remove for actual release, or add button to toggle this in-game
+if (AUDIO_ON) {
+  audioData.sparkleSmall = new Audio('sounds/sparkleSmall2.wav');
+  audioData.sparkleBig = new Audio('sounds/sparkleBig2.wav');
+  audioData.buzzSmall = new Audio('sounds/buzzSmall.wav');
+  audioData.buzzBig = new Audio('sounds/buzzBig.wav');
+} else {
+  audioData.sparkleSmall = new Audio('sounds/silence.wav');
+  audioData.sparkleBig = new Audio('sounds/silence.wav');
+  audioData.buzzSmall = new Audio('sounds/silence.wav');
+  audioData.buzzBig = new Audio('sounds/silence.wav');
+}
