@@ -7,15 +7,22 @@ var testSide = [];
 var testTrials = [];
 // Holds arrays of game objects indexed by object top
 var objectQueue = [];
+// Singly linked list starting at y=0
 // Indexed by y coordinate, contains {x, next}
 var levelSides = [];
+// The x values at which data collection should happen
+// Set by narrowSides
+var recordState = [];
 // The old index whose next value needs setting
 var nextInd;
 
 var levelEnd;
 var player = new Ship(WIDTH / 2, drawBasicShip);
 
-function buildLevel1() {
+function buildLevel(number, lengthBound) {
+  objectQueue = [];
+  levelSides = [];
+
   var i, j;
   var temp;
   // Each object has parameters w (array of wave ids),
@@ -26,13 +33,13 @@ function buildLevel1() {
   var accum = OFFSET + 300;
   var random = Alea();
 
-  while (tsSlice.length < 60 && testTrials.length > 1) {
+  while (tsSlice.length < lengthBound && testTrials.length > 1) {
     tsSlice = tsSlice.concat(testSide.slice(0, testTrials[0] + testTrials[1]));
     testSide = testSide.slice(testTrials[0] + testTrials[1]);
     testTrials.slice(2);
   }
-  if (tsSlice.length < 60) {
-    while (tsSlice.length < 60) {
+  if (tsSlice.length < lengthBound) {
+    while (tsSlice.length < lengthBound) {
       tsSlice.push(-1);
     }
   }
@@ -40,7 +47,7 @@ function buildLevel1() {
   levelSides[0] = { x: SIDE_WIDTH, next: undefined };
   nextInd = 0;
 
-  buildLevel1Waves(waveSeq, tsSlice.length);
+  buildLevelWaves[1](waveSeq, tsSlice.length);
   
   for (i = 0; i < tsSlice.length; ++i) {
     for (j = 0; j < waveSeq[i].w.length; ++j) {
@@ -49,13 +56,13 @@ function buildLevel1() {
                 Math.floor(random() * 40) + 60);
     }
 
-    accum += 30;
+    accum += 35;
 
     if (tsSlice[i] > -1) {
       narrowSides(accum);
-      accum += 130;
+      accum += 145;
       barWaves[14 + tsSlice[i] + 2 * Math.round(random())](accum);
-      accum += (barWaves[14].height + Math.floor(random() * 20) + 150);
+      accum += (barWaves[14].height + Math.floor(random() * 20) + 110);
     } else {
       accum += 30;
       waves[17](60, accum);
@@ -121,8 +128,8 @@ function buildLevel1Waves(waveSeq, levelLength) {
                      wa: [60] };
       waveQueues[2].push(waveQueues[2].shift());
     } else {
-      waveSeq[i] = { w: 14,
-                     wa: 60 };
+      waveSeq[i] = { w: [14],
+                     wa: [60] };
       singletonAdded = true;
     }
   }
@@ -168,6 +175,9 @@ function buildLevel1Waves(waveSeq, levelLength) {
   //Finale
   waveSeq[i] = { w: [2, 3, 4, 5, 4, 5], wa: [60, 60, 60, 60, 60, 60]};
 }
+
+var buildLevelWaves = [];
+buildLevelWaves[1] = buildLevel1Waves;
 
 // splits: The number of probability regions
 // success: The probability of success in each region
@@ -1073,6 +1083,8 @@ function narrowSides(y) {
   levelSides[y + 20] = { x: WIDTH/2-SHIP_WIDTH/2-1, next: y + 40 };
   levelSides[y + 40] = { x: SIDE_WIDTH, next: undefined };
   nextInd = y + 40;
+
+  recordState.push(y + 170);
 }
 
 // In-place shuffles elements of a in [min, max)

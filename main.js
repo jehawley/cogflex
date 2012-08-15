@@ -7,19 +7,15 @@ function init() {
   dataCtx = document.getElementById('dataC').getContext('2d');
   backCtx = document.getElementById('backC').getContext('2d');
   topCtx = document.getElementById('topC').getContext('2d');
-  backCtx.save();
-  ctx.save();
-  topCtx.save();
   renderData.loadImages();
   initTestValues(4, [1.0, 0.0, 0.8, 0.2], [15, 15, 15, 15]);
-  buildLevel1();
   changeScreen(startScreen, handleStartScreen);
 }
 
 function changeScreen(newUpdate, newEvent) {
-  backCtx.restore();
-  ctx.restore();
-  topCtx.restore();
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  backCtx.setTransform(1, 0, 0, 1, 0, 0);
+  topCtx.setTransform(1, 0, 0, 1, 0, 0);
   dataCtx.clearRect(0, 0, WIDTH, HEIGHT);
   ctx.clearRect(0, 0, WIDTH, HEIGHT);
   backCtx.clearRect(0, 0, WIDTH, HEIGHT);

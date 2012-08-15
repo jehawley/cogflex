@@ -12,6 +12,10 @@ var renderData = {
     this.instrBack.src = 'images/instructionBackground.png';
     this.instrNarrow.src = 'images/instructionNarrow.png';
 
+    this.chooseLevelBack.src = 'images/chooseLevelBackground.png';
+
+    this.resultsBack.src = 'images/resultsBackground.png';
+
     this.level1Icon.src = 'images/level1Icon.png';
     this.level1Background.src = 'images/level1Background.png';
     this.level1SideL.src = 'images/level1SideL.png';
@@ -20,14 +24,31 @@ var renderData = {
     this.level1SideRNarrow.src = 'images/level1SideRNarrow.png';
     this.level1SideA.src = 'images/level1SideA.png';
     this.level1SideB.src = 'images/level1SideB.png';
+
+    this.level2Icon.src = 'images/level2Icon.png';
+    this.level2Background.src = 'images/level2Background.png';
+    this.level2SideL.src = 'images/level2SideL.png';
+    this.level2SideR.src = 'images/level2SideR.png';
+    this.level2SideLNarrow.src = 'images/level2SideLNarrow.png';
+    this.level2SideRNarrow.src = 'images/level2SideRNarrow.png';
+    this.level2SideA.src = 'images/level2SideA.png';
+    this.level2SideB.src = 'images/level2SideB.png';
+    
+    this.level3Icon.src = 'images/level3Icon.png';
+    this.level3Background.src = 'images/level3Background.png';
+    this.level3SideL.src = 'images/level3SideL.png';
+    this.level3SideR.src = 'images/level3SideR.png';
+    this.level3SideLNarrow.src = 'images/level3SideLNarrow.png';
+    this.level3SideRNarrow.src = 'images/level3SideRNarrow.png';
+    this.level3SideA.src = 'images/level3SideA.png';
+    this.level3SideB.src = 'images/level3SideB.png';
   },
   imageLoaded: function () {
     renderData.loadCount += 1;
-    alert(renderData.loadCount);
   },
   loadCount: 0,
   // The total number of images in renderData
-  totalImages: 13
+  totalImages: 32
 };
 renderData.ship = new Image();
 renderData.coin = new Image();
@@ -38,6 +59,10 @@ renderData.star = new Image();
 renderData.instrBack = new Image();
 renderData.instrNarrow = new Image();
 
+renderData.chooseLevelBack = new Image();
+
+renderData.resultsBack = new Image();
+
 renderData.level1Icon = new Image();
 renderData.level1Background = new Image();
 renderData.level1SideL = new Image();
@@ -46,6 +71,24 @@ renderData.level1SideLNarrow = new Image();
 renderData.level1SideRNarrow = new Image();
 renderData.level1SideA = new Image();
 renderData.level1SideB = new Image();
+
+renderData.level2Icon = new Image();
+renderData.level2Background = new Image();
+renderData.level2SideL = new Image();
+renderData.level2SideR = new Image();
+renderData.level2SideLNarrow = new Image();
+renderData.level2SideRNarrow = new Image();
+renderData.level2SideA = new Image();
+renderData.level2SideB = new Image();
+
+renderData.level3Icon = new Image();
+renderData.level3Background = new Image();
+renderData.level3SideL = new Image();
+renderData.level3SideR = new Image();
+renderData.level3SideLNarrow = new Image();
+renderData.level3SideRNarrow = new Image();
+renderData.level3SideA = new Image();
+renderData.level3SideB = new Image();
 
 function renderStartScreen() {
   ctx.clearRect(0, 0, WIDTH, HEIGHT);
@@ -109,6 +152,7 @@ function renderInstructionScreen() {
     ctx.fillText('Press [Space] to use them', 120, 320);
 
     ctx.fillText('Get points to increase your score multiplier', 45, 400);
+    dirty = false;
   }
 
   topCtx.fillStyle = 'rgb(0, 191, 255)';
@@ -194,6 +238,8 @@ function renderInstructionScreen2() {
     ctx.fillStyle = 'white';
     ctx.fillText('Figure out which color is worth points', WIDTH / 2, 360);
     ctx.fillText('(this may change during a level)', WIDTH / 2, 390);
+
+    dirty = false;
   }
 
   topCtx.clearRect(0, 0, WIDTH, HEIGHT);
@@ -238,14 +284,24 @@ function renderInstructionScreen2() {
 }
 
 function renderChooseLevelScreen() {
+  if (dirty) {
+    backCtx.drawImage(renderData.chooseLevelBack, 0, 0);
+
+    backCtx.fillStyle = 'white';
+    backCtx.font = '22pt Helvetica';
+    backCtx.textAlign = 'center';
+    backCtx.fillText('Select a level, then press [Enter]', WIDTH / 2, 75);
+
+    backCtx.drawImage(renderData.level1Icon, 50, 100,
+                  (WIDTH-200)/3, (WIDTH-200)/3);
+    backCtx.drawImage(renderData.level2Icon, 200, 100, 
+                  (WIDTH-200)/3, (WIDTH-200)/3);
+    backCtx.drawImage(renderData.level3Icon, 350, 100,
+                  (WIDTH-200)/3, (WIDTH-200)/3);
+    dirty = false;
+  }
+
   ctx.clearRect(0, 0, WIDTH, HEIGHT);
-
-  ctx.fillStyle = 'black';
-  ctx.font = '24pt Helvetica';
-  ctx.textAlign = 'center';
-  ctx.fillText('Select a level, then press [Enter]', WIDTH / 2, 50);
-
-  ctx.drawImage(renderData.level1Icon, 50, 100, (WIDTH-200)/3, (WIDTH-200)/3);
 
   ctx.lineWidth = 5;
   ctx.lineJoin = 'round';
@@ -254,15 +310,17 @@ function renderChooseLevelScreen() {
                  (WIDTH - 200) / 3, (WIDTH - 200) / 3);
 }
 
-function initRenderLevel1Screen() {
-  backCtx.clearRect(0, 0, WIDTH, HEIGHT);
-  backCtx.drawImage(renderData.level1Background, 0, 0, WIDTH, HEIGHT);
-  ctx.translate(WIDTH/2, HEIGHT/2);
-  ctx.rotate(Math.PI);
-  ctx.translate(-WIDTH/2, -HEIGHT/2);
-}
-
 function renderLevel1Screen() {
+  if (dirty) {
+    backCtx.clearRect(0, 0, WIDTH, HEIGHT);
+    backCtx.drawImage(renderData.level1Background, 0, 0, WIDTH, HEIGHT);
+    ctx.translate(WIDTH/2, HEIGHT/2);
+    ctx.rotate(Math.PI);
+    ctx.translate(-WIDTH/2, -HEIGHT/2);
+
+    dirty = false;
+  }
+
   var fogged = false, fogHeight, fogGrad;
   var ind, lowInd, highInd, i, j, len;
 
@@ -480,12 +538,16 @@ function renderLevel1Screen() {
 }
 
 function renderResultsScreen() {
+  if (dirty) {
+    backCtx.drawImage(renderData.resultsBack, 0, 0);
+    dirty = false;
+  }
   ctx.clearRect(0, 0, WIDTH, HEIGHT);
 
-  ctx.fillStyle = 'black';
-  ctx.font = '20pt Helvetica';
+  ctx.fillStyle = 'white';
+  ctx.font = '24pt Helvetica';
   ctx.textAlign = 'center';
-  ctx.fillText('Score:', WIDTH / 2, 50);
+  ctx.fillText('Score:', WIDTH / 2, 75);
   ctx.fillText(GameState.score, WIDTH / 2, 100);
 }
 

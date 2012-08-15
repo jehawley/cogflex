@@ -31,8 +31,8 @@ function handleChooseLevelScreen(e) {
   }
 
   if ((e.type === 'keydown') && (e.keyCode === 13)) {
+    buildLevel(chosenLevel + 1, 30);
     changeScreen(levelScreen, handleLevelScreen);
-    initRenderLevel1Screen();
   }
 }
 
@@ -50,5 +50,7 @@ function handleLevelScreen(e) {
 }
 
 function handleResultsScreen(e) {
-
+  if ((e.type === 'keydown') && (e.keyCode === 13)) {
+    changeScreen(chooseLevelScreen, handleChooseLevelScreen);
+  }
 }

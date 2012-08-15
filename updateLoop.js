@@ -108,13 +108,15 @@ function levelScreen() {
                                      GameState.multiplier -= 1;
                                    }
                                    redFlashState = 15;
+                                   audioData.buzzSmall.currentTime = 0;
+                                   audioData.buzzSmall.play();
                                    delete array[index];
                                  } else if (typeof element.good !==
                                             "undefined") {
                                    if (element.good) {
-                                     GameState.score += BASE_POINTS *
-                                                        GameState.multiplier *
-                                                        5;
+                                     GameState.score += (BASE_POINTS *
+                                                         GameState.multiplier *
+                                                         5);
                                      GameState.multiplierBar += 2 * MULT_INCR;
                                      while (GameState.multiplierBar >=
                                             (GameState.multiplier*MULT_MAX)) {
@@ -201,17 +203,20 @@ function levelScreen() {
                                                        p: 3,
                                                        a: -60,
                                                        s: 39 } );
-                                     //audioData.sparkleBig.play();
+                                     audioData.sparkleBig.currentTime = 0;
+                                     audioData.sparkleBig.play();
                                    } else {
                                      GameState.multiplierBar = 0;
                                      if (GameState.multiplier > 1) {
                                        GameState.multiplier -= 1;
                                      }
                                      xFlashState = 30;
-                                   }
-                                   GameState.score -= 2 * BASE_POINTS;
-                                   if (GameState.score < 0) {
-                                     GameState.score = 0;
+                                     GameState.score -= 2 * BASE_POINTS;
+                                     if (GameState.score < 0) {
+                                       GameState.score = 0;
+                                     }
+                                     audioData.buzzBig.currentTime = 0;
+                                     audioData.buzzBig.play();
                                    }
                                    delete array[index];
                                  } else if (element.radius) {
@@ -234,7 +239,8 @@ function levelScreen() {
                                                      p: 3,
                                                      a: 25,
                                                      s: 37} );
-                                   //audioData.sparkleSmall.play();
+                                   audioData.sparkleSmall.currentTime = 0;
+                                   audioData.sparkleSmall.play();
                                    delete array[index];
                                  }
                                }
