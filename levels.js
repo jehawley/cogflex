@@ -2015,7 +2015,7 @@ waves[57] = function (x, y) {
   objectQueue[y].push(new Enemy(x+75, y+10, 20, drawEnemy));
   objectQueue[y].push(new Enemy(x+140, y+10, 20, drawEnemy));
   objectQueue[y].push(new Enemy(x+205, y+10, 20, drawEnemy));
-  objectQueue[y].push(new Powerup(x+270, y+10, 20, drawPowerup));
+  objectQueue[y].push(new Coin(x+270, y+10, 10, drawCoin));
 
   objectQueue[y+55] = [];
   objectQueue[y+55].push(new Enemy(x+10, y+65, 20, drawEnemy));
@@ -2039,7 +2039,7 @@ waves[57] = function (x, y) {
   objectQueue[y+165].push(new Enemy(x+270, y+175, 20, drawEnemy));
 
   objectQueue[y+220] = [];
-  objectQueue[y+220].push(new Coin(x+10, y+230, 10, drawCoin));
+  objectQueue[y+220].push(new Powerup(x+10, y+230, 20, drawPowerup));
   objectQueue[y+220].push(new Enemy(x+75, y+230, 20, drawEnemy));
   objectQueue[y+220].push(new Enemy(x+140, y+230, 20, drawEnemy));
   objectQueue[y+220].push(new Enemy(x+205, y+230, 20, drawEnemy));
@@ -2083,8 +2083,8 @@ barWaves[0] = function (y) {
   objectQueue[y].push(new Barrier(y, 160, drawBarrier));
 
   objectQueue[y+20] = [];
-  objectQueue[y+20].push(new Side(150, y+90, 70, true, drawBasic1SideA));
-  objectQueue[y+20].push(new Side(350, y+90, 70, false, drawBasic1SideB));
+  objectQueue[y+20].push(new Side(150, y+90, 70, true, drawSideA));
+  objectQueue[y+20].push(new Side(350, y+90, 70, false, drawSideB));
 }
 barWaves[0].height = 160;
 
@@ -2094,8 +2094,8 @@ barWaves[1] = function (y) {
   objectQueue[y].push(new Barrier(y, 160, drawBarrier));
 
   objectQueue[y+20] = [];
-  objectQueue[y+20].push(new Side(150, y+90, 70, false, drawBasic1SideA));
-  objectQueue[y+20].push(new Side(350, y+90, 70, true, drawBasic1SideB));
+  objectQueue[y+20].push(new Side(150, y+90, 70, false, drawSideA));
+  objectQueue[y+20].push(new Side(350, y+90, 70, true, drawSideB));
 }
 barWaves[1].height = 160;
 
@@ -2105,8 +2105,8 @@ barWaves[2] = function (y) {
   objectQueue[y].push(new Barrier(y, 160, drawBarrier));
 
   objectQueue[y+20] = [];
-  objectQueue[y+20].push(new Side(150, y+90, 70, false, drawBasic1SideB));
-  objectQueue[y+20].push(new Side(350, y+90, 70, true, drawBasic1SideA));
+  objectQueue[y+20].push(new Side(150, y+90, 70, false, drawSideB));
+  objectQueue[y+20].push(new Side(350, y+90, 70, true, drawSideA));
 }
 barWaves[2].height = 160;
 
@@ -2116,8 +2116,8 @@ barWaves[3] = function (y) {
   objectQueue[y].push(new Barrier(y, 160, drawBarrier));
 
   objectQueue[y+20] = [];
-  objectQueue[y+20].push(new Side(150, y+90, 70, true, drawBasic1SideB));
-  objectQueue[y+20].push(new Side(350, y+90, 70, false, drawBasic1SideA));
+  objectQueue[y+20].push(new Side(150, y+90, 70, true, drawSideB));
+  objectQueue[y+20].push(new Side(350, y+90, 70, false, drawSideA));
 }
 barWaves[3].height = 160;
 

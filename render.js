@@ -595,8 +595,22 @@ drawPowerupEffect[1] = function () {
   powerupUseState -= 1;
 }
 
-// TODO: Replace
-drawPowerupEffect[2] = drawPowerupEffect[1];
+drawPowerupEffect[2] = function () {
+  topCtx.fillStyle = 'rgba(0, 0, 255, ' + (powerupUseState/3-0.1) + ')';
+  topCtx.beginPath();
+  topCtx.arc(WIDTH - player.posX, HEIGHT - OFFSET - SHIP_WIDTH / 4,
+             SHIP_WIDTH / 2 + 5, 0, 2 * Math.PI, true);
+  topCtx.fill();
+}
+
+drawPowerupEffect[3] = function () {
+  powerupUseState -= 1;
+  topCtx.fillStyle = 'rgba(0, 150, 0, 0.5)';
+  topCtx.fillRect(0, 0, WIDTH, HEIGHT);
+  if (powerupUseState <= 0) {
+    player.speed = SHIP_DESCENT;
+  }
+}
 
 // Object Drawing Methods
 
@@ -684,15 +698,15 @@ function drawPowerup() {
                 this.width);
 }
 
-function drawBasic1SideA() {
-  ctx.drawImage(renderData.level1SideA,
+function drawSideA() {
+  ctx.drawImage(renderData['level' + chosenLevel + 'SideA'],
                 this.posX - this.radius,
                 this.posY - this.radius - player.posY + OFFSET,
                 2 * this.radius, 2 * this.radius);
 }
 
-function drawBasic1SideB() {
-  ctx.drawImage(renderData.level1SideB,
+function drawSideB() {
+  ctx.drawImage(renderData['level' + chosenLevel + 'SideB'],
                 this.posX - this.radius,
                 this.posY - this.radius - player.posY + OFFSET,
                 2 * this.radius, 2 * this.radius);

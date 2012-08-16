@@ -90,17 +90,22 @@ function levelScreen() {
                                    audioData.powerupGet.play();
                                    delete array[index];
                                  } else if (element.sideLength) {
-                                   GameState.multiplierBar = 0;
-                                   GameState.score -= BASE_POINTS;
-                                   if (GameState.score < 0) {
-                                     GameState.score = 0;
+                                   if (powerupUseState <= 0 ||
+                                       chosenLevel !== 2) {
+                                     GameState.multiplierBar = 0;
+                                     GameState.score -= BASE_POINTS;
+                                     if (GameState.score < 0) {
+                                       GameState.score = 0;
+                                     }
+                                     if (GameState.multiplier > 1) {
+                                       GameState.multiplier -= 1;
+                                     }
+                                     redFlashState = 15;
+                                     audioData.buzzSmall.currentTime = 0;
+                                     audioData.buzzSmall.play();
+                                   } else {
+                                     powerupUseState -= 1;
                                    }
-                                   if (GameState.multiplier > 1) {
-                                     GameState.multiplier -= 1;
-                                   }
-                                   redFlashState = 15;
-                                   audioData.buzzSmall.currentTime = 0;
-                                   audioData.buzzSmall.play();
                                    delete array[index];
                                  } else if (typeof element.good !==
                                             "undefined") {
@@ -241,8 +246,6 @@ function levelScreen() {
 
 
   renderLevelScreen();
-  // TODO: Remove with data canvas
-  //renderDataScreen();
 
   if (player.bottomHeight > levelEnd) {
     changeScreen(resultsScreen, handleResultsScreen);
@@ -266,9 +269,14 @@ powerupFuns[1] = function () {
   }
 }
 
-powerupFuns[2] = powerupFuns[1];
-//powerupFuns[2] = function () {
-//}
+powerupFuns[2] = function () {
+  powerupUseState = 3;
+}
+
+powerupFuns[3] = function () {
+  powerupUseState = 200;
+  player.speed = 130;
+}
 
 function resultsScreen() {
   renderResultsScreen();
