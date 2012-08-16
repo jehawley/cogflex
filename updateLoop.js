@@ -86,6 +86,8 @@ function levelScreen() {
                                  } else if (element.width) {
                                    GameState.powerupCount += 1;
                                    powerupGetState = 15;
+                                   audioData.powerupGet.currentTime = 0;
+                                   audioData.powerupGet.play();
                                    delete array[index];
                                  } else if (element.sideLength) {
                                    GameState.multiplierBar = 0;
@@ -263,6 +265,10 @@ powerupFuns[1] = function () {
     }
   }
 }
+
+powerupFuns[2] = powerupFuns[1];
+//powerupFuns[2] = function () {
+//}
 
 function resultsScreen() {
   renderResultsScreen();

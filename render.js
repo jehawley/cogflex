@@ -405,24 +405,6 @@ function renderLevelScreen() {
                     50, levelSides[ind].next - ind);
     }
   }
-  /* TODO: Save this for later 
-  ctx.fillStyle = 'black';
-  ctx.beginPath();
-  ctx.moveTo(0, lowInd - (player.posY - OFFSET));
-  for (ind = lowInd; ind <= highInd; ind = levelSides[ind].next) {
-    ctx.lineTo(levelSides[ind].x, ind - (player.posY - OFFSET));
-  }
-  ctx.lineTo(0, highInd - (player.posY - OFFSET));
-  ctx.closePath();
-  ctx.moveTo(WIDTH, lowInd - (player.posY - OFFSET));
-  for (ind = lowInd; ind <= highInd; ind = levelSides[ind].next) {
-    ctx.lineTo(WIDTH - levelSides[ind].x,
-               ind - (player.posY - OFFSET));
-  }
-  ctx.lineTo(WIDTH, highInd - (player.posY - OFFSET));
-  ctx.closePath();
-  ctx.fill();
-  */
 
   player.draw();
 
@@ -540,11 +522,7 @@ function renderLevelScreen() {
   }
 
   if (powerupUseState > 0) {
-    topCtx.fillStyle = 'rgba(255, 255, 255, ' +
-                       (1 - powerupUseState/14) +
-                       ')';
-    topCtx.fillRect(0, 0, WIDTH, HEIGHT);
-    powerupUseState -= 1;
+    drawPowerupEffect[chosenLevel]();
   }
 
   starQueue.forEach(function (element, index, array) {
@@ -605,6 +583,20 @@ function renderDataScreen() {
                    GameState.multiplierBar /
                    (10*GameState.multiplier), 20);
 }
+
+// Level-dependent Powerup Rendering Methods
+
+var drawPowerupEffect = [];
+drawPowerupEffect[1] = function () {
+  topCtx.fillStyle = 'rgba(255, 255, 255, ' +
+                     (1 - powerupUseState/14) +
+                     ')';
+  topCtx.fillRect(0, 0, WIDTH, HEIGHT);
+  powerupUseState -= 1;
+}
+
+// TODO: Replace
+drawPowerupEffect[2] = drawPowerupEffect[1];
 
 // Object Drawing Methods
 

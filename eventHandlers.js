@@ -31,7 +31,7 @@ function handleChooseLevelScreen(e) {
   }
 
   if ((e.type === 'keydown') && (e.keyCode === 13)) {
-    buildLevel(chosenLevel + 1, 30);
+    buildLevel();
     changeScreen(levelScreen, handleLevelScreen);
   }
 }

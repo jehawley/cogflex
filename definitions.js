@@ -52,6 +52,8 @@ var powerupUseState = 0;
 // Level building constants
 var LEVEL_LENGTH_MIN = [];
 LEVEL_LENGTH_MIN[1] = 60;
+LEVEL_LENGTH_MIN[2] = 70;
+LEVEL_LENGTH_MIN[3] = 80;
 
 // TODO: Remove or add toggle button in-game
 var AUDIO_ON = true;

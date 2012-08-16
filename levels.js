@@ -38,8 +38,9 @@ function buildLevel() {
          testTrials.length > 1) {
     tsSlice = tsSlice.concat(testSide.slice(0, testTrials[0] + testTrials[1]));
     testSide = testSide.slice(testTrials[0] + testTrials[1]);
-    testTrials.slice(2);
+    testTrials = testTrials.slice(2);
   }
+
   if (tsSlice.length < LEVEL_LENGTH_MIN[chosenLevel]) {
     while (tsSlice.length < LEVEL_LENGTH_MIN[chosenLevel]) {
       tsSlice.push(-1);
@@ -63,8 +64,8 @@ function buildLevel() {
     if (tsSlice[i] > -1) {
       narrowSides(accum);
       accum += 145;
-      barWaves[14 + tsSlice[i] + 2 * Math.round(random())](accum);
-      accum += (barWaves[14].height + Math.floor(random() * 20) + 110);
+      barWaves[tsSlice[i] + 2 * Math.round(random())](accum);
+      accum += (barWaves[0].height + Math.floor(random() * 20) + 110);
     } else {
       accum += 30;
       waves[17](60, accum);
@@ -86,7 +87,8 @@ function buildLevel() {
   }
 }
 
-function buildLevel1Waves(waveSeq, levelLength) {
+var buildLevelWaves = [];
+buildLevelWaves[1] = function (waveSeq, levelLength) {
   // The fractions of the level corresponding to each set of waves
   // sector lengths : [0.12 0.8 0.15 0.2 0.2 0.25];
   var sectors = [0.12, 0.2, 0.35, 0.55, 0.75];
@@ -176,10 +178,147 @@ function buildLevel1Waves(waveSeq, levelLength) {
 
   //Finale
   waveSeq[i] = { w: [2, 3, 4, 5, 4, 5], wa: [60, 60, 60, 60, 60, 60]};
-}
+};
 
-var buildLevelWaves = [];
-buildLevelWaves[1] = buildLevel1Waves;
+buildLevelWaves[2] = function (waveSeq, levelLength) {
+  // The fractions of the level corresponding to each set of waves
+  // sectpr lengths: [0.06, 0.1, 0.24, 0.2, 0.2, 0.2 ];
+  var sectors = [0.06, 0.16, 0.4, 0.6, 0.8];
+  var secStops = sectors.map(function (x) {
+                               return Math.floor(x * levelLength);
+                             } );
+  var i;
+  var waveQueues = [ [32, 33, 28, 29],
+                     [ [32, 33], [28, 28], [32, 29], [32, 32], [33, 33],
+                       [29, 29], [33, 28], [33, 29], [28, 29] ],
+                     [ [38], [39], [40], [41], [42], [43],
+                       [38, 41], [39, 40], [38, 42], [42, 43], [41, 41],
+                       [39, 38], [41, 42], [43, 39], [40, 30], [39, 42] ],
+                     [ [26], [27], [8], [25], [26, 32], [27, 28], [8, 33], 
+                       [25, 32], [26, 29], [27, 33], [8, 29], [25, 28] ],
+                     [ [10], [9], [10, 32], [10, 33], [10, 28], [10, 29],
+                       [11], [9, 32], [9, 28], [9, 33], [9, 29] ],
+                     [ [35], [37], [35, 29], [35, 32], [37, 28], [37, 33],
+                       [35, 35], [37, 37], [35, 33], [37, 29] ] ];
+  var random = Alea();
+  var num, tempY;
+  var singletonAdded = false;
+
+  for (i = 0; i < secStops[0]; ++i) {
+    num = waveQueues[0][0];
+    waveSeq[i] = { w: [num],
+                   wa: [60 + random() * (WIDTH - waves[num].width - 120)] };
+    waveQueues[0].push(waveQueues[0].shift());
+  }
+  shuffleArray(waveSeq, 0, secStops[0]);
+
+  singletonAdded = false;
+  for (; i < secStops[1]; ++i) {
+    if (singletonAdded) {
+      num = waveQueues[1][0];
+      waveSeq[i] = { w: num,
+                     wa: [60 + random() * (WIDTH-waves[num[0]].width-120),
+                          60 + random() * (WIDTH-waves[num[1]].width-120)] };
+      waveQueues[1].push(waveQueues[1].shift());
+    } else {
+      waveSeq[i] = { w: [34],
+                     wa: [60 + random() * (WIDTH - waves[34].width - 120)] };
+      singletonAdded = true;
+    }
+  }
+  shuffleArray(waveSeq, secStops[0], secStops[1]);
+
+  singletonAdded = false;
+  for (; i < secStops[2]; ++i) {
+    if (singletonAdded) {
+      num = waveQueues[2][0];
+      if (num.length === 1) {
+        waveSeq[i] = { w: num, 
+                       wa: [60 + random() * (WIDTH-waves[num[0]].width-120)] };
+      } else {
+        waveSeq[i] = { w: num,
+                       wa: [60 + random() * (WIDTH-waves[num[0]].width-120),
+                            60 + random() * (WIDTH-waves[num[1]].width-120)] };
+      }
+      waveQueues[2].push(waveQueues[2].shift());
+    } else {
+      waveSeq[i] = { w: [44],
+                     wa: [60 + random() * (WIDTH - waves[44].width - 120)] };
+      singletonAdded = true;
+    }
+  }
+  //shuffleArray(waveSeq, secStops[1], secStops[2]);
+
+  for (; i < secStops[3]; ++i) {
+    num = waveQueues[3][0];
+    if (num.length === 1) {
+      waveSeq[i] = { w: num, 
+                     wa: [60 + random() * (WIDTH-waves[num[0]].width-120)] };
+    } else {
+      waveSeq[i] = { w: num,
+                     wa: [60 + random() * (WIDTH-waves[num[0]].width-120),
+                          60 + random() * (WIDTH-waves[num[1]].width-120)] };
+    }
+    waveQueues[3].push(waveQueues[3].shift());
+  }
+  shuffleArray(waveSeq, secStops[2], secStops[3]);
+
+  singletonAdded = false;
+  for (; i < secStops[4]; ++i) {
+    if (singletonAdded) {
+      num = waveQueues[4][0];
+      if (num.length === 1) {
+        waveSeq[i] = { w: num, 
+                       wa: [60 + random() * (WIDTH-waves[num[0]].width-120)] };
+      } else {
+        waveSeq[i] = { w: num,
+                       wa: [60 + random() * (WIDTH-waves[num[0]].width-120),
+                            60 + random() * (WIDTH-waves[num[1]].width-120)] };
+      }
+      waveQueues[4].push(waveQueues[4].shift());
+    } else {
+      waveSeq[i] = { w: [44],
+                     wa: [60 + random() * (WIDTH - waves[44].width - 120)] };
+      singletonAdded = true;
+    }
+  }
+  shuffleArray(waveSeq, secStops[3], secStops[4]);
+
+  for (; i < (levelLength - 1); ++i) {
+    num = waveQueues[5][0];
+    if (num.length === 1) {
+      waveSeq[i] = { w: num, 
+                     wa: [60 + random() * (WIDTH-waves[num[0]].width-120)] };
+    } else {
+      waveSeq[i] = { w: num,
+                     wa: [60 + random() * (WIDTH-waves[num[0]].width-120), 
+                          60 + random() * (WIDTH-waves[num[1]].width-120)] };
+    }
+    waveQueues[5].push(waveQueues[5].shift());
+  }
+  shuffleArray(waveSeq, secStops[4], i);
+
+  // Finale
+  waveSeq[i] = { w: [26, 27, 26, 27, 37], wa: [90, 90, 90, 90, 90] };
+};
+
+// TODO: remove
+// test only
+/*
+buildLevelWaves[0] = function (waveSeq, levelLength) {
+  var waveQueues = [ [42, 43, 44] ];
+  var random = Alea();
+  var num, tempY;
+  var i;
+
+  for (i = 0; i < 70; ++i) {
+    num = waveQueues[0][0];
+    waveSeq[i] = { w: [num],
+                   wa: [60 + random() * (WIDTH - waves[num].width - 120)] };
+    waveQueues[0].push(waveQueues[0].shift());
+  }
+}
+*/
 
 // splits: The number of probability regions
 // success: The probability of success in each region
@@ -808,235 +947,564 @@ waves[24] = function (x, y) {
 waves[24].width = 140;
 waves[24].height = 140;
 
+// Width = 260, Height = 200
+waves[25] = function (x, y) {
+  objectQueue[y] = [];
+  objectQueue[y].push(new Enemy(x+130, y+10, 20, drawEnemy));
+
+  objectQueue[y+60] = [];
+  objectQueue[y+60].push(new Coin(x+70, y+70, 10, drawCoin));
+  objectQueue[y+60].push(new Enemy(x+130, y+70, 20, drawEnemy));
+  objectQueue[y+60].push(new Coin(x+190, y+70, 10, drawCoin));
+
+  objectQueue[y+120] = [];
+  objectQueue[y+120].push(new Coin(x+10, y+130, 10, drawCoin));
+  objectQueue[y+120].push(new Enemy(x+70, y+130, 20, drawEnemy));
+  objectQueue[y+120].push(new Coin(x+130, y+130, 10, drawCoin));
+  objectQueue[y+120].push(new Enemy(x+190, y+130, 20, drawEnemy));
+  objectQueue[y+120].push(new Coin(x+250, y+130, 10, drawCoin));
+
+  objectQueue[y+180] = [];
+  objectQueue[y+180].push(new Enemy(x+10, y+190, 20, drawEnemy));
+  objectQueue[y+180].push(new Coin(x+130, y+190, 10, drawCoin));
+  objectQueue[y+180].push(new Enemy(x+250, y+190, 20, drawEnemy));
+}
+waves[25].width = 260;
+waves[25].height = 200;
+
+// Width = 320, Height = 170
+waves[26] = function (x, y) {
+  objectQueue[y] = [];
+  objectQueue[y].push(new Coin(x+160, y+10, 10, drawCoin));
+
+  objectQueue[y+50] = [];
+  objectQueue[y+50].push(new Coin(x+110, y+60, 10, drawCoin));
+  objectQueue[y+50].push(new Enemy(x+160, y+60, 20, drawEnemy));
+  objectQueue[y+50].push(new Coin(x+210, y+60, 10, drawCoin));
+
+  objectQueue[y+100] = [];
+  objectQueue[y+100].push(new Coin(x+60, y+110, 10, drawCoin));
+  objectQueue[y+100].push(new Enemy(x+110, y+110, 20, drawEnemy));
+  objectQueue[y+100].push(new Enemy(x+160, y+110, 20, drawEnemy));
+  objectQueue[y+100].push(new Enemy(x+210, y+110, 20, drawEnemy));
+  objectQueue[y+100].push(new Coin(x+260, y+110, 10, drawCoin));
+
+  objectQueue[y+150] = [];
+  objectQueue[y+150].push(new Coin(x+10, y+160, 10, drawCoin));
+  objectQueue[y+150].push(new Enemy(x+60, y+160, 20, drawEnemy));
+  objectQueue[y+150].push(new Enemy(x+110, y+160, 20, drawEnemy));
+  objectQueue[y+150].push(new Enemy(x+160, y+160, 20, drawEnemy));
+  objectQueue[y+150].push(new Enemy(x+210, y+160, 20, drawEnemy));
+  objectQueue[y+150].push(new Enemy(x+260, y+160, 20, drawEnemy));
+  objectQueue[y+150].push(new Coin(x+310, y+160, 10, drawCoin));
+}
+waves[26].width = 320;
+waves[26].height = 170;
+
+// Width = 320, Height = 170
+waves[27] = function (x, y) {
+  objectQueue[y] = [];
+  objectQueue[y].push(new Coin(x+160, y+10, 10, drawCoin));
+
+  objectQueue[y+50] = [];
+  objectQueue[y+50].push(new Enemy(x+110, y+60, 20, drawEnemy));
+  objectQueue[y+50].push(new Coin(x+160, y+60, 10, drawCoin));
+  objectQueue[y+50].push(new Enemy(x+210, y+60, 20, drawEnemy));
+
+  objectQueue[y+100] = [];
+  objectQueue[y+100].push(new Enemy(x+60, y+110, 20, drawEnemy));
+  objectQueue[y+100].push(new Coin(x+110, y+110, 10, drawCoin));
+  objectQueue[y+100].push(new Coin(x+160, y+110, 10, drawCoin));
+  objectQueue[y+100].push(new Coin(x+210, y+110, 10, drawCoin));
+  objectQueue[y+100].push(new Enemy(x+260, y+110, 20, drawEnemy));
+
+  objectQueue[y+150] = [];
+  objectQueue[y+150].push(new Enemy(x+10, y+160, 20, drawEnemy));
+  objectQueue[y+150].push(new Coin(x+60, y+160, 10, drawCoin));
+  objectQueue[y+150].push(new Coin(x+110, y+160, 10, drawCoin));
+  objectQueue[y+150].push(new Coin(x+160, y+160, 10, drawCoin));
+  objectQueue[y+150].push(new Coin(x+210, y+160, 10, drawCoin));
+  objectQueue[y+150].push(new Coin(x+260, y+160, 10, drawCoin));
+  objectQueue[y+150].push(new Enemy(x+310, y+160, 20, drawEnemy));
+}
+waves[27].width = 320;
+waves[27].height = 170;
+
+// Width = 140, Height = 140
+waves[28] = function (x, y) {
+  objectQueue[y] = [];
+  objectQueue[y].push(new Coin(x+70, y+10, 10, drawCoin));
+
+  objectQueue[y+60] = [];
+  objectQueue[y+60].push(new Coin(x+10, y+70, 10, drawCoin));
+  objectQueue[y+60].push(new Enemy(x+70, y+70, 20, drawEnemy));
+  objectQueue[y+60].push(new Coin(x+130, y+70, 10, drawCoin));
+
+  objectQueue[y+120] = [];
+  objectQueue[y+120].push(new Enemy(x+10, y+130, 20, drawEnemy));
+  objectQueue[y+120].push(new Enemy(x+130, y+130, 20, drawEnemy));
+}
+waves[28].width = 140;
+waves[28].height = 140;
+
+// Width = 140, Height = 140
+waves[29] = function (x, y) {
+  objectQueue[y] = [];
+
+  objectQueue[y].push(new Enemy(x+70, y+10, 20, drawEnemy));
+
+  objectQueue[y+60] = [];
+  objectQueue[y+60].push(new Enemy(x+10, y+70, 20, drawEnemy));
+  objectQueue[y+60].push(new Coin(x+70, y+70, 10, drawCoin));
+  objectQueue[y+60].push(new Enemy(x+130, y+70, 20, drawEnemy));
+
+  objectQueue[y+120] = [];
+  objectQueue[y+120].push(new Coin(x+10, y+130, 10, drawCoin));
+  objectQueue[y+120].push(new Coin(x+130, y+130, 10, drawCoin));
+}
+waves[29].width = 140;
+waves[29].height = 140;
+
+// Width = 260, Height = 170
+waves[30] = function (x, y) {
+  objectQueue[y] = [];
+  objectQueue[y].push(new Enemy(x+10, y+10, 20, drawEnemy));
+  objectQueue[y].push(new Coin(x+70, y+10, 10, drawCoin));
+  objectQueue[y].push(new Enemy(x+130, y+10, 20, drawEnemy));
+  objectQueue[y].push(new Enemy(x+190, y+10, 20, drawEnemy));
+  objectQueue[y].push(new Enemy(x+250, y+10, 20, drawEnemy));
+
+  objectQueue[y+50] = [];
+  objectQueue[y+50].push(new Enemy(x+10, y+60, 20, drawEnemy));
+  objectQueue[y+50].push(new Coin(x+70, y+60, 10, drawCoin));
+  objectQueue[y+50].push(new Enemy(x+130, y+60, 20, drawEnemy));
+  objectQueue[y+50].push(new Enemy(x+190, y+60, 20, drawEnemy));
+  objectQueue[y+50].push(new Enemy(x+250, y+60, 20, drawEnemy));
+
+  objectQueue[y+100] = [];
+  objectQueue[y+100].push(new Enemy(x+10, y+110, 20, drawEnemy));
+  objectQueue[y+100].push(new Coin(x+70, y+110, 10, drawCoin));
+  objectQueue[y+100].push(new Coin(x+130, y+110, 10, drawCoin));
+  objectQueue[y+100].push(new Coin(x+190, y+110, 10, drawCoin));
+  objectQueue[y+100].push(new Enemy(x+250, y+110, 20, drawEnemy));
+
+  objectQueue[y+150] = [];
+  objectQueue[y+150].push(new Enemy(x+10, y+160, 20, drawEnemy));
+  objectQueue[y+150].push(new Enemy(x+70, y+160, 20, drawEnemy));
+  objectQueue[y+150].push(new Enemy(x+130, y+160, 20, drawEnemy));
+  objectQueue[y+150].push(new Coin(x+190, y+160, 10, drawCoin));
+  objectQueue[y+150].push(new Enemy(x+250, y+160, 20, drawEnemy));
+}
+waves[30].width = 260;
+waves[30].height = 170;
+
+// Width = 260, Height = 170
+waves[31] = function (x, y) {
+  objectQueue[y] = [];
+  objectQueue[y].push(new Enemy(x+10, y+10, 20, drawEnemy));
+  objectQueue[y].push(new Enemy(x+70, y+10, 20, drawEnemy));
+  objectQueue[y].push(new Enemy(x+130, y+10, 20, drawEnemy));
+  objectQueue[y].push(new Coin(x+190, y+10, 10, drawCoin));
+  objectQueue[y].push(new Enemy(x+250, y+10, 20, drawEnemy));
+
+  objectQueue[y+50] = [];
+  objectQueue[y+50].push(new Enemy(x+10, y+60, 20, drawEnemy));
+  objectQueue[y+50].push(new Coin(x+70, y+60, 10, drawCoin));
+  objectQueue[y+50].push(new Coin(x+130, y+60, 10, drawCoin));
+  objectQueue[y+50].push(new Coin(x+190, y+60, 10, drawCoin));
+  objectQueue[y+50].push(new Enemy(x+250, y+60, 20, drawEnemy));
+
+  objectQueue[y+100] = [];
+  objectQueue[y+100].push(new Enemy(x+10, y+110, 20, drawEnemy));
+  objectQueue[y+100].push(new Coin(x+70, y+110, 10, drawCoin));
+  objectQueue[y+100].push(new Enemy(x+130, y+110, 20, drawEnemy));
+  objectQueue[y+100].push(new Enemy(x+190, y+110, 20, drawEnemy));
+  objectQueue[y+100].push(new Enemy(x+250, y+110, 20, drawEnemy));
+
+  objectQueue[y+150] = [];
+  objectQueue[y+150].push(new Enemy(x+10, y+160, 20, drawEnemy));
+  objectQueue[y+150].push(new Coin(x+70, y+160, 10, drawCoin));
+  objectQueue[y+150].push(new Enemy(x+130, y+160, 20, drawEnemy));
+  objectQueue[y+150].push(new Enemy(x+190, y+160, 20, drawEnemy));
+  objectQueue[y+150].push(new Enemy(x+250, y+160, 20, drawEnemy));
+}
+waves[31].width = 260;
+waves[31].height = 170;
+
+// Width = 140, Height = 140
+waves[32] = function (x, y) {
+  objectQueue[y] = [];
+  objectQueue[y].push(new Enemy(x+10, y+10, 20, drawEnemy));
+  objectQueue[y].push(new Enemy(x+130, y+10, 20, drawEnemy));
+
+  objectQueue[y+60] = [];
+  objectQueue[y+60].push(new Coin(x+10, y+70, 10, drawCoin));
+  objectQueue[y+60].push(new Enemy(x+70, y+70, 20, drawEnemy));
+  objectQueue[y+60].push(new Coin(x+130, y+70, 10, drawCoin));
+
+  objectQueue[y+120] = [];
+  objectQueue[y+120].push(new Coin(x+70, y+130, 10, drawCoin));
+}
+waves[32].width = 140;
+waves[32].height = 140;
+
+// Width = 140, Height = 140
+waves[33] = function (x, y) {
+  objectQueue[y] = [];
+  objectQueue[y].push(new Coin(x+10, y+10, 10, drawCoin));
+  objectQueue[y].push(new Coin(x+130, y+10, 10, drawCoin));
+
+  objectQueue[y+60] = [];
+  objectQueue[y+60].push(new Enemy(x+10, y+70, 20, drawEnemy));
+  objectQueue[y+60].push(new Coin(x+70, y+70, 10, drawCoin));
+  objectQueue[y+60].push(new Enemy(x+130, y+70, 20, drawEnemy));
+
+  objectQueue[y+120] = [];
+  objectQueue[y+120].push(new Enemy(x+70, y+130, 20, drawEnemy));
+}
+waves[33].width = 140;
+waves[33].height = 140;
+
+// Width = 140, Height = 140
+waves[34] = function (x, y) {
+  objectQueue[y] = [];
+  objectQueue[y].push(new Enemy(x+10, y+10, 20, drawEnemy));
+  objectQueue[y].push(new Powerup(x+70, y+10, 20, drawPowerup));
+  objectQueue[y].push(new Enemy(x+130, y+10, 20, drawEnemy));
+
+  objectQueue[y+60] = [];
+  objectQueue[y+60].push(new Coin(x+10, y+70, 10, drawCoin));
+  objectQueue[y+60].push(new Enemy(x+70, y+70, 20, drawEnemy));
+  objectQueue[y+60].push(new Coin(x+130, y+70, 10, drawCoin));
+
+  objectQueue[y+120] = [];
+  objectQueue[y+120].push(new Coin(x+70, y+130, 10, drawCoin));
+}
+waves[34].width = 140;
+waves[34].height = 140;
+
+// Width = 380, Height = 320 
+waves[35] = function (x, y) {
+  objectQueue[y] = [];
+  objectQueue[y].push(new Enemy(x+130, y+10, 20, drawEnemy));
+  objectQueue[y].push(new Coin(x+190, y+10, 10, drawCoin));
+  objectQueue[y].push(new Enemy(x+250, y+10, 20, drawEnemy));
+
+  objectQueue[y+60] = [];
+  objectQueue[y+60].push(new Enemy(x+70, y+70, 20, drawEnemy));
+  objectQueue[y+60].push(new Coin(x+130, y+70, 10, drawCoin));
+  objectQueue[y+60].push(new Coin(x+190, y+70, 10, drawCoin));
+  objectQueue[y+60].push(new Coin(x+250, y+70, 10, drawCoin));
+  objectQueue[y+60].push(new Enemy(x+310, y+70, 20, drawEnemy));
+
+  objectQueue[y+120] = [];
+  objectQueue[y+120].push(new Enemy(x+10, y+130, 20, drawEnemy));
+  objectQueue[y+120].push(new Coin(x+70, y+130, 10, drawCoin));
+  objectQueue[y+120].push(new Coin(x+130, y+130, 10, drawCoin));
+  objectQueue[y+120].push(new Coin(x+190, y+130, 10, drawCoin));
+  objectQueue[y+120].push(new Coin(x+250, y+130, 10, drawCoin));
+  objectQueue[y+120].push(new Coin(x+310, y+130, 10, drawCoin));
+  objectQueue[y+120].push(new Enemy(x+370, y+130, 20, drawEnemy));
+
+  objectQueue[y+180] = [];
+  objectQueue[y+180].push(new Coin(x+10, y+190, 10, drawCoin));
+  objectQueue[y+180].push(new Enemy(x+70, y+190, 20, drawEnemy));
+  objectQueue[y+180].push(new Enemy(x+310, y+190, 20, drawEnemy));
+  objectQueue[y+180].push(new Coin(x+370, y+190, 10, drawCoin));
+
+  objectQueue[y+240] = [];
+  objectQueue[y+240].push(new Enemy(x+10, y+250, 20, drawEnemy));
+  objectQueue[y+240].push(new Coin(x+70, y+250, 10, drawCoin));
+  objectQueue[y+240].push(new Coin(x+310, y+250, 10, drawCoin));
+  objectQueue[y+240].push(new Enemy(x+370, y+250, 20, drawEnemy));
+
+  objectQueue[y+300] = [];
+  objectQueue[y+300].push(new Coin(x+10, y+310, 10, drawCoin));
+  objectQueue[y+300].push(new Enemy(x+70, y+310, 20, drawEnemy));
+  objectQueue[y+300].push(new Enemy(x+310, y+310, 20, drawEnemy));
+  objectQueue[y+300].push(new Coin(x+370, y+310, 10, drawCoin));
+}
+waves[35].width = 380;
+waves[35].height = 320;
+
+// Width = 380, Height = 320 
+waves[36] = function (x, y) {
+  objectQueue[y] = [];
+  objectQueue[y].push(new Enemy(x+130, y+10, 20, drawEnemy));
+  objectQueue[y].push(new Coin(x+190, y+10, 10, drawCoin));
+  objectQueue[y].push(new Enemy(x+250, y+10, 20, drawEnemy));
+
+  objectQueue[y+60] = [];
+  objectQueue[y+60].push(new Enemy(x+70, y+70, 20, drawEnemy));
+  objectQueue[y+60].push(new Coin(x+130, y+70, 10, drawCoin));
+  objectQueue[y+60].push(new Coin(x+190, y+70, 10, drawCoin));
+  objectQueue[y+60].push(new Coin(x+250, y+70, 10, drawCoin));
+  objectQueue[y+60].push(new Enemy(x+310, y+70, 20, drawEnemy));
+
+  objectQueue[y+120] = [];
+  objectQueue[y+120].push(new Enemy(x+10, y+130, 20, drawEnemy));
+  objectQueue[y+120].push(new Coin(x+70, y+130, 10, drawCoin));
+  objectQueue[y+120].push(new Coin(x+130, y+130, 10, drawCoin));
+  objectQueue[y+120].push(new Coin(x+190, y+130, 10, drawCoin));
+  objectQueue[y+120].push(new Coin(x+250, y+130, 10, drawCoin));
+  objectQueue[y+120].push(new Coin(x+310, y+130, 10, drawCoin));
+  objectQueue[y+120].push(new Enemy(x+370, y+130, 20, drawEnemy));
+
+  objectQueue[y+180] = [];
+  objectQueue[y+180].push(new Coin(x+10, y+190, 10, drawCoin));
+  objectQueue[y+180].push(new Enemy(x+70, y+190, 20, drawEnemy));
+  objectQueue[y+180].push(new Enemy(x+310, y+190, 20, drawEnemy));
+  objectQueue[y+180].push(new Coin(x+370, y+190, 10, drawCoin));
+
+  objectQueue[y+240] = [];
+  objectQueue[y+240].push(new Enemy(x+10, y+250, 20, drawEnemy));
+  objectQueue[y+240].push(new Coin(x+70, y+250, 10, drawCoin));
+  objectQueue[y+240].push(new Coin(x+310, y+250, 10, drawCoin));
+  objectQueue[y+240].push(new Enemy(x+370, y+250, 20, drawEnemy));
+
+  objectQueue[y+300] = [];
+  objectQueue[y+300].push(new Coin(x+10, y+310, 10, drawCoin));
+  objectQueue[y+300].push(new Enemy(x+70, y+310, 20, drawEnemy));
+  objectQueue[y+300].push(new Powerup(x+190, y+310, 20, drawPowerup));
+  objectQueue[y+300].push(new Enemy(x+310, y+310, 20, drawEnemy));
+  objectQueue[y+300].push(new Coin(x+370, y+310, 10, drawCoin));
+}
+waves[36].width = 380;
+waves[36].height = 320;
+
+// Width = 260, Height = 270
+waves[37] = function (x, y) {
+  objectQueue[y] = [];
+  objectQueue[y].push(new Coin(x+10, y+10, 10, drawCoin));
+  objectQueue[y].push(new Enemy(x+70, y+10, 20, drawEnemy));
+  objectQueue[y].push(new Coin(x+130, y+10, 10, drawCoin));
+  objectQueue[y].push(new Enemy(x+190, y+10, 20, drawEnemy));
+  objectQueue[y].push(new Coin(x+250, y+10, 10, drawCoin));
+
+  objectQueue[y+50] = [];
+  objectQueue[y+50].push(new Coin(x+100, y+60, 10, drawCoin));
+  objectQueue[y+50].push(new Coin(x+160, y+60, 10, drawCoin));
+
+  objectQueue[y+100] = [];
+  objectQueue[y+100].push(new Coin(x+130, y+110, 10, drawCoin));
+
+  objectQueue[y+150] = [];
+  objectQueue[y+150].push(new Enemy(x+70, y+160, 20, drawEnemy));
+  objectQueue[y+150].push(new Coin(x+130, y+160, 10, drawCoin));
+  objectQueue[y+150].push(new Enemy(x+190, y+160, 20, drawEnemy));
+
+  objectQueue[y+200] = [];
+  objectQueue[y+200].push(new Enemy(x+40, y+210, 20, drawEnemy));
+  objectQueue[y+200].push(new Coin(x+100, y+210, 10, drawCoin));
+  objectQueue[y+200].push(new Coin(x+160, y+210, 10, drawCoin));
+  objectQueue[y+200].push(new Enemy(x+220, y+210, 20, drawEnemy));
+
+  objectQueue[y+250] = [];
+  objectQueue[y+250].push(new Enemy(x+10, y+260, 20, drawEnemy));
+  objectQueue[y+250].push(new Coin(x+70, y+260, 10, drawCoin));
+  objectQueue[y+250].push(new Coin(x+130, y+260, 10, drawCoin));
+  objectQueue[y+250].push(new Coin(x+190, y+260, 10, drawCoin));
+  objectQueue[y+250].push(new Enemy(x+250, y+260, 20, drawEnemy));
+}
+waves[37].width = 260;
+waves[37].height = 270;
+
+// Width = 200, Height = 260
+waves[38] = function (x, y) {
+  objectQueue[y] = [];
+  objectQueue[y].push(new Coin(x+10, y+10, 10, drawCoin));
+  objectQueue[y].push(new Enemy(x+70, y+10, 20, drawEnemy));
+  objectQueue[y].push(new Coin(x+130, y+10, 10, drawCoin));
+  objectQueue[y].push(new Enemy(x+190, y+10, 20, drawEnemy));
+
+  objectQueue[y+60] = [];
+  objectQueue[y+60].push(new Enemy(x+10, y+70, 20, drawEnemy));
+  objectQueue[y+60].push(new Coin(x+70, y+70, 10, drawCoin));
+  objectQueue[y+60].push(new Enemy(x+130, y+70, 20, drawEnemy));
+
+  objectQueue[y+120] = [];
+  objectQueue[y+120].push(new Coin(x+10, y+130, 10, drawCoin));
+  objectQueue[y+120].push(new Enemy(x+70, y+130, 20, drawEnemy));
+
+  objectQueue[y+180] = [];
+  objectQueue[y+180].push(new Enemy(x+10, y+190, 20, drawEnemy));
+  objectQueue[y+180].push(new Coin(x+70, y+190, 10, drawCoin));
+
+  objectQueue[y+240] = [];
+  objectQueue[y+240].push(new Coin(x+10, y+250, 10, drawCoin));
+}
+waves[38].width = 200;
+waves[38].height = 260;
+
+// Width = 200, Height = 260
+waves[39] = function (x, y) {
+  objectQueue[y] = [];
+  objectQueue[y].push(new Enemy(x+10, y+10, 20, drawEnemy));
+  objectQueue[y].push(new Coin(x+70, y+10, 10, drawCoin));
+  objectQueue[y].push(new Enemy(x+130, y+10, 20, drawEnemy));
+  objectQueue[y].push(new Coin(x+190, y+10, 10, drawCoin));
+
+  objectQueue[y+60] = [];
+  objectQueue[y+60].push(new Coin(x+10, y+70, 10, drawCoin));
+  objectQueue[y+60].push(new Enemy(x+70, y+70, 20, drawEnemy));
+  objectQueue[y+60].push(new Coin(x+130, y+70, 10, drawCoin));
+
+  objectQueue[y+120] = [];
+  objectQueue[y+120].push(new Enemy(x+10, y+130, 20, drawEnemy));
+  objectQueue[y+120].push(new Coin(x+70, y+130, 10, drawCoin));
+
+  objectQueue[y+180] = [];
+  objectQueue[y+180].push(new Coin(x+10, y+190, 10, drawCoin));
+  objectQueue[y+180].push(new Enemy(x+70, y+190, 20, drawEnemy));
+
+  objectQueue[y+240] = [];
+  objectQueue[y+240].push(new Enemy(x+10, y+250, 20, drawEnemy));
+}
+waves[39].width = 200;
+waves[39].height = 260;
+
+// Width = 200, Height = 260
+waves[40] = function (x, y) {
+  objectQueue[y] = [];
+  objectQueue[y].push(new Coin(x+10, y+10, 10, drawCoin));
+  
+  objectQueue[y+60] = [];
+  objectQueue[y+60].push(new Enemy(x+10, y+70, 20, drawEnemy));
+  objectQueue[y+60].push(new Coin(x+70, y+70, 10, drawCoin));
+
+  objectQueue[y+120] = [];
+  objectQueue[y+120].push(new Coin(x+10, y+130, 10, drawCoin));
+  objectQueue[y+120].push(new Enemy(x+70, y+130, 20, drawEnemy));
+
+  objectQueue[y+180] = [];
+  objectQueue[y+180].push(new Enemy(x+10, y+190, 20, drawEnemy));
+  objectQueue[y+180].push(new Coin(x+70, y+190, 10, drawCoin));
+  objectQueue[y+180].push(new Enemy(x+130, y+190, 20, drawEnemy));
+
+  objectQueue[y+240] = [];
+  objectQueue[y+240].push(new Coin(x+10, y+250, 10, drawCoin));
+  objectQueue[y+240].push(new Enemy(x+70, y+250, 20, drawEnemy));
+  objectQueue[y+240].push(new Coin(x+130, y+250, 10, drawCoin));
+  objectQueue[y+240].push(new Enemy(x+190, y+250, 20, drawEnemy));
+}
+waves[40].width = 200;
+waves[40].height = 260;
+
+// Width = 200, Height = 260
+waves[41] = function (x, y) {
+  objectQueue[y] = [];
+  objectQueue[y].push(new Enemy(x+10, y+10, 20, drawEnemy));
+  
+  objectQueue[y+60] = [];
+  objectQueue[y+60].push(new Coin(x+10, y+70, 10, drawCoin));
+  objectQueue[y+60].push(new Enemy(x+70, y+70, 20, drawEnemy));
+
+  objectQueue[y+120] = [];
+  objectQueue[y+120].push(new Enemy(x+10, y+130, 20, drawEnemy));
+  objectQueue[y+120].push(new Coin(x+70, y+130, 10, drawCoin));
+
+  objectQueue[y+180] = [];
+  objectQueue[y+180].push(new Coin(x+10, y+190, 10, drawCoin));
+  objectQueue[y+180].push(new Enemy(x+70, y+190, 20, drawEnemy));
+  objectQueue[y+180].push(new Coin(x+130, y+190, 10, drawCoin));
+
+  objectQueue[y+240] = [];
+  objectQueue[y+240].push(new Enemy(x+10, y+250, 20, drawEnemy));
+  objectQueue[y+240].push(new Coin(x+70, y+250, 10, drawCoin));
+  objectQueue[y+240].push(new Enemy(x+130, y+250, 20, drawEnemy));
+  objectQueue[y+240].push(new Coin(x+190, y+250, 10, drawCoin));
+}
+waves[41].width = 200;
+waves[41].height = 260;
+
+// Width = 200, Height = 260
+waves[42] = function (x, y) {
+  objectQueue[y] = [];
+  objectQueue[y].push(new Coin(x+10, y+10, 10, drawCoin));
+  objectQueue[y].push(new Enemy(x+70, y+10, 20, drawEnemy));
+  objectQueue[y].push(new Coin(x+130, y+10, 10, drawCoin));
+  objectQueue[y].push(new Enemy(x+190, y+10, 20, drawEnemy));
+
+  objectQueue[y+60] = [];
+  objectQueue[y+60].push(new Coin(x+70, y+70, 10, drawCoin));
+  objectQueue[y+60].push(new Enemy(x+130, y+70, 20, drawEnemy));
+  objectQueue[y+60].push(new Coin(x+190, y+70, 10, drawCoin));
+
+  objectQueue[y+120] = [];
+  objectQueue[y+120].push(new Enemy(x+190, y+130, 20, drawEnemy));
+  objectQueue[y+120].push(new Coin(x+130, y+130, 10, drawCoin));
+
+  objectQueue[y+180] = [];
+  objectQueue[y+180].push(new Coin(x+190, y+190, 10, drawCoin));
+  objectQueue[y+180].push(new Enemy(x+130, y+190, 20, drawEnemy));
+
+  objectQueue[y+240] = [];
+  objectQueue[y+240].push(new Enemy(x+190, y+250, 20, drawEnemy));
+}
+waves[42].width = 200;
+waves[42].height = 260;
+
+// Width = 200, Height = 260
+waves[43] = function (x, y) {
+  objectQueue[y] = [];
+  objectQueue[y].push(new Coin(x+190, y+10, 10, drawCoin));
+  
+  objectQueue[y+60] = [];
+  objectQueue[y+60].push(new Enemy(x+190, y+70, 20, drawEnemy));
+  objectQueue[y+60].push(new Coin(x+130, y+70, 10, drawCoin));
+
+  objectQueue[y+120] = [];
+  objectQueue[y+120].push(new Coin(x+190, y+130, 10, drawCoin));
+  objectQueue[y+120].push(new Enemy(x+130, y+130, 20, drawEnemy));
+
+  objectQueue[y+180] = [];
+  objectQueue[y+180].push(new Enemy(x+190, y+190, 20, drawEnemy));
+  objectQueue[y+180].push(new Coin(x+130, y+190, 10, drawCoin));
+  objectQueue[y+180].push(new Enemy(x+70, y+190, 20, drawEnemy));
+
+  objectQueue[y+240] = [];
+  objectQueue[y+240].push(new Coin(x+190, y+250, 10, drawCoin));
+  objectQueue[y+240].push(new Enemy(x+130, y+250, 20, drawEnemy));
+  objectQueue[y+240].push(new Coin(x+70, y+250, 10, drawCoin));
+  objectQueue[y+240].push(new Enemy(x+10, y+250, 20, drawEnemy));
+}
+waves[43].width = 200;
+waves[43].height = 260;
+
+// Width = 200, Height = 260
+waves[44] = function (x, y) {
+  objectQueue[y] = [];
+  objectQueue[y].push(new Powerup(x+190, y+10, 20, drawPowerup));
+  
+  objectQueue[y+60] = [];
+  objectQueue[y+60].push(new Enemy(x+190, y+70, 20, drawEnemy));
+  objectQueue[y+60].push(new Coin(x+130, y+70, 10, drawCoin));
+
+  objectQueue[y+120] = [];
+  objectQueue[y+120].push(new Coin(x+190, y+130, 10, drawCoin));
+  objectQueue[y+120].push(new Enemy(x+130, y+130, 20, drawEnemy));
+
+  objectQueue[y+180] = [];
+  objectQueue[y+180].push(new Enemy(x+190, y+190, 20, drawEnemy));
+  objectQueue[y+180].push(new Coin(x+130, y+190, 10, drawCoin));
+  objectQueue[y+180].push(new Enemy(x+70, y+190, 20, drawEnemy));
+
+  objectQueue[y+240] = [];
+  objectQueue[y+240].push(new Coin(x+190, y+250, 10, drawCoin));
+  objectQueue[y+240].push(new Enemy(x+130, y+250, 20, drawEnemy));
+  objectQueue[y+240].push(new Coin(x+70, y+250, 10, drawCoin));
+  objectQueue[y+240].push(new Enemy(x+10, y+250, 20, drawEnemy));
+}
+waves[44].width = 200;
+waves[44].height = 260;
+
 // Barrier Waves
 // Each wave takes a y coordinate of the top of the barrier
 // Each wave has a height, which is the length of the barrier
 var barWaves = [];
 
-// Height = 100
-barWaves[0] = function (y) {
-  objectQueue[y] = [];
-  objectQueue[y].push(new Barrier(y, 100, drawBarrier));
-
-  objectQueue[y+60] = [];
-  objectQueue[y+60].push(new Coin(100, y+70, 10, drawCoin));
-  objectQueue[y+60].push(new Coin(150, y+70, 10, drawCoin));
-  objectQueue[y+60].push(new Coin(200, y+70, 10, drawCoin));
-  objectQueue[y+60].push(new Enemy(300, y+70, 20, drawEnemy));
-  objectQueue[y+60].push(new Enemy(350, y+70, 20, drawEnemy));
-  objectQueue[y+60].push(new Enemy(400, y+70, 20, drawEnemy));
-};
-barWaves[0].height = 100;
-
-// Height = 100
-barWaves[1] = function (y) {
-  objectQueue[y] = [];
-  objectQueue[y].push(new Barrier(y, 100, drawBarrier));
-
-  objectQueue[y+60] = [];
-  objectQueue[y+60].push(new Enemy(100, y+70, 20, drawEnemy));
-  objectQueue[y+60].push(new Enemy(150, y+70, 20, drawEnemy));
-  objectQueue[y+60].push(new Enemy(200, y+70, 20, drawEnemy));
-  objectQueue[y+60].push(new Coin(300, y+70, 10, drawCoin));
-  objectQueue[y+60].push(new Coin(350, y+70, 20, drawCoin));
-  objectQueue[y+60].push(new Coin(400, y+70, 10, drawCoin));
-};
-barWaves[1].height = 100;
-
-// Height = 100
-barWaves[2] = function (y) {
-  objectQueue[y] = [];
-  objectQueue[y].push(new Barrier(y, 100, drawBarrier));
-
-  objectQueue[y+60] = [];
-  objectQueue[y+60].push(new Coin(100, y+70, 10, drawCoin));
-  objectQueue[y+60].push(new Powerup(150, y+70, 20, drawPowerup));
-  objectQueue[y+60].push(new Coin(200, y+70, 10, drawCoin));
-  objectQueue[y+60].push(new Enemy(300, y+70, 20, drawEnemy));
-  objectQueue[y+60].push(new Enemy(350, y+70, 20, drawEnemy));
-  objectQueue[y+60].push(new Enemy(400, y+70, 20, drawEnemy));
-};
-barWaves[2].height = 100;
-
-// Height = 100
-barWaves[3] = function (y) {
-  objectQueue[y] = [];
-  objectQueue[y].push(new Barrier(y, 100, drawBarrier));
-
-  objectQueue[y+60] = [];
-  objectQueue[y+60].push(new Enemy(100, y+70, 20, drawEnemy));
-  objectQueue[y+60].push(new Enemy(150, y+70, 20, drawEnemy));
-  objectQueue[y+60].push(new Enemy(200, y+70, 20, drawEnemy));
-  objectQueue[y+60].push(new Coin(300, y+70, 10, drawCoin));
-  objectQueue[y+60].push(new Powerup(350, y+70, 20, drawPowerup));
-  objectQueue[y+60].push(new Coin(400, y+70, 10, drawCoin));
-};
-barWaves[3].height = 100;
-
-// Height = 120
-barWaves[4] = function (y) {
-  objectQueue[y] = [];
-  objectQueue[y].push(new Barrier(y, 120, drawBarrier));
-
-  objectQueue[y+50] = [];
-  objectQueue[y+50].push(new Coin(150, y+60, 10, drawCoin));
-  objectQueue[y+50].push(new Enemy(350, y+60, 20, drawEnemy));
-
-  objectQueue[y+80] = [];
-  objectQueue[y+80].push(new Coin(110, y+90, 10, drawCoin));
-  objectQueue[y+80].push(new Coin(190, y+90, 10, drawCoin));
-  objectQueue[y+80].push(new Enemy(310, y+90, 20, drawEnemy));
-  objectQueue[y+80].push(new Enemy(390, y+90, 20, drawEnemy));
-
-  objectQueue[y+100] = [];
-  objectQueue[y+100].push(new Coin(150, y+110, 10, drawCoin));
-  objectQueue[y+100].push(new Enemy(350, y+110, 20, drawEnemy));
-};
-barWaves[4].height = 120;
-
-// Height = 120
-barWaves[5] = function (y) {
-  objectQueue[y] = [];
-  objectQueue[y].push(new Barrier(y, 120, drawBarrier));
-
-  objectQueue[y+50] = [];
-  objectQueue[y+50].push(new Enemy(150, y+60, 20, drawEnemy));
-  objectQueue[y+50].push(new Coin(350, y+60, 10, drawCoin));
-
-  objectQueue[y+80] = [];
-  objectQueue[y+80].push(new Enemy(110, y+90, 20, drawEnemy));
-  objectQueue[y+80].push(new Enemy(190, y+90, 20, drawEnemy));
-  objectQueue[y+80].push(new Coin(310, y+90, 10, drawCoin));
-  objectQueue[y+80].push(new Coin(390, y+90, 10, drawCoin));
-
-  objectQueue[y+100] = [];
-  objectQueue[y+100].push(new Enemy(150, y+110, 20, drawEnemy));
-  objectQueue[y+100].push(new Coin(350, y+110, 10, drawCoin));
-};
-barWaves[5].height = 120;
-
-// Height = 80
-barWaves[6] = function (y) {
-  objectQueue[y] = [];
-  objectQueue[y].push(new Barrier(y, 80, drawBarrier));
-
-  objectQueue[y+50] = [];
-  objectQueue[y+50].push(new Coin(100, y+60, 10, drawCoin));
-  objectQueue[y+50].push(new Coin(150, y+60, 10, drawCoin));
-  objectQueue[y+50].push(new Coin(200, y+60, 10, drawCoin));
-  objectQueue[y+50].push(new Enemy(300, y+60, 20, drawEnemy));
-  objectQueue[y+50].push(new Enemy(350, y+60, 20, drawEnemy));
-  objectQueue[y+50].push(new Enemy(400, y+60, 20, drawEnemy));
-};
-barWaves[6].height = 80;
-
-// Height = 80
-barWaves[7] = function (y) {
-  objectQueue[y] = [];
-  objectQueue[y].push(new Barrier(y, 80, drawBarrier));
-
-  objectQueue[y+50] = [];
-  objectQueue[y+50].push(new Enemy(100, y+60, 20, drawEnemy));
-  objectQueue[y+50].push(new Enemy(150, y+60, 20, drawEnemy));
-  objectQueue[y+50].push(new Enemy(200, y+60, 20, drawEnemy));
-  objectQueue[y+50].push(new Coin(300, y+60, 10, drawCoin));
-  objectQueue[y+50].push(new Coin(350, y+60, 10, drawCoin));
-  objectQueue[y+50].push(new Coin(400, y+60, 10, drawCoin));
-};
-barWaves[7].height = 80;
-
-// Height = 80
-barWaves[8] = function (y) {
-  objectQueue[y] = [];
-  objectQueue[y].push(new Barrier(y, 80, drawBarrier));
-
-  objectQueue[y+50] = [];
-  objectQueue[y+50].push(new Coin(100, y+60, 10, drawCoin));
-  objectQueue[y+50].push(new Powerup(150, y+60, 20, drawPowerup));
-  objectQueue[y+50].push(new Coin(200, y+60, 10, drawCoin));
-  objectQueue[y+50].push(new Enemy(300, y+60, 20, drawEnemy));
-  objectQueue[y+50].push(new Enemy(350, y+60, 20, drawEnemy));
-  objectQueue[y+50].push(new Enemy(400, y+60, 20, drawEnemy));
-};
-barWaves[8].height = 80;
-
-// Height = 80
-barWaves[9] = function (y) {
-  objectQueue[y] = [];
-  objectQueue[y].push(new Barrier(y, 80, drawBarrier));
-
-  objectQueue[y+50] = [];
-  objectQueue[y+50].push(new Enemy(100, y+60, 20, drawEnemy));
-  objectQueue[y+50].push(new Enemy(150, y+60, 20, drawEnemy));
-  objectQueue[y+50].push(new Enemy(200, y+60, 20, drawEnemy));
-  objectQueue[y+50].push(new Coin(300, y+60, 10, drawCoin));
-  objectQueue[y+50].push(new Powerup(350, y+60, 20, drawPowerup));
-  objectQueue[y+50].push(new Coin(400, y+60, 10, drawCoin));
-};
-barWaves[9].height = 80;
-
-// Height = 80
-barWaves[10] = function (y) {
-  objectQueue[y] = [];
-  objectQueue[y].push(new Barrier(y, 80, drawBarrier));
-
-  objectQueue[y+50] = [];
-  objectQueue[y+50].push(new Powerup(100, y+60, 20, drawPowerup));
-  objectQueue[y+50].push(new Coin(150, y+60, 10, drawCoin));
-  objectQueue[y+50].push(new Coin(200, y+60, 10, drawCoin));
-  objectQueue[y+50].push(new Enemy(300, y+60, 20, drawEnemy));
-  objectQueue[y+50].push(new Enemy(350, y+60, 20, drawEnemy));
-  objectQueue[y+50].push(new Enemy(400, y+60, 20, drawEnemy));
-};
-barWaves[10].height = 80;
-
-// Height = 80
-barWaves[11] = function (y) {
-  objectQueue[y] = [];
-  objectQueue[y].push(new Barrier(y, 80, drawBarrier));
-
-  objectQueue[y+50] = [];
-  objectQueue[y+50].push(new Enemy(100, y+60, 20, drawEnemy));
-  objectQueue[y+50].push(new Enemy(150, y+60, 20, drawEnemy));
-  objectQueue[y+50].push(new Enemy(200, y+60, 20, drawEnemy));
-  objectQueue[y+50].push(new Coin(300, y+60, 10, drawPowerup));
-  objectQueue[y+50].push(new Coin(350, y+60, 10, drawCoin));
-  objectQueue[y+50].push(new Coin(400, y+60, 10, drawCoin));
-};
-barWaves[11].height = 80;
-
-// Height = 80
-barWaves[12] = function (y) {
-  objectQueue[y] = [];
-  objectQueue[y].push(new Barrier(y, 80, drawBarrier));
-
-  objectQueue[y+50] = [];
-  objectQueue[y+50].push(new Coin(100, y+60, 10, drawCoin));
-  objectQueue[y+50].push(new Coin(150, y+60, 10, drawCoin));
-  objectQueue[y+50].push(new Powerup(200, y+60, 20, drawPowerup));
-  objectQueue[y+50].push(new Enemy(300, y+60, 20, drawEnemy));
-  objectQueue[y+50].push(new Enemy(350, y+60, 20, drawEnemy));
-  objectQueue[y+50].push(new Enemy(400, y+60, 20, drawEnemy));
-};
-barWaves[12].height = 80;
-
-// Height = 80
-barWaves[13] = function (y) {
-  objectQueue[y] = [];
-  objectQueue[y].push(new Barrier(y, 80, drawBarrier));
-
-  objectQueue[y+50] = [];
-  objectQueue[y+50].push(new Enemy(100, y+60, 20, drawEnemy));
-  objectQueue[y+50].push(new Enemy(150, y+60, 20, drawEnemy));
-  objectQueue[y+50].push(new Enemy(200, y+60, 20, drawEnemy));
-  objectQueue[y+50].push(new Coin(300, y+60, 10, drawCoin));
-  objectQueue[y+50].push(new Coin(350, y+60, 10, drawCoin));
-  objectQueue[y+50].push(new Powerup(400, y+60, 20, drawPowerup));
-};
-barWaves[13].height = 80;
-
 // Height = 160
-barWaves[14] = function (y) {
+barWaves[0] = function (y) {
   objectQueue[y] = [];
   objectQueue[y].push(new Barrier(y, 160, drawBarrier));
 
@@ -1044,10 +1512,10 @@ barWaves[14] = function (y) {
   objectQueue[y+20].push(new Side(150, y+90, 70, true, drawBasic1SideA));
   objectQueue[y+20].push(new Side(350, y+90, 70, false, drawBasic1SideB));
 }
-barWaves[14].height = 160;
+barWaves[0].height = 160;
 
 // Height = 160
-barWaves[15] = function (y) {
+barWaves[1] = function (y) {
   objectQueue[y] = [];
   objectQueue[y].push(new Barrier(y, 160, drawBarrier));
 
@@ -1055,10 +1523,10 @@ barWaves[15] = function (y) {
   objectQueue[y+20].push(new Side(150, y+90, 70, false, drawBasic1SideA));
   objectQueue[y+20].push(new Side(350, y+90, 70, true, drawBasic1SideB));
 }
-barWaves[15].height = 160;
+barWaves[1].height = 160;
 
 // Height = 160
-barWaves[16] = function (y) {
+barWaves[2] = function (y) {
   objectQueue[y] = [];
   objectQueue[y].push(new Barrier(y, 160, drawBarrier));
 
@@ -1066,10 +1534,10 @@ barWaves[16] = function (y) {
   objectQueue[y+20].push(new Side(150, y+90, 70, false, drawBasic1SideB));
   objectQueue[y+20].push(new Side(350, y+90, 70, true, drawBasic1SideA));
 }
-barWaves[16].height = 160;
+barWaves[2].height = 160;
 
 // Height = 160
-barWaves[17] = function (y) {
+barWaves[3] = function (y) {
   objectQueue[y] = [];
   objectQueue[y].push(new Barrier(y, 160, drawBarrier));
 
@@ -1077,7 +1545,7 @@ barWaves[17] = function (y) {
   objectQueue[y+20].push(new Side(150, y+90, 70, true, drawBasic1SideB));
   objectQueue[y+20].push(new Side(350, y+90, 70, false, drawBasic1SideA));
 }
-barWaves[17].height = 160;
+barWaves[3].height = 160;
 
 function narrowSides(y) {
   levelSides[nextInd].next = y;
