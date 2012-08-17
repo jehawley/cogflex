@@ -391,13 +391,20 @@ buildLevelWaves[0] = function (waveSeq, levelLength) {
 // splits: The number of probability regions
 // success: The probability of success in each region
 // trials: The number of trials in each region
-function initTestValues(splits, success, trials) {
+// reverse: If true, the current trial is a reversal of the previous trial
+//          Otherwise, it is independent
+function initTestValues(splits, success, trials, reverse) {
   testTrials = trials;
   var i, j;
   var random = Alea();
   var side = Math.round(random());
   var oldLen = 0;
   for (i = 0; i < splits; ++i) {
+    if (reverse[i]) {
+      side = Math.round(random());
+    } else {
+      side = 1 - side;
+    }
     for (j = 0; j < trials[i]; ++j) {
       if (j < success[i] * trials[i]) {
         testSide.push(side);

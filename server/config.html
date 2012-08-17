@@ -8,14 +8,10 @@
   </head>
 
   <body>
-    <form class="mainForm" action="postConfig.php">
+    <form class="mainForm" action="postConfig.php" method="post">
       <fieldset class="infoFieldset">
         <legend> Participant Information </legend>
         <ol class="fieldList">
-          <li>
-            <label for="name"> Name </label>
-            <input id="name" class="infoField" name="name" type="text" required>
-          </li>
           <li>
             <label for="ID"> ID Number </label>
             <input id="ID" class="infoField" name="ID" type="number"
@@ -48,6 +44,7 @@
         </ol>
       </fieldset>
       <input type="submit" id="submit">
+      <input type="reset" id="reset" name="reset" value="Clear">
     </form>
   </body>
 

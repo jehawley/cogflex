@@ -8,7 +8,8 @@ function init() {
   backCtx = document.getElementById('backC').getContext('2d');
   topCtx = document.getElementById('topC').getContext('2d');
   renderData.loadImages();
-  initTestValues(4, [1.0, 0.0, 0.8, 0.2], [15, 15, 15, 15]);
+  initTestValues(4, [1.0, 1.0, 0.8, 0.8],
+                 [15, 15, 15, 15], [false, true, false, true]);
   changeScreen(startScreen, handleStartScreen);
 }
 
