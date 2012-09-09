@@ -25,6 +25,15 @@ var renderData = {
     this.level1SideA.src = 'images/level1SideA.png';
     this.level1SideB.src = 'images/level1SideB.png';
 
+    this.level4Icon.src = 'images/level1Icon.png';
+    this.level4Background.src = 'images/level4Background.png';
+    this.level4SideL.src = 'images/level4SideL.png';
+    this.level4SideR.src = 'images/level4SideR.png';
+    this.level4SideLNarrow.src = 'images/level4SideLNarrow.png';
+    this.level4SideRNarrow.src = 'images/level4SideRNarrow.png';
+    this.level4SideA.src = 'images/level4SideA.png';
+    this.level4SideB.src = 'images/level4SideB.png';
+
     this.level2Icon.src = 'images/level2Icon.png';
     this.level2Background.src = 'images/level2Background.png';
     this.level2SideL.src = 'images/level2SideL.png';
@@ -42,6 +51,15 @@ var renderData = {
     this.level3SideRNarrow.src = 'images/level3SideRNarrow.png';
     this.level3SideA.src = 'images/level3SideA.png';
     this.level3SideB.src = 'images/level3SideB.png';
+
+    this.level4Icon.src = 'images/level1Icon.png';
+    this.level4Background.src = 'images/level4Background.png';
+    this.level4SideL.src = 'images/level4SideL.png';
+    this.level4SideR.src = 'images/level4SideR.png';
+    this.level4SideLNarrow.src = 'images/level4SideLNarrow.png';
+    this.level4SideRNarrow.src = 'images/level4SideRNarrow.png';
+    this.level4SideA.src = 'images/level4SideA.png';
+    this.level4SideB.src = 'images/level4SideB.png';
   },
   imageLoaded: function () {
     renderData.loadCount += 1;
@@ -90,6 +108,15 @@ renderData.level3SideRNarrow = new Image();
 renderData.level3SideA = new Image();
 renderData.level3SideB = new Image();
 
+renderData.level4Icon = new Image();
+renderData.level4Background = new Image();
+renderData.level4SideL = new Image();
+renderData.level4SideR = new Image();
+renderData.level4SideLNarrow = new Image();
+renderData.level4SideRNarrow = new Image();
+renderData.level4SideA = new Image();
+renderData.level4SideB = new Image();
+
 var initLevelImages = [];
 initLevelImages[1] = function () {
   return {
@@ -124,6 +151,18 @@ initLevelImages[3] = function () {
            sideRNarrow: renderData.level3SideRNarrow,
            sideA: renderData.level3SideA,
            sideB: renderData.level3SideB
+         };
+}
+
+initLevelImages[4] = function () {
+  return {
+           background: renderData.level4Background,
+           sideL: renderData.level4SideL,
+           sideR: renderData.level4SideR,
+           sideLNarrow: renderData.level4SideLNarrow,
+           sideRNarrow: renderData.level4SideRNarrow,
+           sideA: renderData.level4SideA,
+           sideB: renderData.level4SideB
          };
 }
  
@@ -610,6 +649,10 @@ drawPowerupEffect[3] = function () {
   if (powerupUseState <= 0) {
     player.speed = SHIP_DESCENT;
   }
+}
+
+drawPowerupEffect[4] = function () {
+  powerupUseState -= 1;
 }
 
 // Object Drawing Methods

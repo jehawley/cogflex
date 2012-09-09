@@ -23,7 +23,7 @@ function handleInstructionScreen2(e) {
 
 function handleChooseLevelScreen(e) {
   if ((e.type === 'keydown') && (e.keyCode === 39)) {
-    chosenLevel = Math.min(chosenLevel + 1, 3);
+    chosenLevel = Math.min(chosenLevel + 1, 4);
   }
 
   if ((e.type === 'keydown') && (e.keyCode === 37)) {

@@ -278,6 +278,19 @@ powerupFuns[3] = function () {
   player.speed = 130;
 }
 
+powerupFuns[4] = function() {
+  // TODO: Figure out appropriate value
+  powerupUseState = 0;
+
+  GameState.multiplierBar += MULT_MAX * GameState.multiplier;
+  while (GameState.multiplierBar >=
+    (GameState.multiplier * MULT_MAX)) {
+    GameState.multiplierBar -=
+    GameState.multiplier * MULT_MAX;
+    GameState.multiplier += 1;
+  }
+}
+
 function resultsScreen() {
   renderResultsScreen();
 }
