@@ -22,17 +22,8 @@ var renderData = {
     this.level1SideR.src = 'images/level1SideR.png';
     this.level1SideLNarrow.src = 'images/level1SideLNarrow.png';
     this.level1SideRNarrow.src = 'images/level1SideRNarrow.png';
-    this.level1SideA.src = 'images/level1SideA.png';
-    this.level1SideB.src = 'images/level1SideB.png';
-
-    this.level4Icon.src = 'images/level1Icon.png';
-    this.level4Background.src = 'images/level4Background.png';
-    this.level4SideL.src = 'images/level4SideL.png';
-    this.level4SideR.src = 'images/level4SideR.png';
-    this.level4SideLNarrow.src = 'images/level4SideLNarrow.png';
-    this.level4SideRNarrow.src = 'images/level4SideRNarrow.png';
-    this.level4SideA.src = 'images/level4SideA.png';
-    this.level4SideB.src = 'images/level4SideB.png';
+    this.level1SideA.src = 'images/level1SideA2.png';
+    this.level1SideB.src = 'images/level1SideB2.png';
 
     this.level2Icon.src = 'images/level2Icon.png';
     this.level2Background.src = 'images/level2Background.png';
@@ -40,8 +31,8 @@ var renderData = {
     this.level2SideR.src = 'images/level2SideR.png';
     this.level2SideLNarrow.src = 'images/level2SideLNarrow.png';
     this.level2SideRNarrow.src = 'images/level2SideRNarrow.png';
-    this.level2SideA.src = 'images/level2SideA.png';
-    this.level2SideB.src = 'images/level2SideB.png';
+    this.level2SideA.src = 'images/level2SideA2.png';
+    this.level2SideB.src = 'images/level2SideB2.png';
     
     this.level3Icon.src = 'images/level3Icon.png';
     this.level3Background.src = 'images/level3Background.png';
@@ -49,17 +40,17 @@ var renderData = {
     this.level3SideR.src = 'images/level3SideR.png';
     this.level3SideLNarrow.src = 'images/level3SideLNarrow.png';
     this.level3SideRNarrow.src = 'images/level3SideRNarrow.png';
-    this.level3SideA.src = 'images/level3SideA.png';
-    this.level3SideB.src = 'images/level3SideB.png';
+    this.level3SideA.src = 'images/level3SideA2.png';
+    this.level3SideB.src = 'images/level3SideB2.png';
 
-    this.level4Icon.src = 'images/level1Icon.png';
+    this.level4Icon.src = 'images/level4Icon.png';
     this.level4Background.src = 'images/level4Background.png';
     this.level4SideL.src = 'images/level4SideL.png';
     this.level4SideR.src = 'images/level4SideR.png';
     this.level4SideLNarrow.src = 'images/level4SideLNarrow.png';
     this.level4SideRNarrow.src = 'images/level4SideRNarrow.png';
-    this.level4SideA.src = 'images/level4SideA.png';
-    this.level4SideB.src = 'images/level4SideB.png';
+    this.level4SideA.src = 'images/level4SideA2.png';
+    this.level4SideB.src = 'images/level4SideB2.png';
   },
   imageLoaded: function () {
     renderData.loadCount += 1;
@@ -368,12 +359,14 @@ function renderChooseLevelScreen() {
     backCtx.textAlign = 'center';
     backCtx.fillText('Select a level, then press [Enter]', WIDTH / 2, 75);
 
-    backCtx.drawImage(renderData.level1Icon, 50, 100,
-                  (WIDTH-200)/3, (WIDTH-200)/3);
-    backCtx.drawImage(renderData.level2Icon, 200, 100, 
-                  (WIDTH-200)/3, (WIDTH-200)/3);
-    backCtx.drawImage(renderData.level3Icon, 350, 100,
-                  (WIDTH-200)/3, (WIDTH-200)/3);
+    backCtx.drawImage(renderData.level1Icon, 100, 100,
+                      (WIDTH-200)/3, (WIDTH-200)/3);
+    backCtx.drawImage(renderData.level2Icon, 300, 100, 
+                      (WIDTH-200)/3, (WIDTH-200)/3);
+    backCtx.drawImage(renderData.level3Icon, 100, 300,
+                      (WIDTH-200)/3, (WIDTH-200)/3);
+    backCtx.drawImage(renderData.level4Icon, 300, 300,
+                      (WIDTH-200)/3, (WIDTH-200)/3); 
     dirty = false;
   }
 

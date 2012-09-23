@@ -56,5 +56,9 @@ LEVEL_LENGTH_MIN[2] = 60;
 LEVEL_LENGTH_MIN[3] = 60;
 LEVEL_LENGTH_MIN[4] = 60;
 
+// Data to be sent to the server
+// TODO: Remove
+var tempRecord = [];
+
 // TODO: Remove or add toggle button in-game
 var AUDIO_ON = true;

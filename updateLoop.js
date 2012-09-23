@@ -26,6 +26,8 @@ function levelScreen() {
       !powerupUsed) {
     powerupUsed = true;
     GameState.powerupCount -= 1;
+    audioData.powerupUse.currentTime = 0;
+    audioData.powerupUse.play();
     powerupFuns[chosenLevel]();
   }
 
@@ -244,10 +246,21 @@ function levelScreen() {
     }
   }
 
+  if ((recordState.length) >= 0 && (recordState[0] <= player.posY)) {
+    // TODO: Record data here
+    if (player.posX < WIDTH / 2) {
+      tempRecord.push(-1);
+    } else {
+      tempRecord.push(1);
+    }
+    recordState.shift();
+  }
 
   renderLevelScreen();
 
   if (player.bottomHeight > levelEnd) {
+    // TODO: Remove
+    alert(tempRecord);
     changeScreen(resultsScreen, handleResultsScreen);
   }
 }
