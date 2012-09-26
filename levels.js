@@ -373,45 +373,69 @@ buildLevelWaves[3] = function (waveSeq, levelLength) {
 
 buildLevelWaves[4] = function (waveSeq, levelLength) {
   // The fractions of the level corresponding to each set of waves
-  // sector lengths: [0.06, 0.1, 0.24, 0.2, 0.2, 0.2 ];
+  // sector lengths: [0.25, 0.25, 0.25, 0.25 ];
   var sectors = [0.25, 0.5, 0.75];
   var secStops = sectors.map(function (x) {
                                return Math.floor(x * levelLength);
                              } );
   var i;
-  var waveQueues = [ [59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71,
-                      72, 73, 74, 75, 76, 77] ];
-  /*var waveQueues = [ [59],
-                     [2, 3, 4, 5],
-                     [30, 31, 45, 46],
-                     [47, 48, 49, 50],
-                     [57, 51, 52, 53, 54, 55, 56, 51, 52, 53, 54, 55, 56] ];*/
+  var waveQueues = [ [59, 60, 62, 63, 64, 65, 61, 59, 60, 62, 63, 64, 65],
+                     [49, 50, 66, 67, 68, 69, 66, 67, 68, 69, 58],
+                     [[70], [71], [72], [73],
+                      [61, 70], [65, 72], [64, 71], [63, 73]],
+                     [[74], [75], [76], [77], [74, 75], [75, 76], [76, 77],
+                      [74, 76], [75, 77]]
+                   ];
   var random = Alea();
   var num, tempY;
   var singletonAdded = false;
 
-  for (i = 0; i < 60; ++i) {
+  for (i = 0; i < secStops[0]; ++i) {
     num = waveQueues[0][0];
     waveSeq[i] = { w: [num],
                    wa: [60 + random() * (WIDTH - waves[num].width - 120)] };
     waveQueues[0].push(waveQueues[0].shift());
   }
-}
+  shuffleArray(waveSeq, 0, secStops[0]);
 
-// TODO: remove
-// test only
-buildLevelWaves[0] = function (waveSeq, levelLength) {
-  var waveQueues = [ [47, 48, 51, 52, 53, 54, 55, 56, 57] ];
-  var random = Alea();
-  var num, tempY;
-  var i;
-
-  for (i = 0; i < 70; ++i) {
-    num = waveQueues[0][0];
+  for ( ; i < secStops[1]; ++i) {
+    num = waveQueues[1][0];
     waveSeq[i] = { w: [num],
                    wa: [60 + random() * (WIDTH - waves[num].width - 120)] };
-    waveQueues[0].push(waveQueues[0].shift());
+    waveQueues[1].push(waveQueues[1].shift());
   }
+  shuffleArray(waveSeq, secStops[0], secStops[1]);
+
+  for ( ; i < secStops[2]; ++i) {
+    num = waveQueues[2][0];
+    if (num.length === 1) {
+      waveSeq[i] = { w: num,
+                     wa: [60 + random() * (WIDTH-waves[num[0]].width-120)] };
+    } else {
+      waveSeq[i] = { w: num,
+                     wa: [60 + random() * (WIDTH-waves[num[0]].width-120),
+                          60 + random() * (WIDTH-waves[num[1]].width-120)] };
+    }
+    waveQueues[2].push(waveQueues[2].shift());
+  }
+  shuffleArray(waveSeq, secStops[1], secStops[2]);
+
+  for (; i < (levelLength-1); ++i) {
+    num = waveQueues[3][0];
+    if (num.length === 1) {
+      waveSeq[i] = { w: num,
+                     wa: [60 + random() * (WIDTH-waves[num[0]].width-120)] };
+    } else {
+      waveSeq[i] = { w: num,
+                     wa: [60 + random() * (WIDTH-waves[num[0]].width-120),
+                          60 + random() * (WIDTH-waves[num[1]].width-120)] };
+    }
+    waveQueues[3].push(waveQueues[3].shift());
+  }
+  shuffleArray(waveSeq, secStops[2], i);
+
+  //Finale
+  waveSeq[i] = { w: [74, 76, 74, 76, 75, 77], wa: [80, 80, 80, 80, 80, 80] };
 }
 
 // splits: The number of probability regions
@@ -425,11 +449,21 @@ function initTestValues(splits, success, trials, reverse) {
   var random = Alea();
   var side = Math.round(random());
   var oldLen = 0;
+
+  sideImageCount = 0;
+  sideImageCurr = 0;
+  sideImageChangeover = [];
+
   for (i = 0; i < splits; ++i) {
     if (reverse[i]) {
-      side = Math.round(random());
-    } else {
       side = 1 - side;
+    } else {
+      side = Math.round(random());
+      if (i > 0) {
+        sideImageChangeover.push(trials.slice(0, i).reduce(function (x, y) {
+                                                             return x + y;
+                                                           }, 0));
+      }
     }
     for (j = 0; j < trials[i]; ++j) {
       if (j < success[i] * trials[i]) {
@@ -441,6 +475,7 @@ function initTestValues(splits, success, trials, reverse) {
     shuffleArray(testSide, oldLen, oldLen + trials[i]);
     oldLen += trials[i];
   }
+
 }
 
 

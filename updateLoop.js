@@ -247,6 +247,13 @@ function levelScreen() {
   }
 
   if ((recordState.length) >= 0 && (recordState[0] <= player.posY)) {
+    sideImageCount = sideImageCount + 1;
+    if (sideImageChangeover &&
+        sideImageCount >= sideImageChangeover[0]) {
+      sideImageCurr = (sideImageCurr + 1) %
+                      DISTINCT_SIDE_COUNT[chosenLevel];
+      sideImageChangeover.shift();
+    }
     // TODO: Record data here
     if (player.posX < WIDTH / 2) {
       tempRecord.push(-1);
@@ -292,8 +299,7 @@ powerupFuns[3] = function () {
 }
 
 powerupFuns[4] = function() {
-  // TODO: Figure out appropriate value
-  powerupUseState = 0;
+  powerupUseState = 30;
 
   GameState.multiplierBar += MULT_MAX * GameState.multiplier;
   while (GameState.multiplierBar >=

@@ -22,8 +22,10 @@ var renderData = {
     this.level1SideR.src = 'images/level1SideR.png';
     this.level1SideLNarrow.src = 'images/level1SideLNarrow.png';
     this.level1SideRNarrow.src = 'images/level1SideRNarrow.png';
-    this.level1SideA.src = 'images/level1SideA2.png';
-    this.level1SideB.src = 'images/level1SideB2.png';
+    this.level1SideA0.src = 'images/level1SideA.png';
+    this.level1SideA1.src = 'images/level1SideA2.png';
+    this.level1SideB0.src = 'images/level1SideB.png';
+    this.level1SideB1.src = 'images/level1SideB2.png';
 
     this.level2Icon.src = 'images/level2Icon.png';
     this.level2Background.src = 'images/level2Background.png';
@@ -31,8 +33,10 @@ var renderData = {
     this.level2SideR.src = 'images/level2SideR.png';
     this.level2SideLNarrow.src = 'images/level2SideLNarrow.png';
     this.level2SideRNarrow.src = 'images/level2SideRNarrow.png';
-    this.level2SideA.src = 'images/level2SideA2.png';
-    this.level2SideB.src = 'images/level2SideB2.png';
+    this.level2SideA0.src = 'images/level2SideA.png';
+    this.level2SideA1.src = 'images/level2SideA2.png';
+    this.level2SideB0.src = 'images/level2SideB.png';
+    this.level2SideB1.src = 'images/level2SideB2.png';
     
     this.level3Icon.src = 'images/level3Icon.png';
     this.level3Background.src = 'images/level3Background.png';
@@ -40,8 +44,10 @@ var renderData = {
     this.level3SideR.src = 'images/level3SideR.png';
     this.level3SideLNarrow.src = 'images/level3SideLNarrow.png';
     this.level3SideRNarrow.src = 'images/level3SideRNarrow.png';
-    this.level3SideA.src = 'images/level3SideA2.png';
-    this.level3SideB.src = 'images/level3SideB2.png';
+    this.level3SideA0.src = 'images/level3SideA.png';
+    this.level3SideA1.src = 'images/level3SideA2.png';
+    this.level3SideB0.src = 'images/level3SideB.png';
+    this.level3SideB1.src = 'images/level3SideB2.png';
 
     this.level4Icon.src = 'images/level4Icon.png';
     this.level4Background.src = 'images/level4Background.png';
@@ -49,15 +55,17 @@ var renderData = {
     this.level4SideR.src = 'images/level4SideR.png';
     this.level4SideLNarrow.src = 'images/level4SideLNarrow.png';
     this.level4SideRNarrow.src = 'images/level4SideRNarrow.png';
-    this.level4SideA.src = 'images/level4SideA2.png';
-    this.level4SideB.src = 'images/level4SideB2.png';
+    this.level4SideA0.src = 'images/level4SideA.png';
+    this.level4SideA1.src = 'images/level4SideA2.png';
+    this.level4SideB0.src = 'images/level4SideB.png';
+    this.level4SideB1.src = 'images/level4SideB2.png';
   },
   imageLoaded: function () {
     renderData.loadCount += 1;
   },
   loadCount: 0,
   // The total number of images in renderData
-  totalImages: 32
+  totalImages: 49
 };
 renderData.ship = new Image();
 renderData.coin = new Image();
@@ -78,8 +86,10 @@ renderData.level1SideL = new Image();
 renderData.level1SideR = new Image();
 renderData.level1SideLNarrow = new Image();
 renderData.level1SideRNarrow = new Image();
-renderData.level1SideA = new Image();
-renderData.level1SideB = new Image();
+renderData.level1SideA0 = new Image();
+renderData.level1SideA1 = new Image();
+renderData.level1SideB0 = new Image();
+renderData.level1SideB1 = new Image();
 
 renderData.level2Icon = new Image();
 renderData.level2Background = new Image();
@@ -87,8 +97,10 @@ renderData.level2SideL = new Image();
 renderData.level2SideR = new Image();
 renderData.level2SideLNarrow = new Image();
 renderData.level2SideRNarrow = new Image();
-renderData.level2SideA = new Image();
-renderData.level2SideB = new Image();
+renderData.level2SideA0 = new Image();
+renderData.level2SideA1 = new Image();
+renderData.level2SideB0 = new Image();
+renderData.level2SideB1 = new Image();
 
 renderData.level3Icon = new Image();
 renderData.level3Background = new Image();
@@ -96,8 +108,10 @@ renderData.level3SideL = new Image();
 renderData.level3SideR = new Image();
 renderData.level3SideLNarrow = new Image();
 renderData.level3SideRNarrow = new Image();
-renderData.level3SideA = new Image();
-renderData.level3SideB = new Image();
+renderData.level3SideA0 = new Image();
+renderData.level3SideA1 = new Image();
+renderData.level3SideB0 = new Image();
+renderData.level3SideB1 = new Image();
 
 renderData.level4Icon = new Image();
 renderData.level4Background = new Image();
@@ -105,8 +119,10 @@ renderData.level4SideL = new Image();
 renderData.level4SideR = new Image();
 renderData.level4SideLNarrow = new Image();
 renderData.level4SideRNarrow = new Image();
-renderData.level4SideA = new Image();
-renderData.level4SideB = new Image();
+renderData.level4SideA0 = new Image();
+renderData.level4SideA1 = new Image();
+renderData.level4SideB0 = new Image();
+renderData.level4SideB1 = new Image();
 
 var initLevelImages = [];
 initLevelImages[1] = function () {
@@ -116,8 +132,8 @@ initLevelImages[1] = function () {
            sideR: renderData.level1SideR,
            sideLNarrow: renderData.level1SideLNarrow,
            sideRNarrow: renderData.level1SideRNarrow,
-           sideA: renderData.level1SideA,
-           sideB: renderData.level1SideB
+           sideA: renderData.level1SideA1,
+           sideB: renderData.level1SideB1
          };
 } 
 
@@ -128,8 +144,8 @@ initLevelImages[2] = function () {
            sideR: renderData.level2SideR,
            sideLNarrow: renderData.level2SideLNarrow,
            sideRNarrow: renderData.level2SideRNarrow,
-           sideA: renderData.level2SideA,
-           sideB: renderData.level2SideB
+           sideA: renderData.level2SideA1,
+           sideB: renderData.level2SideB1
          };
 } 
 
@@ -140,8 +156,8 @@ initLevelImages[3] = function () {
            sideR: renderData.level3SideR,
            sideLNarrow: renderData.level3SideLNarrow,
            sideRNarrow: renderData.level3SideRNarrow,
-           sideA: renderData.level3SideA,
-           sideB: renderData.level3SideB
+           sideA: renderData.level3SideA1,
+           sideB: renderData.level3SideB1
          };
 }
 
@@ -152,8 +168,8 @@ initLevelImages[4] = function () {
            sideR: renderData.level4SideR,
            sideLNarrow: renderData.level4SideLNarrow,
            sideRNarrow: renderData.level4SideRNarrow,
-           sideA: renderData.level4SideA,
-           sideB: renderData.level4SideB
+           sideA: renderData.level4SideA1,
+           sideB: renderData.level4SideB1
          };
 }
  
@@ -646,6 +662,10 @@ drawPowerupEffect[3] = function () {
 
 drawPowerupEffect[4] = function () {
   powerupUseState -= 1;
+  topCtx.fillStyle = 'white';
+  topCtx.font = (powerupUseState*5+30)+'pt Helvetica';
+  topCtx.textAlign = 'center';
+  topCtx.fillText('+', 80, 50);
 }
 
 // Object Drawing Methods
@@ -735,14 +755,14 @@ function drawPowerup() {
 }
 
 function drawSideA() {
-  ctx.drawImage(renderData['level' + chosenLevel + 'SideA'],
+  ctx.drawImage(renderData['level' + chosenLevel + 'SideA' + sideImageCurr],
                 this.posX - this.radius,
                 this.posY - this.radius - player.posY + OFFSET,
                 2 * this.radius, 2 * this.radius);
 }
 
 function drawSideB() {
-  ctx.drawImage(renderData['level' + chosenLevel + 'SideB'],
+  ctx.drawImage(renderData['level' + chosenLevel + 'SideB' + sideImageCurr],
                 this.posX - this.radius,
                 this.posY - this.radius - player.posY + OFFSET,
                 2 * this.radius, 2 * this.radius);

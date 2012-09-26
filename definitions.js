@@ -1,3 +1,4 @@
+// Basic canvas constants
 var WIDTH = 500;
 var HEIGHT = 550;
 var DATA_WIDTH = 200;
@@ -5,6 +6,7 @@ var DATA_HEIGHT = 200;
 var SIDE_WIDTH = 50;
 var FPS = 60;
 
+// Basic gameplay constants
 var OFFSET = 75;
 var BAR_WIDTH = 16;
 var SHIP_WIDTH = 50;
@@ -55,6 +57,11 @@ LEVEL_LENGTH_MIN[1] = 60;
 LEVEL_LENGTH_MIN[2] = 60;
 LEVEL_LENGTH_MIN[3] = 60;
 LEVEL_LENGTH_MIN[4] = 60;
+// The number of distinct SideA/SideB image pairs
+var DISTINCT_SIDE_COUNT = [undefined, 2, 2, 2, 2];
+var sideImageCount = 0;
+var sideImageCurr = 0;
+var sideImageChangeover = [];
 
 // Data to be sent to the server
 // TODO: Remove
