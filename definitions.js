@@ -50,6 +50,10 @@ var scoreFlashState = 0;
 var multFlashState = 0;
 var powerupGetState = 0;
 var powerupUseState = 0;
+var warningState = 0;
+var warningFlashState = 0;
+var MAX_WARNINGS = 3;
+var forcedLevelQuit = false;
 
 // Level building constants
 var LEVEL_LENGTH_MIN = [];

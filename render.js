@@ -573,6 +573,18 @@ function renderLevelScreen() {
     drawPowerupEffect[chosenLevel]();
   }
 
+  if (warningFlashState > 0) {
+    warningFlashState -= 1;
+    topCtx.fillStyle = 'rgb(' +
+                       Math.round(100*Math.cos(warningFlashState *
+                                               Math.PI/25)+
+                                  150) + 
+                       ', 0, 0)';
+    topCtx.font = '42pt Helvetica';
+    topCtx.textAlign = 'center';
+    topCtx.fillText('Go Left or Right', WIDTH / 2, 120);
+  }
+
   starQueue.forEach(function (element, index, array) {
                       element.x = element.frame / element.s * WIDTH * 0.5 +
                                   (element.s - element.frame) / element.s *

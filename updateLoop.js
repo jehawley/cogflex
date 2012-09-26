@@ -31,16 +31,9 @@ function levelScreen() {
     powerupFuns[chosenLevel]();
   }
 
-  if (player.canMove) {
-    player.posY += player.speed / FPS;
-    player.topHeight = player.posY;
-    player.bottomHeight = player.posY + SHIP_WIDTH / 2;
-  } else {
-    if (!player.barrier.intersect()) {
-      player.canMove = true;
-      player.barrier = undefined;
-    }
-  }
+  player.posY += player.speed / FPS;
+  player.topHeight = player.posY;
+  player.bottomHeight = player.posY + SHIP_WIDTH / 2;
 
   // left arrow
   if (keysDown[37]) {
@@ -64,25 +57,32 @@ function levelScreen() {
                                }
                                if (element.intersect()) {
                                  if (element.length) {
-                                   if (player.canMove) {
-                                     if (player.bottomHeight <
-                                         (element.topHeight +
-                                          SHIP_DESCENT/FPS +
-                                          0.1)) {
-                                       player.canMove = false;
-                                       player.barrier = element;
+                                   if (player.bottomHeight <
+                                       (element.topHeight +
+                                        SHIP_DESCENT/FPS +
+                                        0.1)) {
+                                     player.posY = player.posY - 250;
+                                     warningState = warningState + 1;
+                                     if (warningState > MAX_WARNINGS) {
+                                       player.posY = levelEnd + 500;
+                                       player.topHeight = player.posY;
+                                       player.bottomHeight = player.posY +
+                                                             SHIP_WIDTH/2;
+                                       forcedLevelQuit = true;
                                      } else {
-                                       if (player.posX < (WIDTH / 2)) {
-                                         player.posX = WIDTH -
-                                                       SHIP_WIDTH -
-                                                       BAR_WIDTH;
-                                         player.posX *= 0.5;
-                                       } else {
-                                         player.posX = WIDTH +
-                                                       SHIP_WIDTH +
-                                                       BAR_WIDTH;
-                                         player.posX *= 0.5;
-                                       }
+                                       warningFlashState = 120;
+                                     }
+                                   } else {
+                                     if (player.posX < (WIDTH / 2)) {
+                                       player.posX = WIDTH -
+                                                     SHIP_WIDTH -
+                                                     BAR_WIDTH;
+                                       player.posX *= 0.5;
+                                     } else {
+                                       player.posX = WIDTH +
+                                                     SHIP_WIDTH +
+                                                     BAR_WIDTH;
+                                       player.posX *= 0.5;
                                      }
                                    }
                                  } else if (element.width) {
