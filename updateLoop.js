@@ -72,6 +72,8 @@ function levelScreen() {
                                        forcedLevelQuit = true;
                                      } else {
                                        warningFlashState = 65;
+                                       audioData.barrierWarning.currentTime=0;
+                                       audioData.barrierWarning.play();
                                      }
                                    } else {
                                      if (player.posX < (WIDTH / 2)) {
