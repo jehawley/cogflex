@@ -373,7 +373,7 @@ function renderChooseLevelScreen() {
     backCtx.fillStyle = 'white';
     backCtx.font = '22pt Helvetica';
     backCtx.textAlign = 'center';
-    backCtx.fillText('Select a level, then press [Enter]', WIDTH / 2, 75);
+    backCtx.fillText('Press [Enter] to begin', WIDTH / 2, 75);
 
     backCtx.drawImage(renderData.level1Icon, 100, 100,
                       (WIDTH-200)/3, (WIDTH-200)/3);
@@ -384,6 +384,17 @@ function renderChooseLevelScreen() {
     backCtx.drawImage(renderData.level4Icon, 300, 300,
                       (WIDTH-200)/3, (WIDTH-200)/3); 
     dirty = false;
+
+    topCtx.fillStyle = 'white';
+    topCtx.font = '20pt Helvetica';
+    topCtx.textAlign = 'center';
+    for (var i = 1; i <= LEVEL_COUNT; ++i) {
+      if (levelScores[i]) {
+        topCtx.fillText('Score: ' + levelScores[i],
+                        150 + ((i + 1) % 2) * 200,
+                        250 + Math.floor(i / 2.1) * 200);
+      }
+    }
   }
 
   ctx.clearRect(0, 0, WIDTH, HEIGHT);
@@ -391,8 +402,10 @@ function renderChooseLevelScreen() {
   ctx.lineWidth = 5;
   ctx.lineJoin = 'round';
   ctx.strokeStyle = 'rgb(0, 255, 0)';
-  ctx.strokeRect(50 + (50 + (WIDTH-200)/3)*(chosenLevel - 1), 100,
-                 (WIDTH - 200) / 3, (WIDTH - 200) / 3);
+  ctx.strokeRect(100 + ((chosenLevel + 1) % 2) * 200,
+                 100 + Math.floor(chosenLevel / 2.1) * 200,
+                 (WIDTH - 200) / 3,
+                 (WIDTH - 200) / 3);
 }
 
 function renderLevelScreen() {
@@ -614,13 +627,18 @@ function renderResultsScreen() {
     backCtx.drawImage(renderData.resultsBack, 0, 0);
     dirty = false;
   }
-  ctx.clearRect(0, 0, WIDTH, HEIGHT);
 
-  ctx.fillStyle = 'white';
-  ctx.font = '24pt Helvetica';
-  ctx.textAlign = 'center';
-  ctx.fillText('Score:', WIDTH / 2, 75);
-  ctx.fillText(GameState.score, WIDTH / 2, 100);
+  if (forcedLevelQuit) {
+    //TODO: Message on forced level quit
+  } else {
+    ctx.clearRect(0, 0, WIDTH, HEIGHT);
+
+    ctx.fillStyle = 'white';
+    ctx.font = '24pt Helvetica';
+    ctx.textAlign = 'center';
+    ctx.fillText('Score:', WIDTH / 2, 75);
+    ctx.fillText(GameState.score, WIDTH / 2, 100);
+  }
 }
 
 function renderDataScreen() {

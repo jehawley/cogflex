@@ -3,9 +3,17 @@ var GameState = {
   multiplier: 1,
   multiplierBar: 0,
 
-  currentPowerup: 0,
   powerupCount: 0,
 
-  leftCount: 0,
-  rightCount: 0
+  warningState: 0,
+
+  reset: function () {
+           this.score = 0;
+           this.multiplier = 1;
+           this.multiplierBar = 0;
+
+           this.powerupCount = 0;
+
+           this.warningState = 0;
+         }
 };

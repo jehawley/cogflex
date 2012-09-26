@@ -17,6 +17,8 @@ var BASE_POINTS = 10;
 var MULT_INCR = 1;
 var MULT_MAX = 10;
 
+var LEVEL_COUNT = 4;
+
 // Canvases
 // The main canvas
 var ctx;
@@ -41,6 +43,7 @@ var instrArrow = 0;
 // Level select screen data
 // 1-indexed
 var chosenLevel = 1;
+var levelScores = [0];
 
 // Level screen counters
 var starQueue = [];
@@ -50,7 +53,6 @@ var scoreFlashState = 0;
 var multFlashState = 0;
 var powerupGetState = 0;
 var powerupUseState = 0;
-var warningState = 0;
 var warningFlashState = 0;
 var MAX_WARNINGS = 3;
 var forcedLevelQuit = false;

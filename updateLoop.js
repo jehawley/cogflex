@@ -62,15 +62,16 @@ function levelScreen() {
                                         SHIP_DESCENT/FPS +
                                         0.1)) {
                                      player.posY = player.posY - 250;
-                                     warningState = warningState + 1;
-                                     if (warningState > MAX_WARNINGS) {
+                                     GameState.warningState += 1;
+                                     if (GameState.warningState >
+                                         MAX_WARNINGS) {
                                        player.posY = levelEnd + 500;
                                        player.topHeight = player.posY;
                                        player.bottomHeight = player.posY +
                                                              SHIP_WIDTH/2;
                                        forcedLevelQuit = true;
                                      } else {
-                                       warningFlashState = 120;
+                                       warningFlashState = 65;
                                      }
                                    } else {
                                      if (player.posX < (WIDTH / 2)) {
@@ -267,7 +268,7 @@ function levelScreen() {
 
   if (player.bottomHeight > levelEnd) {
     // TODO: Remove
-    alert(tempRecord);
+    //alert(tempRecord);
     changeScreen(resultsScreen, handleResultsScreen);
   }
 }

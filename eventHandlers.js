@@ -22,18 +22,15 @@ function handleInstructionScreen2(e) {
 }
 
 function handleChooseLevelScreen(e) {
-  if ((e.type === 'keydown') && (e.keyCode === 39)) {
-    chosenLevel = Math.min(chosenLevel + 1, 4);
-  }
-
-  if ((e.type === 'keydown') && (e.keyCode === 37)) {
-    chosenLevel = Math.max(chosenLevel - 1, 1);
-  }
-
   if ((e.type === 'keydown') && (e.keyCode === 13)) {
     buildLevel();
+    forcedLevelQuit = false;
     changeScreen(levelScreen, handleLevelScreen);
   }
+}
+
+function handleChooseLevelScreenEnd(e) {
+
 }
 
 function handleLevelScreen(e) {
@@ -51,6 +48,14 @@ function handleLevelScreen(e) {
 
 function handleResultsScreen(e) {
   if ((e.type === 'keydown') && (e.keyCode === 13)) {
-    changeScreen(chooseLevelScreen, handleChooseLevelScreen);
+    if (chosenLevel <= 4) {
+      levelScores[chosenLevel] = GameState.score;
+      chosenLevel += 1;
+      GameState.reset();
+      changeScreen(chooseLevelScreen, handleChooseLevelScreen);
+    } else {
+      // TODO: Implement something on game finish
+      changeScreen(chooseLevelScreen, handleChooseLevelScreenEnd);
+    }
   }
 }
