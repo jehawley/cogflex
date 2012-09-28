@@ -2,12 +2,19 @@
 // Contains the screen rendering functions and all necessary image data
 
 var renderData = {
+  // The total number of images currently loaded
+  loadCount: 0,
+  // The total number of images in renderData
+  totalImages: 50,
+  allImagesLoaded: false,
   loadImages: function () {
-    this.ship.src = 'images/ship1.png';
+    this.ship.src = 'images/ship.png';
     this.coin.src = 'images/coin3.png';
     this.enemy.src = 'images/enemy2.png';
     this.powerup.src = 'images/powerup1.png';
     this.star.src = 'images/star.png';
+
+    this.titleBack.src = 'images/titleBackground.png';
 
     this.instrBack.src = 'images/instructionBackground.png';
     this.instrNarrow.src = 'images/instructionNarrow.png';
@@ -59,19 +66,27 @@ var renderData = {
     this.level4SideA1.src = 'images/level4SideA2.png';
     this.level4SideB0.src = 'images/level4SideB.png';
     this.level4SideB1.src = 'images/level4SideB2.png';
+
+    for (img in this) {
+      if (this.hasOwnProperty(img) && this[img].src) {
+        this[img].onload = this.imageLoaded;
+      }
+    }
   },
   imageLoaded: function () {
     renderData.loadCount += 1;
-  },
-  loadCount: 0,
-  // The total number of images in renderData
-  totalImages: 49
+    if (renderData.loadCount >= renderData.totalImages) {
+      renderData.allImagesLoaded = true;
+    }
+  }
 };
 renderData.ship = new Image();
 renderData.coin = new Image();
 renderData.enemy = new Image();
 renderData.powerup = new Image();
 renderData.star = new Image();
+
+renderData.titleBack = new Image();
 
 renderData.instrBack = new Image();
 renderData.instrNarrow = new Image();
@@ -132,8 +147,6 @@ initLevelImages[1] = function () {
            sideR: renderData.level1SideR,
            sideLNarrow: renderData.level1SideLNarrow,
            sideRNarrow: renderData.level1SideRNarrow,
-           sideA: renderData.level1SideA1,
-           sideB: renderData.level1SideB1
          };
 } 
 
@@ -144,8 +157,6 @@ initLevelImages[2] = function () {
            sideR: renderData.level2SideR,
            sideLNarrow: renderData.level2SideLNarrow,
            sideRNarrow: renderData.level2SideRNarrow,
-           sideA: renderData.level2SideA1,
-           sideB: renderData.level2SideB1
          };
 } 
 
@@ -156,8 +167,6 @@ initLevelImages[3] = function () {
            sideR: renderData.level3SideR,
            sideLNarrow: renderData.level3SideLNarrow,
            sideRNarrow: renderData.level3SideRNarrow,
-           sideA: renderData.level3SideA1,
-           sideB: renderData.level3SideB1
          };
 }
 
@@ -168,24 +177,30 @@ initLevelImages[4] = function () {
            sideR: renderData.level4SideR,
            sideLNarrow: renderData.level4SideLNarrow,
            sideRNarrow: renderData.level4SideRNarrow,
-           sideA: renderData.level4SideA1,
-           sideB: renderData.level4SideB1
          };
 }
  
 function renderStartScreen() {
-  ctx.clearRect(0, 0, WIDTH, HEIGHT);
+  if (dirty) {
+    backCtx.drawImage(renderData.titleBack, 0, 0);
 
-  ctx.fillStyle = 'rgb(0,0,255)';
-  ctx.fillRect(0, 0, WIDTH, HEIGHT);
+    dirty = false;
+  }
 
   ctx.fillStyle = 'white';
-  ctx.font = '32pt Helvetica';
+  ctx.font = '50pt Helvetica';
   ctx.textAlign = 'center';
-  ctx.fillText('[Title]', WIDTH / 2, 100);
-
-  ctx.font = '24pt Helvetica';
-  ctx.fillText('Press [Enter] to continue', WIDTH / 2, 250);
+  ctx.fillText('COGFLEX', WIDTH / 2, 150);
+  
+  topCtx.clearRect(0, 0, WIDTH, HEIGHT);
+  topCtx.fillStyle = 'white';
+  topCtx.font = '24pt Helvetica';
+  topCtx.textAlign = 'center';
+  if (renderData.allImagesLoaded) {
+    topCtx.fillText('Press [Enter] to continue', WIDTH / 2, 250);
+  } else {
+    topCtx.fillText('Loading...', WIDTH / 2, 250);
+  }
 }
 
 function renderInstructionScreen() {
@@ -206,17 +221,7 @@ function renderInstructionScreen() {
     ctx.fillText('Move ', 125, 120);
     // Draw placeholder ship
     // TODO: Replace with ship image later
-    ctx.beginPath();
-    ctx.fillStyle = 'rgb(0, 50, 255)';
-    ctx.strokeStyle = 'rgb(100, 150, 235)';
-    ctx.lineWidth = 1.5;
-    ctx.moveTo(210, 100);
-    ctx.lineTo(195, 130);
-    ctx.lineTo(210, 126);
-    ctx.lineTo(225, 130);
-    ctx.closePath();
-    ctx.fill();
-    ctx.stroke();
+    ctx.drawImage(renderData.ship, 185, 100, SHIP_WIDTH, SHIP_WIDTH / 2);
     ctx.lineWidth = 1;
     ctx.fillStyle = 'white';
     ctx.fillText('with the left and right arrow keys', 100, 150);
@@ -717,7 +722,7 @@ function drawBasicShip() {
 
 function drawShip() {
   ctx.drawImage(renderData.ship,
-                this.posX - SHIP_WIDTH, this.posY - player.posY + OFFSET,
+                this.posX - SHIP_WIDTH / 2, this.posY - player.posY + OFFSET,
                 SHIP_WIDTH, SHIP_WIDTH / 2);
 }
 

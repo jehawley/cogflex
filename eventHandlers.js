@@ -1,7 +1,9 @@
 // eventHandlers.js
 // Contains all key event handling functions for the game window
 function handleStartScreen(e) {
-  if ((e.type === 'keydown') && (e.keyCode === 13)) {
+  if ((e.type === 'keydown') &&
+      (e.keyCode === 13) &&
+      renderData.allImagesLoaded) {
     changeScreen(instructionScreen, handleInstructionScreen);
   }
 }

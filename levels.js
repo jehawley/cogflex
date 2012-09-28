@@ -17,12 +17,12 @@ var recordState = [];
 var nextInd;
 
 var levelEnd;
-var player = new Ship(WIDTH / 2, drawBasicShip);
+var player = new Ship(WIDTH / 2, drawShip);
 
 function buildLevel() {
   objectQueue = [];
   levelSides = [];
-  player = new Ship(WIDTH / 2, drawBasicShip);
+  player = new Ship(WIDTH / 2, drawShip);
 
   var i, j;
   var temp;
