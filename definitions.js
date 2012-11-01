@@ -59,10 +59,12 @@ var forcedLevelQuit = false;
 
 // Level building constants
 var LEVEL_LENGTH_MIN = [];
+
 LEVEL_LENGTH_MIN[1] = 60;
 LEVEL_LENGTH_MIN[2] = 60;
 LEVEL_LENGTH_MIN[3] = 60;
 LEVEL_LENGTH_MIN[4] = 60;
+
 // The number of distinct SideA/SideB image pairs
 var DISTINCT_SIDE_COUNT = [undefined, 2, 2, 2, 2];
 var sideImageCount = 0;
@@ -70,8 +72,16 @@ var sideImageCurr = 0;
 var sideImageChangeover = [];
 
 // Data to be sent to the server
-// TODO: Remove
-var tempRecord = [];
+// 1 if the correct side was chosen, 0 if not 
+var sideChosenRecord = [[], [], [], [], []];
+// Which side is correct for each trial
+var correctSideRecord = [[], [], [], [], []];
+// 0 if win on left, 1 if win on right
+var winLossRecord = [[], [], [], [], []];
+// Probability of success for each trial
+var successP = [[], [], [], [], []];
+// 0 if this is an acquisition trial, 1 if a reverse trial
+var reversed = [[], [], [], [], []];
 
 // TODO: Remove or add toggle button in-game
-var AUDIO_ON = true;
+var AUDIO_ON = false;

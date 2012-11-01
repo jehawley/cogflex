@@ -257,11 +257,11 @@ function levelScreen() {
                       DISTINCT_SIDE_COUNT[chosenLevel];
       sideImageChangeover.shift();
     }
-    // TODO: Record data here
+
     if (player.posX < WIDTH / 2) {
-      tempRecord.push(-1);
+      sideChosenRecord[chosenLevel].push(0);
     } else {
-      tempRecord.push(1);
+      sideChosenRecord[chosenLevel].push(1);
     }
     recordState.shift();
   }
@@ -269,8 +269,6 @@ function levelScreen() {
   renderLevelScreen();
 
   if (player.bottomHeight > levelEnd) {
-    // TODO: Remove
-    //alert(tempRecord);
     changeScreen(resultsScreen, handleResultsScreen);
   }
 }

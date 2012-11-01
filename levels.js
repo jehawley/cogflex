@@ -26,6 +26,7 @@ function buildLevel() {
 
   var i, j;
   var temp;
+  var sideSwap;
   // Each object has parameters w (array of wave ids),
   //                            wa (arguments to wave functions)
   var waveSeq = [];
@@ -64,7 +65,14 @@ function buildLevel() {
     if (tsSlice[i] > -1) {
       narrowSides(accum);
       accum += 145;
-      barWaves[tsSlice[i] + 2 * Math.round(random())](accum);
+      sideSwap = 2 * Math.round(random());
+      // TODO : Fix this hack - only works for initial config
+      if (sideSwap > 0) {
+        correctSideRecord[chosenLevel][i] = 1 -
+                                            correctSideRecord[chosenLevel][i];
+        winLossRecord[chosenLevel][i] = 1 - winLossRecord[chosenLevel][i];
+      }
+      barWaves[tsSlice[i] + sideSwap](accum);
       accum += (barWaves[0].height + Math.floor(random() * 20) + 110);
     } else {
       accum += 30;
@@ -112,7 +120,7 @@ buildLevelWaves[1] = function (waveSeq, levelLength) {
   for (i = 0; i < secStops[0]; ++i) {
     num = waveQueues[0][0];
     waveSeq[i] = { w: [num],
-                   wa: [60 + random() * (WIDTH - waves[num].width - 120)] };
+                   wa: [randomPos(num)] };
     waveQueues[0].push(waveQueues[0].shift());
   }
   shuffleArray(waveSeq, 0, secStops[0]);
@@ -158,7 +166,7 @@ buildLevelWaves[1] = function (waveSeq, levelLength) {
     if (singletonAdded) {
       num = waveQueues[4][0];
       waveSeq[i] = { w: [num],
-                     wa: [60 + random() * (WIDTH-waves[num].width-120)] }; 
+                     wa: [randomPos(num)] }; 
       waveQueues[4].push(waveQueues[4].shift());
     } else {
       waveSeq[i] = { w: [19],
@@ -171,8 +179,7 @@ buildLevelWaves[1] = function (waveSeq, levelLength) {
   for (; i < (levelLength - 1); ++i) {
     num = waveQueues[5][0];
     waveSeq[i] = { w: num,
-                   wa: [60 + random() * (WIDTH-waves[num[0]].width-120),
-                        60 + random() * (WIDTH-waves[num[1]].width-120)] };
+                   wa: [randomPos(num[0]), randomPos(num[1])] };
     waveQueues[5].push(waveQueues[5].shift());
   }
   shuffleArray(waveSeq, secStops[4], i);
@@ -208,7 +215,7 @@ buildLevelWaves[2] = function (waveSeq, levelLength) {
   for (i = 0; i < secStops[0]; ++i) {
     num = waveQueues[0][0];
     waveSeq[i] = { w: [num],
-                   wa: [60 + random() * (WIDTH - waves[num].width - 120)] };
+                   wa: [randomPos(num)] };
     waveQueues[0].push(waveQueues[0].shift());
   }
   shuffleArray(waveSeq, 0, secStops[0]);
@@ -218,12 +225,11 @@ buildLevelWaves[2] = function (waveSeq, levelLength) {
     if (singletonAdded) {
       num = waveQueues[1][0];
       waveSeq[i] = { w: num,
-                     wa: [60 + random() * (WIDTH-waves[num[0]].width-120),
-                          60 + random() * (WIDTH-waves[num[1]].width-120)] };
+                     wa: [randomPos(num[0]), randomPos(num[1])] };
       waveQueues[1].push(waveQueues[1].shift());
     } else {
       waveSeq[i] = { w: [34],
-                     wa: [60 + random() * (WIDTH - waves[34].width - 120)] };
+                     wa: [randomPos(34)] };
       singletonAdded = true;
     }
   }
@@ -235,16 +241,15 @@ buildLevelWaves[2] = function (waveSeq, levelLength) {
       num = waveQueues[2][0];
       if (num.length === 1) {
         waveSeq[i] = { w: num, 
-                       wa: [60 + random() * (WIDTH-waves[num[0]].width-120)] };
+                       wa: [randomPos(num[0])] };
       } else {
         waveSeq[i] = { w: num,
-                       wa: [60 + random() * (WIDTH-waves[num[0]].width-120),
-                            60 + random() * (WIDTH-waves[num[1]].width-120)] };
+                       wa: [randomPos(num[0]), randomPos(num[1])] };
       }
       waveQueues[2].push(waveQueues[2].shift());
     } else {
       waveSeq[i] = { w: [44],
-                     wa: [60 + random() * (WIDTH - waves[44].width - 120)] };
+                     wa: [randomPos(44)] };
       singletonAdded = true;
     }
   }
@@ -254,11 +259,10 @@ buildLevelWaves[2] = function (waveSeq, levelLength) {
     num = waveQueues[3][0];
     if (num.length === 1) {
       waveSeq[i] = { w: num, 
-                     wa: [60 + random() * (WIDTH-waves[num[0]].width-120)] };
+                     wa: [randomPos(num[0])] };
     } else {
       waveSeq[i] = { w: num,
-                     wa: [60 + random() * (WIDTH-waves[num[0]].width-120),
-                          60 + random() * (WIDTH-waves[num[1]].width-120)] };
+                     wa: [randomPos(num[0]), randomPos(num[1])] };
     }
     waveQueues[3].push(waveQueues[3].shift());
   }
@@ -270,16 +274,15 @@ buildLevelWaves[2] = function (waveSeq, levelLength) {
       num = waveQueues[4][0];
       if (num.length === 1) {
         waveSeq[i] = { w: num, 
-                       wa: [60 + random() * (WIDTH-waves[num[0]].width-120)] };
+                       wa: [randomPos(num[0])] };
       } else {
         waveSeq[i] = { w: num,
-                       wa: [60 + random() * (WIDTH-waves[num[0]].width-120),
-                            60 + random() * (WIDTH-waves[num[1]].width-120)] };
+                       wa: [randomPos(num[0]), randomPos(num[1])] };
       }
       waveQueues[4].push(waveQueues[4].shift());
     } else {
       waveSeq[i] = { w: [44],
-                     wa: [60 + random() * (WIDTH - waves[44].width - 120)] };
+                     wa: [randomPos(44)] };
       singletonAdded = true;
     }
   }
@@ -289,11 +292,10 @@ buildLevelWaves[2] = function (waveSeq, levelLength) {
     num = waveQueues[5][0];
     if (num.length === 1) {
       waveSeq[i] = { w: num, 
-                     wa: [60 + random() * (WIDTH-waves[num[0]].width-120)] };
+                     wa: [randomPos(num[0])] };
     } else {
       waveSeq[i] = { w: num,
-                     wa: [60 + random() * (WIDTH-waves[num[0]].width-120), 
-                          60 + random() * (WIDTH-waves[num[1]].width-120)] };
+                     wa: [randomPos(num[0]), randomPos(num[1])] };
     }
     waveQueues[5].push(waveQueues[5].shift());
   }
@@ -323,7 +325,7 @@ buildLevelWaves[3] = function (waveSeq, levelLength) {
   for (i = 0; i < secStops[0]; ++i) {
     num = waveQueues[0][0];
     waveSeq[i] = { w: [num],
-                   wa: [60 + random() * (WIDTH - waves[num].width - 120)] };
+                   wa: [randomPos(num)] };
     waveQueues[0].push(waveQueues[0].shift());
   }
   shuffleArray(waveSeq, 0, secStops[0]);
@@ -333,11 +335,11 @@ buildLevelWaves[3] = function (waveSeq, levelLength) {
     if (singletonAdded) {
       num = waveQueues[1][0];
       waveSeq[i] = { w: [num],
-                     wa: [60 + random() * (WIDTH - waves[num].width - 120)] };
+                     wa: [randomPos(num)] };
       waveQueues[1].push(waveQueues[1].shift());
     } else {
       waveSeq[i] = { w: [20],
-                     wa: [60 + random() * (WIDTH - waves[20].width - 120)] };
+                     wa: [randomPos(20)] };
       singletonAdded = true;
     }
   }
@@ -346,7 +348,7 @@ buildLevelWaves[3] = function (waveSeq, levelLength) {
   for (; i < secStops[2]; ++i) {
     num = waveQueues[2][0];
     waveSeq[i] = { w: [num],
-                   wa: [60 + random() * (WIDTH - waves[num].width - 120)] };
+                   wa: [randomPos(num)] };
     waveQueues[2].push(waveQueues[2].shift());
   }
   shuffleArray(waveSeq, secStops[1], secStops[2]);
@@ -354,7 +356,7 @@ buildLevelWaves[3] = function (waveSeq, levelLength) {
   for (; i < secStops[3]; ++i) {
     num = waveQueues[3][0];
     waveSeq[i] = { w: [num],
-                   wa: [60 + random() * (WIDTH - waves[num].width - 120)] };
+                   wa: [randomPos(num)] };
     waveQueues[3].push(waveQueues[3].shift());
   }
   shuffleArray(waveSeq, secStops[2], secStops[3]);
@@ -362,7 +364,7 @@ buildLevelWaves[3] = function (waveSeq, levelLength) {
   for (; i < (levelLength-1); ++i) {
     num = waveQueues[4][0];
     waveSeq[i] = { w: [num],
-                   wa: [60 + random() * (WIDTH - waves[num].width - 120)] };
+                   wa: [randomPos(num)] };
     waveQueues[4].push(waveQueues[4].shift());
   }
   shuffleArray(waveSeq, secStops[3], i);
@@ -393,7 +395,7 @@ buildLevelWaves[4] = function (waveSeq, levelLength) {
   for (i = 0; i < secStops[0]; ++i) {
     num = waveQueues[0][0];
     waveSeq[i] = { w: [num],
-                   wa: [60 + random() * (WIDTH - waves[num].width - 120)] };
+                   wa: [randomPos(num)] };
     waveQueues[0].push(waveQueues[0].shift());
   }
   shuffleArray(waveSeq, 0, secStops[0]);
@@ -401,7 +403,7 @@ buildLevelWaves[4] = function (waveSeq, levelLength) {
   for ( ; i < secStops[1]; ++i) {
     num = waveQueues[1][0];
     waveSeq[i] = { w: [num],
-                   wa: [60 + random() * (WIDTH - waves[num].width - 120)] };
+                   wa: [randomPos(num)] };
     waveQueues[1].push(waveQueues[1].shift());
   }
   shuffleArray(waveSeq, secStops[0], secStops[1]);
@@ -410,11 +412,11 @@ buildLevelWaves[4] = function (waveSeq, levelLength) {
     num = waveQueues[2][0];
     if (num.length === 1) {
       waveSeq[i] = { w: num,
-                     wa: [60 + random() * (WIDTH-waves[num[0]].width-120)] };
+                     wa: [randomPos(num[0])] };
     } else {
       waveSeq[i] = { w: num,
-                     wa: [60 + random() * (WIDTH-waves[num[0]].width-120),
-                          60 + random() * (WIDTH-waves[num[1]].width-120)] };
+                     wa: [randomPos(num[0]),
+                          randomPos(num[1])] };
     }
     waveQueues[2].push(waveQueues[2].shift());
   }
@@ -424,11 +426,10 @@ buildLevelWaves[4] = function (waveSeq, levelLength) {
     num = waveQueues[3][0];
     if (num.length === 1) {
       waveSeq[i] = { w: num,
-                     wa: [60 + random() * (WIDTH-waves[num[0]].width-120)] };
+                     wa: [randomPos(num[0])] };
     } else {
       waveSeq[i] = { w: num,
-                     wa: [60 + random() * (WIDTH-waves[num[0]].width-120),
-                          60 + random() * (WIDTH-waves[num[1]].width-120)] };
+                     wa: [randomPos(num[0]), randomPos(num[1])] };
     }
     waveQueues[3].push(waveQueues[3].shift());
   }
@@ -466,9 +467,15 @@ function initTestValues(splits, success, trials, reverse) {
       }
     }
     for (j = 0; j < trials[i]; ++j) {
+      // TODO: Replace fixed level structure hack here
+      successP[Math.floor(0.25 * i) + 1].push(success[i]);
+      correctSideRecord[Math.floor(0.25 * i) + 1].push(side);
+      reversed[Math.floor(0.25 * i) + 1].push(reverse[i]);
       if (j < success[i] * trials[i]) {
+        winLossRecord[Math.floor(0.25 * i) + 1].push(side);
         testSide.push(side);
       } else {
+        winLossRecord[Math.floor(0.25 * i) + 1].push(1 - side);
         testSide.push(1 - side);
       }
     }
@@ -2778,6 +2785,11 @@ function narrowSides(y) {
   nextInd = y + 40;
 
   recordState.push(y + 170);
+}
+
+function randomPos(waveNumber) {
+  var random = Alea();
+  return 60 + Math.round(random() * (WIDTH-waves[waveNumber].width-120));
 }
 
 // In-place shuffles elements of a in [min, max)

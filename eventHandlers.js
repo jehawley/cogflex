@@ -50,13 +50,15 @@ function handleLevelScreen(e) {
 
 function handleResultsScreen(e) {
   if ((e.type === 'keydown') && (e.keyCode === 13)) {
-    if (chosenLevel <= 4) {
+    if (chosenLevel < 4) {
       levelScores[chosenLevel] = GameState.score;
       chosenLevel += 1;
       GameState.reset();
       changeScreen(chooseLevelScreen, handleChooseLevelScreen);
     } else {
       // TODO: Implement something on game finish
+      levelScores[4] = GameState.score;
+      sendDataToServer();
       changeScreen(chooseLevelScreen, handleChooseLevelScreenEnd);
     }
   }
