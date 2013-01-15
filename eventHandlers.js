@@ -4,6 +4,7 @@ function handleStartScreen(e) {
   if ((e.type === 'keydown') &&
       (e.keyCode === 13) &&
       renderData.allImagesLoaded) {
+    saveInitialData();
     changeScreen(instructionScreen, handleInstructionScreen);
   }
 }
@@ -26,7 +27,8 @@ function handleInstructionScreen2(e) {
 function handleChooseLevelScreen(e) {
   if ((e.type === 'keydown') && (e.keyCode === 13)) {
     buildLevel();
-    forcedLevelQuit = false;
+    // TODO: Reinstate this?
+    // forcedLevelQuit = false;
     changeScreen(levelScreen, handleLevelScreen);
   }
 }
@@ -38,6 +40,10 @@ function handleChooseLevelScreenEnd(e) {
 function handleLevelScreen(e) {
   if (e.type === 'keydown') {
     keysDown[e.keyCode] = true;
+    // 80 = P
+    if (e.keyCode === 80) {
+      paused = !paused;
+    }
   }
   if (e.type === 'keyup') {
     keysDown[e.keyCode] = false;
@@ -57,8 +63,11 @@ function handleResultsScreen(e) {
       changeScreen(chooseLevelScreen, handleChooseLevelScreen);
     } else {
       // TODO: Implement something on game finish
+      gameOver = true;
       levelScores[4] = GameState.score;
-      sendDataToServer();
+      if (!forcedLevelQuit) {
+        sendDataToServer();
+      }
       changeScreen(chooseLevelScreen, handleChooseLevelScreenEnd);
     }
   }

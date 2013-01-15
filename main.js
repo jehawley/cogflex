@@ -4,7 +4,6 @@ $(document).ready(function () {
 
 function init() {
   ctx = document.getElementById('mainC').getContext('2d');
-  dataCtx = document.getElementById('dataC').getContext('2d');
   backCtx = document.getElementById('backC').getContext('2d');
   topCtx = document.getElementById('topC').getContext('2d');
   renderData.loadImages();
@@ -12,11 +11,11 @@ function init() {
                  [1.0, 1.0, 0.8, 0.8,
                   0.9, 0.9, 0.8, 0.8,
                   0.7, 0.7, 0.9, 0.9,
-                  0.7, 0.7, 1.0, 1.0],
+                  1.0, 1.0, 0.7, 0.7],
                  [10, 10, 20, 20,
                   15, 15, 15, 15,
                   10, 10, 20, 20,
-                  22, 22, 8, 8],
+                  15, 15, 15, 15],
                  [false, true, false, true,
                   false, true, false, true,
                   false, true, false, true,
@@ -28,7 +27,6 @@ function changeScreen(newUpdate, newEvent) {
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   backCtx.setTransform(1, 0, 0, 1, 0, 0);
   topCtx.setTransform(1, 0, 0, 1, 0, 0);
-  dataCtx.clearRect(0, 0, WIDTH, HEIGHT);
   ctx.clearRect(0, 0, WIDTH, HEIGHT);
   backCtx.clearRect(0, 0, WIDTH, HEIGHT);
   topCtx.clearRect(0, 0, WIDTH, HEIGHT);

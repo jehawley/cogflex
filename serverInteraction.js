@@ -1,3 +1,8 @@
+function saveInitialData() {
+  subjectID = $('#participantID').val();
+  $('#dataContainer').empty();
+}
+
 function sendDataToServer () {
   // Holds information collected during gameplay in csv format
   var playDataString = "";
@@ -10,6 +15,7 @@ function sendDataToServer () {
   for (level = 1; level <= 4; ++level) {
     originalP = successP[level][0];
     for (i = 0; i < LEVEL_LENGTH_MIN[level]; ++i){
+      playDataString += subjectID + ",";
       if (successP[level][i] === originalP) {
         playDataString += sessionID + ",";
       } else {
@@ -27,21 +33,20 @@ function sendDataToServer () {
         playDataString += 0 + ",";
       }
       if (sideChosenRecord[level][i] === winLossRecord[level][i]) {
-        playDataString += 1 + ",";
+        playDataString += 1;
       } else {
-        playDataString += 0 + ",";
+        playDataString += 0;
       }
       playDataString += "\n";
     }
     
   }
 
-  alert(playDataString);
   var playData = { playDataString : playDataString };
 
   $.post('../server/postResults.php',
          playData,
          function (data, textStatus, jqXHR) {
-           alert('success');
+           console.log('success');
          });
 }

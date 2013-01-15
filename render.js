@@ -8,13 +8,13 @@ var renderData = {
   totalImages: 50,
   allImagesLoaded: false,
   loadImages: function () {
-    this.ship.src = 'images/ship.png';
-    this.coin.src = 'images/coin3.png';
-    this.enemy.src = 'images/enemy2.png';
-    this.powerup.src = 'images/powerup1.png';
-    this.star.src = 'images/star.png';
-
     this.titleBack.src = 'images/titleBackground.png';
+
+    this.ship.src = 'images/ship.png';
+    this.coin.src = 'images/coin.png';
+    this.enemy.src = 'images/enemy.png';
+    this.powerup.src = 'images/powerup.png';
+    this.star.src = 'images/star.png';
 
     this.instrBack.src = 'images/instructionBackground.png';
     this.instrNarrow.src = 'images/instructionNarrow.png';
@@ -80,13 +80,13 @@ var renderData = {
     }
   }
 };
+renderData.titleBack = new Image();
+
 renderData.ship = new Image();
 renderData.coin = new Image();
 renderData.enemy = new Image();
 renderData.powerup = new Image();
 renderData.star = new Image();
-
-renderData.titleBack = new Image();
 
 renderData.instrBack = new Image();
 renderData.instrNarrow = new Image();
@@ -181,11 +181,7 @@ initLevelImages[4] = function () {
 }
  
 function renderStartScreen() {
-  if (dirty) {
-    backCtx.drawImage(renderData.titleBack, 0, 0);
-
-    dirty = false;
-  }
+  backCtx.drawImage(renderData.titleBack, 0, 0);
 
   ctx.fillStyle = 'white';
   ctx.font = '50pt Helvetica';
@@ -219,8 +215,6 @@ function renderInstructionScreen() {
     ctx.textAlign = 'left';
     
     ctx.fillText('Move ', 125, 120);
-    // Draw placeholder ship
-    // TODO: Replace with ship image later
     ctx.drawImage(renderData.ship, 185, 100, SHIP_WIDTH, SHIP_WIDTH / 2);
     ctx.lineWidth = 1;
     ctx.fillStyle = 'white';
@@ -239,7 +233,33 @@ function renderInstructionScreen() {
     ctx.fillText(' for special effects', 227, 290);
     ctx.fillText('Press [Space] to use them', 120, 320);
 
-    ctx.fillText('Get points to increase your score multiplier', 45, 400);
+    ctx.fillText('Increase the score multiplier', 90, 385);
+    ctx.fillText('to earn even more points', 110, 410);
+
+    ctx.strokeStyle = 'rgb(0, 255, 50)';
+    ctx.beginPath();
+    ctx.arc(401, 400, 30, 0, 2 * Math.PI, true);
+    ctx.closePath();
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(401, 400, 15, 0, 2 * Math.PI, true);
+    ctx.closePath();
+    ctx.fill();
+    ctx.fillStyle = 'white';
+    ctx.beginPath();
+    ctx.arc(401, 400, 30, -Math.PI/2, 2*Math.PI*7/10 - Math.PI/2, false);
+    ctx.arc(401, 400, 15, 2*Math.PI*7/10 - Math.PI/2, -Math.PI/2, false);
+    ctx.closePath();
+    ctx.fill();
+    ctx.fillStyle = 'rgb(0, 255, 50)';
+    ctx.beginPath();
+    ctx.arc(401, 400, 15, 0, 2 * Math.PI, true);
+    ctx.closePath();
+    ctx.fill();
+    ctx.fillStyle = 'white';
+    ctx.font = '16pt Helvetica'; 
+    ctx.fillText('x2', 391, 407);
+
     dirty = false;
   }
 
@@ -248,26 +268,26 @@ function renderInstructionScreen() {
   topCtx.lineWidth = 2;
   topCtx.clearRect(0, 0, WIDTH, HEIGHT);
   topCtx.beginPath();
-  topCtx.moveTo(330 + 15*Math.sin(instrArrow * Math.PI / 50), 450);
-  topCtx.lineTo(430 + 15*Math.sin(instrArrow * Math.PI / 50), 450);
-  topCtx.lineTo(430 + 15*Math.sin(instrArrow * Math.PI / 50), 430);
-  topCtx.lineTo(470 + 15*Math.sin(instrArrow * Math.PI / 50), 475);
-  topCtx.lineTo(430 + 15*Math.sin(instrArrow * Math.PI / 50), 520);
-  topCtx.lineTo(430 + 15*Math.sin(instrArrow * Math.PI / 50), 500);
-  topCtx.lineTo(330 + 15*Math.sin(instrArrow * Math.PI / 50), 500);
+  topCtx.moveTo(330 + 15*Math.sin(animArrow * Math.PI / 50), 450);
+  topCtx.lineTo(430 + 15*Math.sin(animArrow * Math.PI / 50), 450);
+  topCtx.lineTo(430 + 15*Math.sin(animArrow * Math.PI / 50), 430);
+  topCtx.lineTo(470 + 15*Math.sin(animArrow * Math.PI / 50), 475);
+  topCtx.lineTo(430 + 15*Math.sin(animArrow * Math.PI / 50), 520);
+  topCtx.lineTo(430 + 15*Math.sin(animArrow * Math.PI / 50), 500);
+  topCtx.lineTo(330 + 15*Math.sin(animArrow * Math.PI / 50), 500);
   topCtx.stroke();
   topCtx.fill();
   topCtx.fillStyle = 'white';
   topCtx.font = '16pt Helvetica';
   topCtx.textAlign = 'left';
   topCtx.fillText('Press [Right]',
-                  335 + 15*Math.sin(instrArrow * Math.PI / 50),
+                  335 + 15*Math.sin(animArrow * Math.PI / 50),
                   480);
   topCtx.lineWidth = 1;
 
-  instrArrow -= 1;
-  if (instrArrow < 0) {
-    instrArrow = 50;
+  animArrow -= 1;
+  if (animArrow < 0) {
+    animArrow = 50;
   }
 }
 
@@ -285,28 +305,11 @@ function renderInstructionScreen2() {
 
     ctx.font = '16pt Helvetica';
   
-    ctx.fillText('Each level has Decision Points', WIDTH / 2, 110);
-    ctx.drawImage(renderData.instrNarrow, 190, 120, 120, 60);
+    ctx.fillText('Each level has Decision Collisions', WIDTH / 2, 110);
+    ctx.drawImage(renderData.instrNarrow, 190, 135, 120, 60);
     
-    //TODO: Figure out something to put here (possibly nothing)
-    //ctx.fillText('Move right or left to avoid a collision', WIDTH / 2, 200);
-
-    ctx.fillText('One side will have a ', 200, 240);
-    ctx.fillText('The other will have a ', 200, 270);
-    ctx.fillStyle = 'rgb(0, 0, 255)';
-    ctx.strokeStyle = 'rgb(0, 0, 70)';
-    ctx.lineWidth = 0.5;
-    ctx.font= 'bold 16pt Helvetica';
-    ctx.fillText('blue ', 323, 240);
-    ctx.strokeText('blue ', 323, 240);
-    ctx.fillStyle = 'rgb(255, 0, 0)';
-    ctx.strokeStyle = 'rgb(70, 0, 0)';
-    ctx.fillText('red ', 322, 270);
-    ctx.strokeText('red ', 322, 270);
-    ctx.fillStyle = 'white'
-    ctx.font = '16pt Helvetica';
-    ctx.fillText('token', 373, 240);
-    ctx.fillText('token', 368, 270);
+    ctx.fillText('Find out which object is MOSTLY worth points', 250, 250);
+    ctx.fillText('and stick with it', 250, 270);
 
     var redGrad = ctx.createRadialGradient(200, 300, 3, 190, 310, 30);
     var blueGrad = ctx.createRadialGradient(320, 300, 3, 310, 310, 30);
@@ -324,8 +327,8 @@ function renderInstructionScreen2() {
     ctx.fillRect(280, 280, 60, 60);
 
     ctx.fillStyle = 'white';
-    ctx.fillText('Figure out which color is worth points', WIDTH / 2, 360);
-    ctx.fillText('(this may change during a level)', WIDTH / 2, 390);
+    ctx.fillText('If the object that mostly WON you points', 250, 375);
+    ctx.fillText('starts to mostly LOSE you points, switch.', 250, 400);
 
     dirty = false;
   }
@@ -338,36 +341,36 @@ function renderInstructionScreen2() {
   topCtx.lineWidth = 2;
   topCtx.clearRect(0, 0, WIDTH, HEIGHT);
   topCtx.beginPath();
-  topCtx.moveTo(330 + 15*Math.sin(instrArrow * Math.PI / 50), 450);
-  topCtx.lineTo(430 + 15*Math.sin(instrArrow * Math.PI / 50), 450);
-  topCtx.lineTo(430 + 15*Math.sin(instrArrow * Math.PI / 50), 430);
-  topCtx.lineTo(470 + 15*Math.sin(instrArrow * Math.PI / 50), 475);
-  topCtx.lineTo(430 + 15*Math.sin(instrArrow * Math.PI / 50), 520);
-  topCtx.lineTo(430 + 15*Math.sin(instrArrow * Math.PI / 50), 500);
-  topCtx.lineTo(330 + 15*Math.sin(instrArrow * Math.PI / 50), 500);
-  topCtx.moveTo(170 - 15 * Math.sin(instrArrow * Math.PI / 50), 450);
-  topCtx.lineTo(70 - 15 * Math.sin(instrArrow * Math.PI / 50), 450);
-  topCtx.lineTo(70 - 15 * Math.sin(instrArrow * Math.PI / 50), 430);
-  topCtx.lineTo(30 - 15 * Math.sin(instrArrow * Math.PI / 50), 475);
-  topCtx.lineTo(70 - 15 * Math.sin(instrArrow * Math.PI / 50), 520);
-  topCtx.lineTo(70 - 15 * Math.sin(instrArrow * Math.PI / 50), 500);
-  topCtx.lineTo(170 - 15 * Math.sin(instrArrow * Math.PI / 50), 500); 
+  topCtx.moveTo(330 + 15*Math.sin(animArrow * Math.PI / 50), 450);
+  topCtx.lineTo(430 + 15*Math.sin(animArrow * Math.PI / 50), 450);
+  topCtx.lineTo(430 + 15*Math.sin(animArrow * Math.PI / 50), 430);
+  topCtx.lineTo(470 + 15*Math.sin(animArrow * Math.PI / 50), 475);
+  topCtx.lineTo(430 + 15*Math.sin(animArrow * Math.PI / 50), 520);
+  topCtx.lineTo(430 + 15*Math.sin(animArrow * Math.PI / 50), 500);
+  topCtx.lineTo(330 + 15*Math.sin(animArrow * Math.PI / 50), 500);
+  topCtx.moveTo(170 - 15 * Math.sin(animArrow * Math.PI / 50), 450);
+  topCtx.lineTo(70 - 15 * Math.sin(animArrow * Math.PI / 50), 450);
+  topCtx.lineTo(70 - 15 * Math.sin(animArrow * Math.PI / 50), 430);
+  topCtx.lineTo(30 - 15 * Math.sin(animArrow * Math.PI / 50), 475);
+  topCtx.lineTo(70 - 15 * Math.sin(animArrow * Math.PI / 50), 520);
+  topCtx.lineTo(70 - 15 * Math.sin(animArrow * Math.PI / 50), 500);
+  topCtx.lineTo(170 - 15 * Math.sin(animArrow * Math.PI / 50), 500); 
   topCtx.stroke();
   topCtx.fill();
   topCtx.fillStyle = 'white';
   topCtx.font = '16pt Helvetica';
   topCtx.textAlign = 'left';
   topCtx.fillText('Press [Enter]',
-                  335 + 15*Math.sin(instrArrow * Math.PI / 50),
+                  335 + 15*Math.sin(animArrow * Math.PI / 50),
                   480);
   topCtx.fillText('Press [Left]',
-                  52 - 15 * Math.sin(instrArrow * Math.PI / 50),
+                  52 - 15 * Math.sin(animArrow * Math.PI / 50),
                   480);
   topCtx.lineWidth = 1;
 
-  instrArrow -= 1;
-  if (instrArrow < 0) {
-    instrArrow = 50;
+  animArrow -= 1;
+  if (animArrow < 0) {
+    animArrow = 50;
   }
 }
 
@@ -378,7 +381,11 @@ function renderChooseLevelScreen() {
     backCtx.fillStyle = 'white';
     backCtx.font = '22pt Helvetica';
     backCtx.textAlign = 'center';
-    backCtx.fillText('Press [Enter] to begin', WIDTH / 2, 75);
+    if (gameOver) {
+      backCtx.fillText('Game Complete!', WIDTH / 2, 75);
+    } else {
+      backCtx.fillText('Press [Enter] to begin', WIDTH / 2, 75);
+    }
 
     backCtx.drawImage(renderData.level1Icon, 100, 100,
                       (WIDTH-200)/3, (WIDTH-200)/3);
@@ -404,13 +411,15 @@ function renderChooseLevelScreen() {
 
   ctx.clearRect(0, 0, WIDTH, HEIGHT);
 
-  ctx.lineWidth = 5;
-  ctx.lineJoin = 'round';
-  ctx.strokeStyle = 'rgb(0, 255, 0)';
-  ctx.strokeRect(100 + ((chosenLevel + 1) % 2) * 200,
-                 100 + Math.floor(chosenLevel / 2.1) * 200,
-                 (WIDTH - 200) / 3,
-                 (WIDTH - 200) / 3);
+  if (!gameOver) {
+    ctx.lineWidth = 5;
+    ctx.lineJoin = 'round';
+    ctx.strokeStyle = 'rgb(0, 255, 0)';
+    ctx.strokeRect(100 + ((chosenLevel + 1) % 2) * 200,
+                   100 + Math.floor(chosenLevel / 2.1) * 200,
+                   (WIDTH - 200) / 3,
+                   (WIDTH - 200) / 3);
+  }
 }
 
 function renderLevelScreen() {
@@ -627,6 +636,15 @@ function renderLevelScreen() {
                     } );
 }
 
+function renderPauseScreen() {
+  topCtx.fillStyle = 'green';
+  topCtx.fillRect(100, 100, 300, 300);
+  topCtx.fillStyle = 'black';
+  topCtx.textAlign = 'center';
+  topCtx.font = '24pt Helvetica';
+  topCtx.fillText('Press [P] to resume', 250, 250);
+}
+
 function renderResultsScreen() {
   if (dirty) {
     backCtx.drawImage(renderData.resultsBack, 0, 0);
@@ -635,6 +653,13 @@ function renderResultsScreen() {
 
   if (forcedLevelQuit) {
     //TODO: Message on forced level quit
+    ctx.clearRect(0, 0, WIDTH, HEIGHT);
+
+    ctx.fillStyle = 'white';
+    ctx.font = '24pt Helvetica';
+    ctx.textAlign = 'center';
+    ctx.fillText('Score:', WIDTH / 2, 75);
+    ctx.fillText(GameState.score, WIDTH / 2, 100);
   } else {
     ctx.clearRect(0, 0, WIDTH, HEIGHT);
 
@@ -644,27 +669,33 @@ function renderResultsScreen() {
     ctx.fillText('Score:', WIDTH / 2, 75);
     ctx.fillText(GameState.score, WIDTH / 2, 100);
   }
-}
 
-function renderDataScreen() {
-  dataCtx.clearRect(0, 0, DATA_WIDTH, DATA_HEIGHT);
+  topCtx.fillStyle = 'rgb(0, 191, 255)';
+  topCtx.strokeStyle = 'rgb(178, 255, 255)';
+  topCtx.lineWidth = 2;
+  topCtx.clearRect(0, 0, WIDTH, HEIGHT);
+  topCtx.beginPath();
+  topCtx.moveTo(330 + 15*Math.sin(animArrow * Math.PI / 50), 450);
+  topCtx.lineTo(430 + 15*Math.sin(animArrow * Math.PI / 50), 450);
+  topCtx.lineTo(430 + 15*Math.sin(animArrow * Math.PI / 50), 430);
+  topCtx.lineTo(470 + 15*Math.sin(animArrow * Math.PI / 50), 475);
+  topCtx.lineTo(430 + 15*Math.sin(animArrow * Math.PI / 50), 520);
+  topCtx.lineTo(430 + 15*Math.sin(animArrow * Math.PI / 50), 500);
+  topCtx.lineTo(330 + 15*Math.sin(animArrow * Math.PI / 50), 500);
+  topCtx.stroke();
+  topCtx.fill();
+  topCtx.fillStyle = 'white';
+  topCtx.font = '16pt Helvetica';
+  topCtx.textAlign = 'left';
+  topCtx.fillText('Press [Enter]',
+                  335 + 15*Math.sin(animArrow * Math.PI / 50),
+                  480);
+  topCtx.lineWidth = 1;
 
-  dataCtx.fillStyle = 'black';
-  dataCtx.font = '20pt Helvetica';
-  dataCtx.textAlign = 'center';
-  dataCtx.fillText('Score:', DATA_WIDTH / 2, 20);
-  dataCtx.fillText(GameState.score, DATA_WIDTH / 2, 40);
-
-  dataCtx.fillText('Powerups: ', DATA_WIDTH / 2, 160);
-  dataCtx.fillText(GameState.powerupCount, DATA_WIDTH / 2, 180);
-
-  dataCtx.fillText('Multiplier:', DATA_WIDTH / 2, 70);
-  dataCtx.fillText(GameState.multiplier, DATA_WIDTH / 2, 95);
-  dataCtx.fillStyle = 'yellow';
-  dataCtx.fillRect(0, 115,
-                   200 *
-                   GameState.multiplierBar /
-                   (10*GameState.multiplier), 20);
+  animArrow -= 1;
+  if (animArrow < 0) {
+    animArrow = 50;
+  }
 }
 
 // Level-dependent Powerup Rendering Methods
@@ -698,9 +729,9 @@ drawPowerupEffect[3] = function () {
 drawPowerupEffect[4] = function () {
   powerupUseState -= 1;
   topCtx.fillStyle = 'white';
-  topCtx.font = (powerupUseState*5+30)+'pt Helvetica';
+  topCtx.font = (powerupUseState*15+30)+'pt Helvetica';
   topCtx.textAlign = 'center';
-  topCtx.fillText('+', 80, 50);
+  topCtx.fillText('+', 80, 50+powerupUseState*15);
 }
 
 // Object Drawing Methods
@@ -737,8 +768,7 @@ function drawBasicCoin() {
 function drawCoin() {
   ctx.drawImage(renderData.coin,
                 this.posX - this.radius,
-                this.posY - this.radius - player.posY + OFFSET,
-                2 * this.radius, 2 * this.radius);
+                this.posY - this.radius - player.posY + OFFSET);
 }
 
 function drawBasicEnemy() {
@@ -752,8 +782,7 @@ function drawBasicEnemy() {
 function drawEnemy() {
   ctx.drawImage(renderData.enemy,
                 this.posX - this.sideLength / 2,
-                this.posY - this.sideLength / 2 - player.posY + OFFSET,
-                this.sideLength, this.sideLength);
+                this.posY - this.sideLength / 2 - player.posY + OFFSET)
 }
 
 function drawBasicBarrier() {

@@ -22,8 +22,6 @@ var LEVEL_COUNT = 4;
 // Canvases
 // The main canvas
 var ctx;
-// Side canvas for debugging only
-var dataCtx;
 // Background canvas - usually cleared once per screen
 var backCtx;
 // Animation canvas - usually cleared once per frame
@@ -38,7 +36,10 @@ var keysDown = [];
 var dirty = true;
 
 // Instruction screen data
-var instrArrow = 0;
+var animArrow = 0;
+
+// Choose level screen data
+var gameOver = false;
 
 // Level select screen data
 // 1-indexed
@@ -56,6 +57,7 @@ var powerupUseState = 0;
 var warningFlashState = 0;
 var MAX_WARNINGS = 3;
 var forcedLevelQuit = false;
+var paused = false;
 
 // Level building constants
 var LEVEL_LENGTH_MIN = [];
@@ -72,6 +74,7 @@ var sideImageCurr = 0;
 var sideImageChangeover = [];
 
 // Data to be sent to the server
+var subjectID = 0;
 // 1 if the correct side was chosen, 0 if not 
 var sideChosenRecord = [[], [], [], [], []];
 // Which side is correct for each trial
@@ -84,4 +87,4 @@ var successP = [[], [], [], [], []];
 var reversed = [[], [], [], [], []];
 
 // TODO: Remove or add toggle button in-game
-var AUDIO_ON = false;
+var AUDIO_ON = true;

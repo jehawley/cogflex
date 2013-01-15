@@ -20,6 +20,11 @@ function chooseLevelScreen() {
 function levelScreen() {
   var i;
 
+  if (paused) {
+    renderPauseScreen();
+    return;
+  }
+
   // 32 = Space
   if (keysDown[32] &&
       (GameState.powerupCount > 0) &&
@@ -300,7 +305,7 @@ powerupFuns[3] = function () {
 }
 
 powerupFuns[4] = function() {
-  powerupUseState = 30;
+  powerupUseState = 40;
 
   GameState.multiplierBar += MULT_MAX * GameState.multiplier;
   while (GameState.multiplierBar >=

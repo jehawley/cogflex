@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title> [To Be Titled] </title>
+    <title> COGFLEX </title>
     <link rel="stylesheet" type="text/css" href="style1.css">
     <script src="definitions.js"></script>
     <script src="lib/jquery-1.7.2.min.js"></script>
@@ -25,7 +25,11 @@
         <canvas id="backC" class="gameC" width="500" height="550"></canvas>
       </div>
       <div id = "dataContainer">
-        <canvas id="dataC" width="200" height="200"></canvas>
+        <form id="dataForm" class="mainForm" onSubmit="return false;">
+          <label for="participantID"> Participant ID </label>
+          <input id="participantID" name="participantID" type="number"
+                 min="1" value="0" required>
+        </form> 
       </div>
     </div>
   </body>
