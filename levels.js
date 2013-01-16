@@ -7,6 +7,8 @@ var testSide = [];
 var testTrials = [];
 // Holds arrays of game objects indexed by object top
 var objectQueue = [];
+// A list of all nonempty indices of objectQueue
+var objectIndices = [];
 // Singly linked list starting at y=0
 // Indexed by y coordinate, contains {x, next}
 var levelSides = [];
@@ -94,6 +96,8 @@ function buildLevel() {
     }
     i = levelSides[i].next;
   }
+
+  
 }
 
 var buildLevelWaves = [];
