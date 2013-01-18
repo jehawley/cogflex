@@ -423,8 +423,9 @@ function renderChooseLevelScreen() {
 }
 
 function renderLevelScreen() {
-  var levelImages = initLevelImages[chosenLevel]();
   if (dirty) {
+    levelImages = initLevelImages[chosenLevel]();
+
     backCtx.clearRect(0, 0, WIDTH, HEIGHT);
     backCtx.drawImage(levelImages.background, 0, 0, WIDTH, HEIGHT);
     ctx.translate(WIDTH/2, HEIGHT/2);
@@ -434,7 +435,8 @@ function renderLevelScreen() {
     dirty = false;
   }
 
-  var fogged = false, fogHeight, fogGrad;
+  fogged = false;
+  var fogGrad;
   var ind, lowInd, highInd, i, j, len;
 
   ctx.clearRect(0, 0, WIDTH, HEIGHT);

@@ -79,13 +79,14 @@ function levelScreen() {
   if (player.bottomHeight > levelEnd) {
     changeScreen(resultsScreen, handleResultsScreen);
   }
+
 }
 
 function gameObjectInteract(element, index, array) {
-           if (element.bottomHeight <
-               (player.topHeight - OFFSET)) {
-             delete array[index];
-           }
+           //if (element.bottomHeight <
+           //    (player.topHeight - OFFSET)) {
+           //  delete array[index];
+           //}
            if (element.intersect()) {
              if (element.length) {
                if (player.bottomHeight <
@@ -99,7 +100,7 @@ function gameObjectInteract(element, index, array) {
                    player.bottomHeight = player.posY + SHIP_WIDTH/2;
                    forcedLevelQuit = true;
                  } else {
-                   warningFlashState = 65;
+                   warningFlashState = 80;
                    audioData.barrierWarning.currentTime=0;
                    audioData.barrierWarning.play();
                  }
@@ -114,7 +115,7 @@ function gameObjectInteract(element, index, array) {
                }
              } else if (element.width) {
                GameState.powerupCount += 1;
-               powerupGetState = 15;
+               powerupGetState = 25;
                audioData.powerupGet.currentTime = 0;
                audioData.powerupGet.play();
                delete array[index];
@@ -128,7 +129,7 @@ function gameObjectInteract(element, index, array) {
                  if (GameState.multiplier > 1) {
                    GameState.multiplier -= 1;
                  }
-                 redFlashState = 15;
+                 redFlashState = 20;
                  audioData.buzzSmall.currentTime = 0;
                  audioData.buzzSmall.play();
                } else {
@@ -153,7 +154,7 @@ function gameObjectInteract(element, index, array) {
                                       player.posY - OFFSET,
                                    p: 3,
                                    a: 10, 
-                                   s: 35} );
+                                   s: 40} );
                  starQueue.push( { xS: WIDTH - element.posX - 10,
                                    yS: HEIGHT - element.posY +
                                        player.posY - OFFSET,
@@ -163,7 +164,7 @@ function gameObjectInteract(element, index, array) {
                                        player.posY - OFFSET, 
                                    p: 2, 
                                    a: 50,
-                                   s: 36 } );
+                                   s: 41 } );
                  starQueue.push( { xS: WIDTH - element.posX,
                                    yS: HEIGHT - element.posY +
                                        player.posY - OFFSET,
@@ -173,7 +174,7 @@ function gameObjectInteract(element, index, array) {
                                       player.posY - OFFSET,
                                    p: 3,
                                    a: 80,
-                                   s: 37} );
+                                   s: 42} );
                  starQueue.push( { xS: WIDTH - element.posX + 10,
                                    yS: HEIGHT - element.posY +
                                        player.posY - OFFSET,
@@ -183,7 +184,7 @@ function gameObjectInteract(element, index, array) {
                                       player.posY - OFFSET, 
                                    p: 2,
                                    a: -10,
-                                   s: 38 } );
+                                   s: 43 } );
                  starQueue.push( { xS: WIDTH - element.posX + 20,
                                    yS: HEIGHT - element.posY +
                                        player.posY - OFFSET,
@@ -193,7 +194,7 @@ function gameObjectInteract(element, index, array) {
                                       player.posY - OFFSET, 
                                    p: 3,
                                    a: -60,
-                                   s: 39 } );
+                                   s: 44 } );
                  audioData.sparkleBig.currentTime = 0;
                  audioData.sparkleBig.play();
                } else {
@@ -201,7 +202,7 @@ function gameObjectInteract(element, index, array) {
                  if (GameState.multiplier > 1) {
                    GameState.multiplier -= 1;
                  }
-                 xFlashState = 30;
+                 xFlashState = 35;
                  GameState.score -= 2 * BASE_POINTS;
                  if (GameState.score < 0) {
                    GameState.score = 0;
@@ -227,7 +228,7 @@ function gameObjectInteract(element, index, array) {
                                     player.posY-OFFSET,
                                  p: 3,
                                  a: 25,
-                                 s: 37} );
+                                 s: 42} );
                audioData.sparkleSmall.currentTime = 0;
                audioData.sparkleSmall.play();
                delete array[index];
@@ -239,7 +240,7 @@ function gameObjectInteract(element, index, array) {
 powerupFuns = [];
 
 powerupFuns[1] = function () {
-  powerupUseState = 14;
+  powerupUseState = 18;
   for (i = 0;
        i < Math.ceil(player.bottomHeight - OFFSET + HEIGHT);
        ++i) {
@@ -258,12 +259,12 @@ powerupFuns[2] = function () {
 }
 
 powerupFuns[3] = function () {
-  powerupUseState = 200;
+  powerupUseState = 210;
   player.speed = 130;
 }
 
 powerupFuns[4] = function() {
-  powerupUseState = 40;
+  powerupUseState = 50;
 
   GameState.multiplierBar += MULT_MAX * GameState.multiplier;
   while (GameState.multiplierBar >=

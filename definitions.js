@@ -4,7 +4,7 @@ var HEIGHT = 550;
 var DATA_WIDTH = 200;
 var DATA_HEIGHT = 200;
 var SIDE_WIDTH = 50;
-var FPS = 60;
+var FPS = 65;
 
 // Basic gameplay constants
 var OFFSET = 75;
@@ -46,7 +46,7 @@ var gameOver = false;
 var chosenLevel = 1;
 var levelScores = [0];
 
-// Level screen counters
+// Level screen data
 var starQueue = [];
 var redFlashState = 0;
 var xFlashState = 0;
@@ -58,6 +58,9 @@ var warningFlashState = 0;
 var MAX_WARNINGS = 3;
 var forcedLevelQuit = false;
 var paused = false;
+var levelImages;
+var fogged;
+var fogHeight;
 
 // Level building constants
 var LEVEL_LENGTH_MIN = [];
