@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title> Configure Trials </title>
+    <link rel="stylesheet" type="text/css" href="configStyle.css">
+    <script src="../lib/jquery-1.7.2.min.js"></script>
+    <script src="autosave.js"></script>
+  </head>
+
+  <body>
+    <form class="mainForm" action="postConfig.php" method="post">
+      <fieldset class="infoFieldset">
+        <legend> Participant Information </legend>
+        <ol class="fieldList">
+          <li>
+            <label for="ID"> ID Number </label>
+            <input id="ID" class="infoField" name="ID" type="number"
+                   step="1" min="0" required>
+          </li>
+          <li>
+            <label for="sessionNumber"> Session Number </label>
+            <input id="sessionNumber" class="infoField" name="sessionNumber"
+                   type="number" step="1" min="0" required>
+          </li>
+          <li>
+            <label for="sessionDate"> Session Date </label>
+            <input id="sessionDate" class="infoField" name="sessionDate"
+                   type="date" required>
+          </li>
+        </ol>
+      </fieldset>
+      <fieldset class="trialsFieldset">
+        <legend> Trials Information </legend>
+        <ol class="fieldList">
+          <li>
+            <label for="trialCount"> Number of Sections </label>
+            <input id="trialCount" class="count" name="trialCount"
+                   type="number" min="1" value="1" requried>
+          </li>
+          <li>
+            <div id="trialContainer">
+            </div>
+          </li>
+        </ol>
+      </fieldset>
+      <input type="submit" id="submit">
+      <input type="reset" id="reset" name="reset" value="Clear">
+    </form>
+  </body>
+
+</html>
