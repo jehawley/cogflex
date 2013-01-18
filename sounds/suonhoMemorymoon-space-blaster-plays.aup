@@ -1,0 +1,28 @@
+<?xml version="1.0" standalone="no" ?>
+<!DOCTYPE project PUBLIC "-//audacityproject-1.3.0//DTD//EN" "http://audacity.sourceforge.net/xml/audacityproject-1.3.0.dtd" >
+<project xmlns="http://audacity.sourceforge.net/xml/" projname="suonhoMemorymoon-space-blaster-plays_data" version="1.3.0" audacityversion="2.0.0" sel0="0.0000000000" sel1="0.0000000000" vpos="16" h="0.0000000000" zoom="104.8929663609" rate="44100.0">
+	<tags>
+		<tag name="YEAR" value="2006-12-12"/>
+		<tag name="Software" value="Sony Sound Forge 8.0"/>
+	</tags>
+	<wavetrack name="suonhoMemorymoon-space-blaster-plays" channel="0" linked="1" mute="0" solo="0" height="150" minimized="0" rate="44100" gain="1.0" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="43304">
+				<waveblock start="0">
+					<simpleblockfile filename="e0000f52.au" len="43304" min="-0.49235" max="0.555904" rms="0.107505"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="suonhoMemorymoon-space-blaster-plays" channel="1" linked="0" mute="0" solo="0" height="150" minimized="0" rate="44100" gain="1.0" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="43304">
+				<waveblock start="0">
+					<simpleblockfile filename="e0000839.au" len="43304" min="-0.500349" max="0.473628" rms="0.098945"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+</project>
