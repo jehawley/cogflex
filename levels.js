@@ -97,7 +97,11 @@ function buildLevel() {
     i = levelSides[i].next;
   }
 
-  
+  for (i = 0; i < objectQueue.length; ++i) {
+    if (objectQueue[i]) {
+      objectIndices.push(i);
+    }
+  }
 }
 
 var buildLevelWaves = [];

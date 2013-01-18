@@ -484,22 +484,17 @@ function renderLevelScreen() {
   player.draw();
 
   for (i = 0;
-       i < Math.ceil(player.topHeight - OFFSET + HEIGHT);
+       objectIndices[i] < Math.ceil(player.topHeight - OFFSET + HEIGHT);
        ++i) {
-    if (objectQueue[i]) {
-      objectQueue[i].forEach(function (element, index, array) {
-                               element.draw();
-                               if (element.length &&
-                                   ((player.posY + SHIP_WIDTH / 2) <
-                                    (element.posY + element.length / 2))) {
-                                 fogged = true;
-                                 fogHeight = element.posY + element.length;
-                               }
-                          });
-      if (fogged && (i >= fogHeight)) {
-        break;
-      }
+    objectQueue[objectIndices[i]].forEach(drawGameElement);
+    if (fogged && (objectIndices[i] >= fogHeight)) {
+      break;
     }
+  }
+  
+  while (objectIndices.length > 0 &&
+         objectIndices[0] < (player.topHeight - OFFSET - 160)) {
+      objectIndices.shift();
   }
 
   if (fogged) {
@@ -634,6 +629,16 @@ function renderLevelScreen() {
                                        20,
                                        20);
                     } );
+}
+
+function drawGameElement(element, index, array) {
+  element.draw();
+  if (element.length &&
+      ((player.posY + SHIP_WIDTH / 2) <
+       (element.posY + element.length / 2))) {
+    fogged = true;
+    fogHeight = element.posY + element.length;
+  }
 }
 
 function renderPauseScreen() {
