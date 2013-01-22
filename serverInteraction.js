@@ -17,7 +17,7 @@ function sendDataToServer () {
   } else {
     day = "" + today.getDate();
   }
-  if (today.getDate() < 10) {
+  if (today.getMonth() < 9) {
     month = "0" + (today.getMonth() + 1);
   } else {
     month = "" + (today.getMonth() + 1);
