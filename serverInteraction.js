@@ -31,7 +31,7 @@ function sendDataToServer () {
     originalP = successP[level][0];
 	    for (i = 0; i < sideChosenRecord[level].length; ++i){
       playDataString += subjectID + ",";
-      playDataString += (month+day+year);
+      playDataString += (month+day+year) + ",";
       if (successP[level][i] === originalP) {
         playDataString += sessionID + ",";
       } else {
