@@ -65,9 +65,7 @@ function handleResultsScreen(e) {
       // TODO: Implement something on game finish
       gameOver = true;
       levelScores[4] = GameState.score;
-      if (!forcedLevelQuit) {
-        sendDataToServer();
-      }
+      sendDataToServer();
       changeScreen(chooseLevelScreen, handleChooseLevelScreenEnd);
     }
   }

@@ -29,7 +29,7 @@ function sendDataToServer () {
   var i;
   for (level = 1; level <= 4; ++level) {
     originalP = successP[level][0];
-    for (i = 0; i < LEVEL_LENGTH_MIN[level]; ++i){
+	    for (i = 0; i < sideChosenRecord[level].length; ++i){
       playDataString += subjectID + ",";
       playDataString += (month+day+year);
       if (successP[level][i] === originalP) {
