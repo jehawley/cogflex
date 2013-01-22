@@ -60,7 +60,7 @@ function sendDataToServer () {
 
   var playData = { playDataString : playDataString };
 
-  $.post('../server/postResults.php',
+  $.post('http://techhouse.org/~johnh/server/postResults.php',
          playData,
          function (data, textStatus, jqXHR) {
            console.log('success');
