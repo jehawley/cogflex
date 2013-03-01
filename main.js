@@ -14,7 +14,7 @@ function init() {
                   0.7, 0.7, 0.9, 0.9],
                  [10, 10, 20, 20,
                   15, 15, 15, 15,
-                  15, 15, 15, 15
+                  15, 15, 15, 15,
                   10, 10, 20, 20],
                  [false, true, false, true,
                   false, true, false, true,
