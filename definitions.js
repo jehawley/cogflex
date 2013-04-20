@@ -55,8 +55,6 @@ var multFlashState = 0;
 var powerupGetState = 0;
 var powerupUseState = 0;
 var warningFlashState = 0;
-var MAX_WARNINGS = 3;
-var forcedLevelQuit = false;
 var paused = false;
 var levelImages;
 var fogged;

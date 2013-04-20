@@ -27,8 +27,6 @@ function handleInstructionScreen2(e) {
 function handleChooseLevelScreen(e) {
   if ((e.type === 'keydown') && (e.keyCode === 13)) {
     buildLevel();
-    // TODO: Reinstate this?
-    // forcedLevelQuit = false;
     changeScreen(levelScreen, handleLevelScreen);
   }
 }

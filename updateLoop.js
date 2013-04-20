@@ -92,18 +92,9 @@ function gameObjectInteract(element, index, array) {
                if (player.bottomHeight <
                    (element.topHeight + SHIP_DESCENT/FPS + 0.1)) {
                  player.posY = player.posY - 250;
-                 GameState.warningState += 1;
-                 if (GameState.warningState >
-                     MAX_WARNINGS) {
-                   player.posY = levelEnd + 500;
-                   player.topHeight = player.posY;
-                   player.bottomHeight = player.posY + SHIP_WIDTH/2;
-                   forcedLevelQuit = true;
-                 } else {
-                   warningFlashState = 80;
-                   audioData.barrierWarning.currentTime=0;
-                   audioData.barrierWarning.play();
-                 }
+                 warningFlashState = 80;
+                 audioData.barrierWarning.currentTime=0;
+                 audioData.barrierWarning.play();
                } else {
                  if (player.posX < (WIDTH / 2)) {
                    player.posX = WIDTH - SHIP_WIDTH - BAR_WIDTH;
