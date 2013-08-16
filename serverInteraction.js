@@ -1,6 +1,19 @@
 function saveInitialData() {
   subjectID = $('#participantID').val();
+  for (var i = 1; i < 11; ++i) {
+    if($('#level' + i).prop('checked')) {
+      levelList.push(i);
+      levelQueue.push(i);
+    }
+  }
+  // TODO: Handle empty level list error appropriately
+  if (levelList.length == 0) {
+    alert('Error: No levels selected');
+    return false;
+  }
+  chosenLevel = levelQueue.shift();
   $('#dataContainer').empty();
+  return true;
 }
 
 function sendDataToServer () {
@@ -17,7 +30,7 @@ function sendDataToServer () {
   } else {
     day = "" + today.getDate();
   }
-  if (today.getDate() < 10) {
+  if (today.getMonth() < 9) {
     month = "0" + (today.getMonth() + 1);
   } else {
     month = "" + (today.getMonth() + 1);
@@ -27,11 +40,15 @@ function sendDataToServer () {
   var originalP = 0;
   var level;
   var i;
-  for (level = 1; level <= 4; ++level) {
+  // allLevels is a copy of levelList
+  var allLevels = levelList.slice(0);
+  for (level = allLevels.shift();
+       allLevels.length > 0;
+       level=allLevels.shift()) {
     originalP = successP[level][0];
-    for (i = 0; i < LEVEL_LENGTH_MIN[level]; ++i){
+    for (i = 0; i < sideChosenRecord[level].length; ++i){
       playDataString += subjectID + ",";
-      playDataString += (month+day+year);
+      playDataString += (month+day+year) + ",";
       if (successP[level][i] === originalP) {
         playDataString += sessionID + ",";
       } else {
@@ -60,7 +77,7 @@ function sendDataToServer () {
 
   var playData = { playDataString : playDataString };
 
-  $.post('../server/postResults.php',
+  $.post('http://techhouse.org/~johnh/server/postResults.php',
          playData,
          function (data, textStatus, jqXHR) {
            console.log('success');

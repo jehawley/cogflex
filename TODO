@@ -1,0 +1,60 @@
+Should consider changing 10 (and 11) to a constant everywhere that makes sense
+
+Should consider moving config info to a data file
+
+Should consider refactoring how levels are made (add 0 and length to secStops, give all things in waveQueues the same type, more loops, make a generic function that just take a waveQueues object)
+
+Consider reducing + normalizing audio volumes
+
+*Note - level 4 made of 84-93, it is also broken 
+*Note - level 9 is with 94-107
+*Note - level 10 is with 108- , *114, 115=finale
+      -  108-114, 116-117, 118-123, 124
+---------
+
+In renderData
+&  --Add new images
+&  --Change the image count
+
+In init - call to initTestValues
+&  --Either get data before setting this up, or just set up all 10 levels and choose from among them later (probably the latter)
+
+In saveInitialData -
+&  --get levels to use.
+&  --Set up all data collection (and possibly choose what levels to use)
+  --Handle error of not setting participant data / choosing a level (perhaps have saveInitialData return true only on success, check it before proceeding).
+
+In definitions - 
+&  --change how data collection vars are initialized, add a field for levels
+
+In handleResultsScreen -
+&  --replace level count with queue
+&  --Change what determines gameOver
+
+In render.js
+&  --Add remaining levels to initLevelImages
+&  --Add powerups for new levels
+
+In renderChooseLevelScreen
+&  --Change EVERYTHING (sigh...)
+  --Add level numbering to the ChooseLevel screen
+
+In sendDataToServer
+&  --Change to only iterate over levels that actually exist
+  --Report the level to the server as an additional field
+
+In updateLoop.js
+&  --Add powerup effects for new levels
+
+In levels.js
+&  -- Fix hack in initTestValues
+  -- Fix hack in buildLevels
+  -- BUILD NEW LEVELS
+  -- TEST NEW LEVELS
+
+============================================================
+BUGS
+
+Small graphical imperfections (right side of level 1, enemies, fade level 3's background, ?fade level 8's background?, fade level 10's background, flip images ud in Level 5+8+9+10, redden 2nd wave level 6)
+
+*Can I actually send data to server?

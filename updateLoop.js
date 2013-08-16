@@ -59,11 +59,11 @@ function levelScreen() {
 
   if ((recordState.length) >= 0 && (recordState[0] <= player.posY)) {
     sideImageCount = sideImageCount + 1;
-    if (sideImageChangeover &&
-        sideImageCount >= sideImageChangeover[0]) {
+    if (sideImageChangeover[chosenLevel][0] &&
+        sideImageCount >= sideImageChangeover[chosenLevel][0]) {
       sideImageCurr = (sideImageCurr + 1) %
                       DISTINCT_SIDE_COUNT[chosenLevel];
-      sideImageChangeover.shift();
+      sideImageChangeover[chosenLevel].shift();
     }
 
     if (player.posX < WIDTH / 2) {
@@ -92,18 +92,9 @@ function gameObjectInteract(element, index, array) {
                if (player.bottomHeight <
                    (element.topHeight + SHIP_DESCENT/FPS + 0.1)) {
                  player.posY = player.posY - 250;
-                 GameState.warningState += 1;
-                 if (GameState.warningState >
-                     MAX_WARNINGS) {
-                   player.posY = levelEnd + 500;
-                   player.topHeight = player.posY;
-                   player.bottomHeight = player.posY + SHIP_WIDTH/2;
-                   forcedLevelQuit = true;
-                 } else {
-                   warningFlashState = 80;
-                   audioData.barrierWarning.currentTime=0;
-                   audioData.barrierWarning.play();
-                 }
+                 warningFlashState = 80;
+                 audioData.barrierWarning.currentTime=0;
+                 audioData.barrierWarning.play();
                } else {
                  if (player.posX < (WIDTH / 2)) {
                    player.posX = WIDTH - SHIP_WIDTH - BAR_WIDTH;
@@ -120,9 +111,10 @@ function gameObjectInteract(element, index, array) {
                audioData.powerupGet.play();
                delete array[index];
              } else if (element.sideLength) {
-               if (powerupUseState <= 0 || chosenLevel !== 2) {
+               if (!shieldActive) {
                  GameState.multiplierBar = 0;
-                 GameState.score -= BASE_POINTS;
+                 // TODO: Consider whether hitting enemies should reduce score
+                 // GameState.score -= BASE_POINTS;
                  if (GameState.score < 0) {
                    GameState.score = 0;
                  }
@@ -134,6 +126,9 @@ function gameObjectInteract(element, index, array) {
                  audioData.buzzSmall.play();
                } else {
                  powerupUseState -= 1;
+                 if (powerupUseState <= 0) {
+                   shieldActive = false;
+                 }
                }
                delete array[index];
              } else if (typeof element.good !== "undefined") {
@@ -236,10 +231,20 @@ function gameObjectInteract(element, index, array) {
            }
   }
 
-
 powerupFuns = [];
-
 powerupFuns[1] = function () {
+}
+
+powerupFuns[2] = function () {
+}
+
+powerupFuns[3] = function () {
+}
+
+powerupFuns[4] = function () {
+}
+
+powerupFuns[5] = function () {
   powerupUseState = 18;
   for (i = 0;
        i < Math.ceil(player.bottomHeight - OFFSET + HEIGHT);
@@ -254,16 +259,17 @@ powerupFuns[1] = function () {
   }
 }
 
-powerupFuns[2] = function () {
+powerupFuns[6] = function () {
   powerupUseState = 3;
+  shieldActive = true;
 }
 
-powerupFuns[3] = function () {
+powerupFuns[7] = function () {
   powerupUseState = 210;
   player.speed = 130;
 }
 
-powerupFuns[4] = function() {
+powerupFuns[8] = function() {
   powerupUseState = 50;
 
   GameState.multiplierBar += MULT_MAX * GameState.multiplier;
@@ -273,6 +279,26 @@ powerupFuns[4] = function() {
     GameState.multiplier * MULT_MAX;
     GameState.multiplier += 1;
   }
+}
+
+powerupFuns[9] = function () {
+  powerupUseState = 18;
+  for (i = 0;
+       i < Math.ceil(player.bottomHeight - OFFSET + HEIGHT);
+       ++i) {
+    if (objectQueue[i]) {
+      objectQueue[i].forEach(function (element, index, array) {
+                               if (element.sideLength) {
+                                 delete array[index];
+                               }
+                             } );
+    }
+  }
+}
+
+powerupFuns[10] = function () {
+  powerupUseState = 3;
+  shieldActive = true;
 }
 
 function resultsScreen() {

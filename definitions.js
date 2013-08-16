@@ -17,8 +17,6 @@ var BASE_POINTS = 10;
 var MULT_INCR = 1;
 var MULT_MAX = 10;
 
-var LEVEL_COUNT = 4;
-
 // Canvases
 // The main canvas
 var ctx;
@@ -43,8 +41,11 @@ var gameOver = false;
 
 // Level select screen data
 // 1-indexed
-var chosenLevel = 1;
-var levelScores = [0];
+var chosenLevel;
+// Dense array of level scores
+var levelScores = [];
+var levelList = [];
+var levelQueue = [];
 
 // Level screen data
 var starQueue = [];
@@ -55,8 +56,7 @@ var multFlashState = 0;
 var powerupGetState = 0;
 var powerupUseState = 0;
 var warningFlashState = 0;
-var MAX_WARNINGS = 3;
-var forcedLevelQuit = false;
+var shieldActive = false;
 var paused = false;
 var levelImages;
 var fogged;
@@ -65,29 +65,35 @@ var fogHeight;
 // Level building constants
 var LEVEL_LENGTH_MIN = [];
 
-LEVEL_LENGTH_MIN[1] = 60;
-LEVEL_LENGTH_MIN[2] = 60;
-LEVEL_LENGTH_MIN[3] = 60;
-LEVEL_LENGTH_MIN[4] = 60;
+LEVEL_LENGTH_MIN[1] = 20;
+LEVEL_LENGTH_MIN[2] = 20;
+LEVEL_LENGTH_MIN[3] = 20;
+LEVEL_LENGTH_MIN[4] = 40;
+LEVEL_LENGTH_MIN[5] = 40;
+LEVEL_LENGTH_MIN[6] = 40;
+LEVEL_LENGTH_MIN[7] = 40;
+LEVEL_LENGTH_MIN[8] = 40;
+LEVEL_LENGTH_MIN[9] = 40;
+LEVEL_LENGTH_MIN[10] = 40;
 
 // The number of distinct SideA/SideB image pairs
-var DISTINCT_SIDE_COUNT = [undefined, 2, 2, 2, 2];
+var DISTINCT_SIDE_COUNT = [undefined, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2];
 var sideImageCount = 0;
 var sideImageCurr = 0;
-var sideImageChangeover = [];
+var sideImageChangeover = [[]];
 
 // Data to be sent to the server
 var subjectID = 0;
 // 1 if the correct side was chosen, 0 if not 
-var sideChosenRecord = [[], [], [], [], []];
+var sideChosenRecord = [undefined, [], [], [], [], [], [], [], [], [], []];
 // Which side is correct for each trial
-var correctSideRecord = [[], [], [], [], []];
+var correctSideRecord = [undefined, [], [], [], [], [], [], [], [], [], []];
 // 0 if win on left, 1 if win on right
-var winLossRecord = [[], [], [], [], []];
+var winLossRecord = [undefined, [], [], [], [], [], [], [], [], [], []];
 // Probability of success for each trial
-var successP = [[], [], [], [], []];
+var successP = [undefined, [], [], [], [], [], [], [], [], [], []];
 // 0 if this is an acquisition trial, 1 if a reverse trial
-var reversed = [[], [], [], [], []];
+var reversed = [undefined, [], [], [], [], [], [], [], [], [], []];
 
 // TODO: Remove or add toggle button in-game
 var AUDIO_ON = true;
