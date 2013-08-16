@@ -3492,7 +3492,7 @@ waves[113] = function (x, y) {
 waves[113].width = 120;
 waves[113].height = 120;
 
-// Width = 120, Height = 120
+// Width = 170, Height = 120
 waves[114] = function (x, y) {
   objectQueue[y] = [];
   objectQueue[y].push(new Powerup(x+160, y+10, 20, drawPowerup));
@@ -3506,7 +3506,7 @@ waves[114] = function (x, y) {
   objectQueue[y+150] = [];
   objectQueue[y+150].push(new Coin(x+10, y+160, 10, drawCoin));
 }
-waves[114].width = 120;
+waves[114].width = 170;
 waves[114].height = 120;
 
 // Width = 270, Height = 500 
