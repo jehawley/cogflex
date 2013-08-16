@@ -1,6 +1,19 @@
 function saveInitialData() {
   subjectID = $('#participantID').val();
+  for (var i = 1; i < 11; ++i) {
+    if($('#level' + i).prop('checked')) {
+      levelList.push(i);
+      levelQueue.push(i);
+    }
+  }
+  // TODO: Handle empty level list error appropriately
+  if (levelList.length == 0) {
+    alert('Error: No levels selected');
+    return false;
+  }
+  chosenLevel = levelQueue.shift();
   $('#dataContainer').empty();
+  return true;
 }
 
 function sendDataToServer () {
@@ -27,9 +40,13 @@ function sendDataToServer () {
   var originalP = 0;
   var level;
   var i;
-  for (level = 1; level <= 4; ++level) {
+  // allLevels is a copy of levelList
+  var allLevels = levelList.slice(0);
+  for (level = allLevels.shift();
+       allLevels.length > 0;
+       level=allLevels.shift()) {
     originalP = successP[level][0];
-	    for (i = 0; i < sideChosenRecord[level].length; ++i){
+    for (i = 0; i < sideChosenRecord[level].length; ++i){
       playDataString += subjectID + ",";
       playDataString += (month+day+year) + ",";
       if (successP[level][i] === originalP) {
