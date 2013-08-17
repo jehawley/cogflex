@@ -43,8 +43,8 @@ function sendDataToServer () {
   // allLevels is a copy of levelList
   var allLevels = levelList.slice(0);
   for (level = allLevels.shift();
-       allLevels.length > 0;
-       level=allLevels.shift()) {
+       typeof level != 'undefined';
+       level = allLevels.shift()) {
     originalP = successP[level][0];
     for (i = 0; i < sideChosenRecord[level].length; ++i){
       playDataString += subjectID + ",";
