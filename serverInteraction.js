@@ -6,7 +6,6 @@ function saveInitialData() {
       levelQueue.push(i);
     }
   }
-  // TODO: Handle empty level list error appropriately
   if (levelList.length == 0) {
     alert('Error: No levels selected');
     return false;
@@ -48,12 +47,13 @@ function sendDataToServer () {
     originalP = successP[level][0];
     for (i = 0; i < sideChosenRecord[level].length; ++i){
       playDataString += subjectID + ",";
-      playDataString += (month+day+year) + ",";
+      playDataString += (year+month+day) + ",";
       if (successP[level][i] === originalP) {
         playDataString += sessionID + ",";
       } else {
         playDataString += (sessionID + 1) + ",";
       }
+      playDataString += level + ",";
       playDataString += successP[level][i] + ",";
       if (reversed[level][i]) {
         playDataString += 1 + ",";

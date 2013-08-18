@@ -244,32 +244,7 @@ powerupFuns[3] = function () {
 powerupFuns[4] = function () {
 }
 
-powerupFuns[5] = function () {
-  powerupUseState = 18;
-  for (i = 0;
-       i < Math.ceil(player.bottomHeight - OFFSET + HEIGHT);
-       ++i) {
-    if (objectQueue[i]) {
-      objectQueue[i].forEach(function (element, index, array) {
-                               if (element.sideLength) {
-                                 delete array[index];
-                               }
-                             } );
-    }
-  }
-}
-
-powerupFuns[6] = function () {
-  powerupUseState = 3;
-  shieldActive = true;
-}
-
-powerupFuns[7] = function () {
-  powerupUseState = 210;
-  player.speed = 130;
-}
-
-powerupFuns[8] = function() {
+powerupFuns[5] = function() {
   powerupUseState = 50;
 
   GameState.multiplierBar += MULT_MAX * GameState.multiplier;
@@ -281,7 +256,7 @@ powerupFuns[8] = function() {
   }
 }
 
-powerupFuns[9] = function () {
+powerupFuns[6] = function () {
   powerupUseState = 18;
   for (i = 0;
        i < Math.ceil(player.bottomHeight - OFFSET + HEIGHT);
@@ -296,9 +271,34 @@ powerupFuns[9] = function () {
   }
 }
 
-powerupFuns[10] = function () {
+powerupFuns[7] = function () {
   powerupUseState = 3;
   shieldActive = true;
+}
+
+powerupFuns[8] = function () {
+  powerupUseState = 18;
+  for (i = 0;
+       i < Math.ceil(player.bottomHeight - OFFSET + HEIGHT);
+       ++i) {
+    if (objectQueue[i]) {
+      objectQueue[i].forEach(function (element, index, array) {
+                               if (element.sideLength) {
+                                 delete array[index];
+                               }
+                             } );
+    }
+  }
+}
+
+powerupFuns[9] = function () {
+  powerupUseState = 3;
+  shieldActive = true;
+}
+
+powerupFuns[10] = function () {
+  powerupUseState = 210;
+  player.speed = 130;
 }
 
 function resultsScreen() {

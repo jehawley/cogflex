@@ -119,7 +119,6 @@ buildLevelWaves[1] = function (waveSeq, levelLength) {
   }
 }
 
-
 buildLevelWaves[2] = function (waveSeq, levelLength) {
   // The fractions of the level corresponding to each set of waves
   // sector lengths : [0.4, 0.5, 0.1];
@@ -253,6 +252,47 @@ buildLevelWaves[4] = function (waveSeq, levelLength) {
 
 buildLevelWaves[5] = function (waveSeq, levelLength) {
   // The fractions of the level corresponding to each set of waves
+  // sector lengths: [0.33 0.34 0.33;
+  var sectors = [0.33, 0.67];
+  var secStops = sectors.map(function (x) {
+                               return Math.floor(x * levelLength);
+                             } );
+  var i;
+  var waveQueues = [ [108, 109, 110, 111, 112, 113, 114, 108, 109],
+                     [118, 119, 120, 121, 122, 123, 124],
+                     [[108, 116], [110, 117], [109, 116], [112, 124],
+                      [111, 117], [124, 118], [120, 124], [124, 116] ]
+                   ];
+  for (i = 0; i < secStops[0]; ++i) {
+    num = waveQueues[0][0];
+    waveSeq[i] = { w: [num],
+                   wa: [randomPos(num)] };
+    waveQueues[0].push(waveQueues[0].shift());
+  }
+  shuffleArray(waveSeq, 0, secStops[0]);
+
+  for (i = secStops[0]; i < secStops[1]; ++i) {
+    num = waveQueues[1][0];
+    waveSeq[i] = { w: [num],
+                   wa: [randomPos(num)] };
+    waveQueues[1].push(waveQueues[1].shift());
+  }
+  shuffleArray(waveSeq, secStops[0], secStops[1]);
+
+  for (i = secStops[1]; i < levelLength - 1; ++i) {
+    num = waveQueues[2][0];
+    waveSeq[i] = { w: num,
+                   wa: [randomPos(num[0]), randomPos(num[1])] };
+    waveQueues[2].push(waveQueues[2].shift());
+  }
+  shuffleArray(waveSeq, secStops[1], i);
+
+  waveSeq[i] = { w: [115],
+                 wa: [randomPos(115)] };
+}
+
+buildLevelWaves[6] = function (waveSeq, levelLength) {
+  // The fractions of the level corresponding to each set of waves
   // sector lengths : [0.12 0.8 0.15 0.2 0.2 0.25];
   var sectors = [0.12, 0.2, 0.35, 0.55, 0.75];
   var secStops = sectors.map(function (x) {
@@ -341,7 +381,7 @@ buildLevelWaves[5] = function (waveSeq, levelLength) {
   waveSeq[i] = { w: [2, 3, 4, 5, 4, 5], wa: [60, 60, 60, 60, 60, 60]};
 };
 
-buildLevelWaves[6] = function (waveSeq, levelLength) {
+buildLevelWaves[7] = function (waveSeq, levelLength) {
   // The fractions of the level corresponding to each set of waves
   // sectpr lengths: [0.06, 0.1, 0.24, 0.2, 0.2, 0.2 ];
   var sectors = [0.06, 0.16, 0.4, 0.6, 0.8];
@@ -457,21 +497,19 @@ buildLevelWaves[6] = function (waveSeq, levelLength) {
   waveSeq[i] = { w: [26, 27, 26, 27, 37], wa: [90, 90, 90, 90, 90] };
 };
 
-buildLevelWaves[7] = function (waveSeq, levelLength) {
+buildLevelWaves[8] = function (waveSeq, levelLength) {
   // The fractions of the level corresponding to each set of waves
-  // sector lengths: [0.06, 0.1, 0.24, 0.2, 0.2, 0.2 ];
-  var sectors = [0.1, 0.25, 0.5, 0.75];
+  // sector lengths: [0.1, 0.2, 0.7];
+  var sectors = [0.1, 0.3];
   var secStops = sectors.map(function (x) {
                                return Math.floor(x * levelLength);
                              } );
   var i;
-  var waveQueues = [ [17, 18],
-                     [2, 3, 4, 5],
-                     [30, 31, 45, 46],
-                     [47, 48, 49, 50],
-                     [57, 51, 52, 53, 54, 55, 56, 51, 52, 53, 54, 55, 56] ];
-  var num, tempY;
-  var singletonAdded = false;
+  var waveQueues = [ [100, 101, 102, 100, 101, 100, 101],
+                     [[105, 104], [104, 105], [106, 105], [104, 96], [105, 97]],
+                     [[98, 97], [94, 96], [95, 96], [96, 97], [97, 96],
+                      [99, 96], [100, 97], [103, 106], [106, 103], [98, 98]]
+                   ];
 
   for (i = 0; i < secStops[0]; ++i) {
     num = waveQueues[0][0];
@@ -481,50 +519,29 @@ buildLevelWaves[7] = function (waveSeq, levelLength) {
   }
   shuffleArray(waveSeq, 0, secStops[0]);
 
-  singletonAded = false;
-  for (; i < secStops[1]; ++i) {
-    if (singletonAdded) {
-      num = waveQueues[1][0];
-      waveSeq[i] = { w: [num],
-                     wa: [randomPos(num)] };
-      waveQueues[1].push(waveQueues[1].shift());
-    } else {
-      waveSeq[i] = { w: [20],
-                     wa: [randomPos(20)] };
-      singletonAdded = true;
-    }
+  for (i = secStops[0]; i < secStops[1]; ++i) {
+    num = waveQueues[1][0];
+    waveSeq[i] = { w: num,
+                   wa: [randomPos(num[0]), randomPos(num[1])] };
+    waveQueues[1].push(waveQueues[1].shift());
   }
   shuffleArray(waveSeq, secStops[0], secStops[1]);
 
-  for (; i < secStops[2]; ++i) {
+  for (i = secStops[1]; i < levelLength - 1; ++i) {
     num = waveQueues[2][0];
-    waveSeq[i] = { w: [num],
-                   wa: [randomPos(num)] };
+    waveSeq[i] = { w: num,
+                   wa: [randomPos(num[0]), randomPos(num[1])] };
     waveQueues[2].push(waveQueues[2].shift());
   }
-  shuffleArray(waveSeq, secStops[1], secStops[2]);
+  shuffleArray(waveSeq, secStops[1], i);
 
-  for (; i < secStops[3]; ++i) {
-    num = waveQueues[3][0];
-    waveSeq[i] = { w: [num],
-                   wa: [randomPos(num)] };
-    waveQueues[3].push(waveQueues[3].shift());
-  }
-  shuffleArray(waveSeq, secStops[2], secStops[3]);
-
-  for (; i < (levelLength-1); ++i) {
-    num = waveQueues[4][0];
-    waveSeq[i] = { w: [num],
-                   wa: [randomPos(num)] };
-    waveQueues[4].push(waveQueues[4].shift());
-  }
-  shuffleArray(waveSeq, secStops[3], i);
-
-  // Finale
-  waveSeq[i] = { w: [51, 55, 54, 53], wa: [90, 90, 90, 90] };
+  waveSeq[i] = { w: [96, 97, 96, 97, 96, 97, 97, 96],
+                 wa: [randomPos(96), randomPos(97), randomPos(96),
+                      randomPos(97), randomPos(96), randomPos(97),
+                      randomPos(97), randomPos(96)] };
 }
 
-buildLevelWaves[8] = function (waveSeq, levelLength) {
+buildLevelWaves[9] = function (waveSeq, levelLength) {
   // The fractions of the level corresponding to each set of waves
   // sector lengths: [0.25, 0.25, 0.25, 0.25 ];
   var sectors = [0.25, 0.5, 0.75];
@@ -589,63 +606,22 @@ buildLevelWaves[8] = function (waveSeq, levelLength) {
   waveSeq[i] = { w: [74, 76, 74, 76, 75, 77], wa: [80, 80, 80, 80, 80, 80] };
 }
 
-buildLevelWaves[9] = function (waveSeq, levelLength) {
-  // The fractions of the level corresponding to each set of waves
-  // sector lengths: [0.1, 0.2, 0.7];
-  var sectors = [0.1, 0.3];
-  var secStops = sectors.map(function (x) {
-                               return Math.floor(x * levelLength);
-                             } );
-  var i;
-  var waveQueues = [ [100, 101, 102, 100, 101, 100, 101],
-                     [[105, 104], [104, 105], [106, 105], [104, 96], [105, 97]],
-                     [[98, 97], [94, 96], [95, 96], [96, 97], [97, 96],
-                      [99, 96], [100, 97], [103, 106], [106, 103], [98, 98]]
-                   ];
-
-  for (i = 0; i < secStops[0]; ++i) {
-    num = waveQueues[0][0];
-    waveSeq[i] = { w: [num],
-                   wa: [randomPos(num)] };
-    waveQueues[0].push(waveQueues[0].shift());
-  }
-  shuffleArray(waveSeq, 0, secStops[0]);
-
-  for (i = secStops[0]; i < secStops[1]; ++i) {
-    num = waveQueues[1][0];
-    waveSeq[i] = { w: num,
-                   wa: [randomPos(num[0]), randomPos(num[1])] };
-    waveQueues[1].push(waveQueues[1].shift());
-  }
-  shuffleArray(waveSeq, secStops[0], secStops[1]);
-
-  for (i = secStops[1]; i < levelLength - 1; ++i) {
-    num = waveQueues[2][0];
-    waveSeq[i] = { w: num,
-                   wa: [randomPos(num[0]), randomPos(num[1])] };
-    waveQueues[2].push(waveQueues[2].shift());
-  }
-  shuffleArray(waveSeq, secStops[1], i);
-
-  waveSeq[i] = { w: [96, 97, 96, 97, 96, 97, 97, 96],
-                 wa: [randomPos(96), randomPos(97), randomPos(96),
-                      randomPos(97), randomPos(96), randomPos(97),
-                      randomPos(97), randomPos(96)] };
-}
-
 buildLevelWaves[10] = function (waveSeq, levelLength) {
   // The fractions of the level corresponding to each set of waves
-  // sector lengths: [0.33 0.34 0.33;
-  var sectors = [0.33, 0.67];
+  // sector lengths: [0.06, 0.1, 0.24, 0.2, 0.2, 0.2 ];
+  var sectors = [0.1, 0.25, 0.5, 0.75];
   var secStops = sectors.map(function (x) {
                                return Math.floor(x * levelLength);
                              } );
   var i;
-  var waveQueues = [ [108, 109, 110, 111, 112, 113, 114, 108, 109],
-                     [118, 119, 120, 121, 122, 123, 124],
-                     [[108, 116], [110, 117], [109, 116], [112, 124],
-                      [111, 117], [124, 118], [120, 124], [124, 116] ]
-                   ];
+  var waveQueues = [ [17, 18],
+                     [2, 3, 4, 5],
+                     [30, 31, 45, 46],
+                     [47, 48, 49, 50],
+                     [57, 51, 52, 53, 54, 55, 56, 51, 52, 53, 54, 55, 56] ];
+  var num, tempY;
+  var singletonAdded = false;
+
   for (i = 0; i < secStops[0]; ++i) {
     num = waveQueues[0][0];
     waveSeq[i] = { w: [num],
@@ -654,24 +630,47 @@ buildLevelWaves[10] = function (waveSeq, levelLength) {
   }
   shuffleArray(waveSeq, 0, secStops[0]);
 
-  for (i = secStops[0]; i < secStops[1]; ++i) {
-    num = waveQueues[1][0];
-    waveSeq[i] = { w: [num],
-                   wa: [randomPos(num)] };
-    waveQueues[1].push(waveQueues[1].shift());
+  singletonAded = false;
+  for (; i < secStops[1]; ++i) {
+    if (singletonAdded) {
+      num = waveQueues[1][0];
+      waveSeq[i] = { w: [num],
+                     wa: [randomPos(num)] };
+      waveQueues[1].push(waveQueues[1].shift());
+    } else {
+      waveSeq[i] = { w: [20],
+                     wa: [randomPos(20)] };
+      singletonAdded = true;
+    }
   }
   shuffleArray(waveSeq, secStops[0], secStops[1]);
 
-  for (i = secStops[1]; i < levelLength - 1; ++i) {
+  for (; i < secStops[2]; ++i) {
     num = waveQueues[2][0];
-    waveSeq[i] = { w: num,
-                   wa: [randomPos(num[0]), randomPos(num[1])] };
+    waveSeq[i] = { w: [num],
+                   wa: [randomPos(num)] };
     waveQueues[2].push(waveQueues[2].shift());
   }
-  shuffleArray(waveSeq, secStops[1], i);
+  shuffleArray(waveSeq, secStops[1], secStops[2]);
 
-  waveSeq[i] = { w: [115],
-                 wa: [randomPos(115)] };
+  for (; i < secStops[3]; ++i) {
+    num = waveQueues[3][0];
+    waveSeq[i] = { w: [num],
+                   wa: [randomPos(num)] };
+    waveQueues[3].push(waveQueues[3].shift());
+  }
+  shuffleArray(waveSeq, secStops[2], secStops[3]);
+
+  for (; i < (levelLength-1); ++i) {
+    num = waveQueues[4][0];
+    waveSeq[i] = { w: [num],
+                   wa: [randomPos(num)] };
+    waveQueues[4].push(waveQueues[4].shift());
+  }
+  shuffleArray(waveSeq, secStops[3], i);
+
+  // Finale
+  waveSeq[i] = { w: [51, 55, 54, 53], wa: [90, 90, 90, 90] };
 }
 
 // levels: The total numbers of levels
@@ -3444,7 +3443,7 @@ waves[110].height = 170;
 // Width = 170, Height = 170
 waves[111] = function (x, y) {
   objectQueue[y] = [];
-  objectQueue[y].push(new Coin(x+170, y+10, 10, drawCoin));
+  objectQueue[y].push(new Coin(x+160, y+10, 10, drawCoin));
 
   objectQueue[y+50] = [];
   objectQueue[y+50].push(new Coin(x+110, y+60, 10, drawCoin));

@@ -631,31 +631,6 @@ drawPowerupEffect[4] = function() {
 }
 
 drawPowerupEffect[5] = function () {
-  topCtx.fillStyle = 'rgba(255, 255, 255, ' +
-                     (1 - powerupUseState/14) +
-                     ')';
-  topCtx.fillRect(0, 0, WIDTH, HEIGHT);
-  powerupUseState -= 1;
-}
-
-drawPowerupEffect[6] = function () {
-  topCtx.fillStyle = 'rgba(0, 0, 255, ' + (powerupUseState/3-0.1) + ')';
-  topCtx.beginPath();
-  topCtx.arc(WIDTH - player.posX, HEIGHT - OFFSET - SHIP_WIDTH / 4,
-             SHIP_WIDTH / 2 + 5, 0, 2 * Math.PI, true);
-  topCtx.fill();
-}
-
-drawPowerupEffect[7] = function () {
-  powerupUseState -= 1;
-  topCtx.fillStyle = 'rgba(0, 150, 0, 0.5)';
-  topCtx.fillRect(0, 0, WIDTH, HEIGHT);
-  if (powerupUseState <= 0) {
-    player.speed = SHIP_DESCENT;
-  }
-}
-
-drawPowerupEffect[8] = function () {
   powerupUseState -= 1;
   topCtx.fillStyle = 'white';
   topCtx.font = (powerupUseState*15+30)+'pt Helvetica';
@@ -663,7 +638,7 @@ drawPowerupEffect[8] = function () {
   topCtx.fillText('+', 80, 50+powerupUseState*15);
 }
 
-drawPowerupEffect[9] = function () {
+drawPowerupEffect[6] = function () {
   topCtx.fillStyle = 'rgba(255, 255, 255, ' +
                      (1 - powerupUseState/14) +
                      ')';
@@ -671,12 +646,37 @@ drawPowerupEffect[9] = function () {
   powerupUseState -= 1;
 }
 
-drawPowerupEffect[10] = function () {
+drawPowerupEffect[7] = function () {
   topCtx.fillStyle = 'rgba(0, 0, 255, ' + (powerupUseState/3-0.1) + ')';
   topCtx.beginPath();
   topCtx.arc(WIDTH - player.posX, HEIGHT - OFFSET - SHIP_WIDTH / 4,
              SHIP_WIDTH / 2 + 5, 0, 2 * Math.PI, true);
   topCtx.fill();
+}
+
+drawPowerupEffect[8] = function () {
+  topCtx.fillStyle = 'rgba(255, 255, 255, ' +
+                     (1 - powerupUseState/14) +
+                     ')';
+  topCtx.fillRect(0, 0, WIDTH, HEIGHT);
+  powerupUseState -= 1;
+}
+
+drawPowerupEffect[9] = function () {
+  topCtx.fillStyle = 'rgba(0, 0, 255, ' + (powerupUseState/3-0.1) + ')';
+  topCtx.beginPath();
+  topCtx.arc(WIDTH - player.posX, HEIGHT - OFFSET - SHIP_WIDTH / 4,
+             SHIP_WIDTH / 2 + 5, 0, 2 * Math.PI, true);
+  topCtx.fill();
+}
+
+drawPowerupEffect[10] = function () {
+  powerupUseState -= 1;
+  topCtx.fillStyle = 'rgba(0, 150, 0, 0.5)';
+  topCtx.fillRect(0, 0, WIDTH, HEIGHT);
+  if (powerupUseState <= 0) {
+    player.speed = SHIP_DESCENT;
+  }
 }
 
 // Object Drawing Methods
