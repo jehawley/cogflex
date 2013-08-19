@@ -6,7 +6,6 @@ function saveInitialData() {
       levelQueue.push(i);
     }
   }
-  // TODO: Handle empty level list error appropriately
   if (levelList.length == 0) {
     alert('Error: No levels selected');
     return false;

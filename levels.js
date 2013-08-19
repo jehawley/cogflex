@@ -2,7 +2,8 @@
 // Contains methods for building and managing levels
 
 // 0 for left = good, 1 for right = good
-var testSide = [];
+// Note: indexed by level
+var testSide = [[]];
 // The trial counts
 var testTrials = [];
 // Holds arrays of game objects indexed by object top
@@ -42,10 +43,12 @@ function buildLevel() {
 
   while (tsSlice.length < LEVEL_LENGTH_MIN[chosenLevel] &&
          testTrials[chosenLevel].length > 1) {
-    tsSlice = tsSlice.concat(testSide.slice(0, testTrials[chosenLevel][0] +
-                                               testTrials[chosenLevel][1]));
-    testSide = testSide.slice(testTrials[chosenLevel][0] +
-                              testTrials[chosenLevel][1]);
+    tsSlice = tsSlice.concat(
+        testSide[chosenLevel].slice(0, testTrials[chosenLevel][0] +
+                                       testTrials[chosenLevel][1]));
+    testSide[chosenLevel] = testSide[chosenLevel].slice(
+        testTrials[chosenLevel][0] +
+        testTrials[chosenLevel][1]);
     testTrials[chosenLevel] = testTrials[chosenLevel].slice(2);
   }
 
@@ -80,7 +83,7 @@ function buildLevel() {
         winLossRecord[chosenLevel][i] = 1 - winLossRecord[chosenLevel][i];
       }
       barWaves[tsSlice[i] + sideSwap](accum);
-      accum += (barWaves[0].height + Math.floor(random() * 20) + 110);
+      accum += barWaves[0].height + Math.floor(random() * 20) + 110;
     } else {
       accum += 30;
       waves[17](60, accum);
@@ -691,6 +694,7 @@ function initTestValues(levels, success, trials, reverse) {
 
   for (l = 0; l < levels; ++l) {
     sideImageChangeover.push([]);
+    testSide.push([]);
     for (i = 0; i < success[l].length; ++i) {
       if (reverse[l][i]) {
         side = 1 - side;
@@ -716,7 +720,7 @@ function initTestValues(levels, success, trials, reverse) {
       }
       shuffleArray(sidesWithData, 0, sidesWithData.length);
       winLossRecord[l + 1] = winLossRecord[l + 1].concat(sidesWithData); 
-      testSide = testSide.concat(sidesWithData);
+      testSide[l + 1] = testSide[l + 1].concat(sidesWithData);
       sidesWithData = [];
     }
   }
