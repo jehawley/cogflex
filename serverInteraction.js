@@ -19,8 +19,9 @@ function sendDataToServer () {
   // Holds information collected during gameplay in csv format
   var playDataString = "";
 
-  var sessionID = 0;
+  var pair = 0;
   var today = new Date();
+  var sessionID = today.getTime();
   var day;
   var month;
   var year;
@@ -48,10 +49,11 @@ function sendDataToServer () {
     for (i = 0; i < sideChosenRecord[level].length; ++i){
       playDataString += subjectID + ",";
       playDataString += (year+month+day) + ",";
+      playDataString += sessionID + ",";
       if (successP[level][i] === originalP) {
-        playDataString += sessionID + ",";
+        playDataString += pair + ",";
       } else {
-        playDataString += (sessionID + 1) + ",";
+        playDataString += (pair + 1) + ",";
       }
       playDataString += level + ",";
       playDataString += successP[level][i] + ",";
