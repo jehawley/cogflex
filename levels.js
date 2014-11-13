@@ -110,6 +110,23 @@ function buildLevel() {
       objectIndices.push(i);
     }
   }
+
+  countCoinsAndEnemies();
+}
+
+function countCoinsAndEnemies()
+{
+  objectQueue.forEach(function (element, index, array) {
+    element.forEach(function (innerElem, innerIndex, innerArray) {
+      if (innerElem.sideLength)
+      {
+        totalEnemiesPerLevel[chosenLevel]++;
+      } else if (innerElem.radius && typeof innerElem.good === "undefined")
+      {
+        totalCoinsPerLevel[chosenLevel]++;
+      }
+    });
+  });
 }
 
 var buildLevelWaves = [];

@@ -94,6 +94,11 @@ var winLossRecord = [undefined, [], [], [], [], [], [], [], [], [], []];
 var successP = [undefined, [], [], [], [], [], [], [], [], [], []];
 // 0 if this is an acquisition trial, 1 if a reverse trial
 var reversed = [undefined, [], [], [], [], [], [], [], [], [], []];
+// Counts of the coins/enemies that exist and that are actually hit
+var totalCoinsPerLevel = [undefined, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+var totalEnemiesPerLevel = [undefined, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+var coinsHitPerLevel = [undefined, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+var enemiesHitPerLevel = [undefined, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 // TODO: Remove or add toggle button in-game
 var AUDIO_ON = true;

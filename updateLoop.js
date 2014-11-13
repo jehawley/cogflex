@@ -83,11 +83,8 @@ function levelScreen() {
 }
 
 function gameObjectInteract(element, index, array) {
-           //if (element.bottomHeight <
-           //    (player.topHeight - OFFSET)) {
-           //  delete array[index];
-           //}
            if (element.intersect()) {
+           // Barrier
              if (element.length) {
                if (player.bottomHeight <
                    (element.topHeight + SHIP_DESCENT/FPS + 0.1)) {
@@ -104,13 +101,16 @@ function gameObjectInteract(element, index, array) {
                    player.posX *= 0.5;
                  }
                }
+           // Powerup
              } else if (element.width) {
                GameState.powerupCount += 1;
                powerupGetState = 25;
                audioData.powerupGet.currentTime = 0;
                audioData.powerupGet.play();
                delete array[index];
+           // Enemy
              } else if (element.sideLength) {
+               enemiesHitPerLevel[chosenLevel]++;
                if (!shieldActive) {
                  GameState.multiplierBar = 0;
                  // TODO: Consider whether hitting enemies should reduce score
@@ -131,6 +131,7 @@ function gameObjectInteract(element, index, array) {
                  }
                }
                delete array[index];
+             // Side
              } else if (typeof element.good !== "undefined") {
                if (element.good) {
                  GameState.score += (BASE_POINTS * GameState.multiplier * 5);
@@ -206,9 +207,11 @@ function gameObjectInteract(element, index, array) {
                  audioData.buzzBig.play();
                }
                delete array[index];
+           // Coin
              } else if (element.radius) {
                GameState.score += BASE_POINTS * GameState.multiplier;
                GameState.multiplierBar += MULT_INCR;
+               coinsHitPerLevel[chosenLevel]++; 
                while (GameState.multiplierBar >=
                       (GameState.multiplier * MULT_MAX)) {
                  GameState.multiplierBar -= GameState.multiplier * MULT_MAX;
