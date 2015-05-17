@@ -24,30 +24,43 @@
         <canvas id="mainC" class="gameC" width="500" height="550"></canvas>
         <canvas id="backC" class="gameC" width="500" height="550"></canvas>
       </div>
-      <div id = "dataContainer">
+      <div id="dataContainer">
         <form id="dataForm" class="mainForm" onSubmit="return false;">
-          <label for="participantID"> Participant ID </label>
-          <input id="participantID" name="participantID" type="number"
-                 min="1" value="0" required \>
-          <table>
+          <fieldset class="gameOptions">
+            <legend> Participant ID </legend>
+            <input id="participantID" name="participantID" type="number"
+                   min="1" value="0" required \>
+          </fieldset>
+          <fieldset class="gameOptions">
+            <legend> Level Set </legend>
+            <label for="skill"> S </label>
+            <input id="skill" name = "skill" type="radio"
+                   value="S" checked \>
+            <label for="nonskill"> N </label>
+            <input id="nonskill" name = "skill" type="radio"
+                   value="N" \>
+          </fieldset>
+          <fieldset class="gameOptions">
             <legend>Levels</legend>
-            <tr>
-              <td>1<input type="checkbox" id="level1" value="1"\> </td>
-              <td>2<input type="checkbox" id="level2" value="2"\> </td>
-              <td>3<input type="checkbox" id="level3" value="3"\> </td>
-              <td>4<input type="checkbox" id="level4" value="4"\> </td>
-            </tr>
-            <tr>
-              <td>5<input type="checkbox" id="level5" value="5"\> </td>
-              <td>6<input type="checkbox" id="level6" value="6"\> </td>
-              <td>7<input type="checkbox" id="level7" value="7"\> </td>
-            </tr>
-            <tr>
-              <td>8<input type="checkbox" id="level8" value="8"\> </td>
-              <td>9<input type="checkbox" id="level9" value="9"\> </td>
-              <td>10<input type="checkbox" id="level10" value="10"\> </td>
-            </tr>
-          </table>
+            <table>
+              <tr>
+                <td>1<input type="checkbox" id="level1" value="1"\> </td>
+                <td>2<input type="checkbox" id="level2" value="2"\> </td>
+                <td>3<input type="checkbox" id="level3" value="3"\> </td>
+                <td>4<input type="checkbox" id="level4" value="4"\> </td>
+              </tr>
+              <tr>
+                <td>5<input type="checkbox" id="level5" value="5"\> </td>
+                <td>6<input type="checkbox" id="level6" value="6"\> </td>
+                <td>7<input type="checkbox" id="level7" value="7"\> </td>
+              </tr>
+              <tr>
+                <td>8<input type="checkbox" id="level8" value="8"\> </td>
+                <td>9<input type="checkbox" id="level9" value="9"\> </td>
+                <td>10<input type="checkbox" id="level10" value="10"\> </td>
+              </tr>
+            </table>
+          </fieldset>
         </form> 
       </div>
     </div>

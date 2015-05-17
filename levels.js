@@ -121,7 +121,7 @@ function countCoinsAndEnemies()
       if (innerElem.sideLength)
       {
         totalEnemiesPerLevel[chosenLevel]++;
-      } else if (innerElem.radius && typeof innerElem.good === "undefined")
+      } else if (innerElem.radius && typeof innerElem.good === 'undefined')
       {
         totalCoinsPerLevel[chosenLevel]++;
       }
@@ -693,12 +693,64 @@ buildLevelWaves[10] = function (waveSeq, levelLength) {
   waveSeq[i] = { w: [51, 55, 54, 53], wa: [90, 90, 90, 90] };
 }
 
+function initTestValues() {
+  if (levelSet === 'S') {
+    var success = [[1.0, 1.0],
+                   [1.0, 1.0],
+                   [1.0, 1.0],
+                   [1.0, 1.0, 1.0, 1.0],
+                   [1.0, 1.0, 0.9, 0.9],
+                   [1.0, 1.0, 0.8, 0.8],
+                   [1.0, 1.0, 0.7, 0.7],
+                   [0.9, 0.9, 0.8, 0.8],
+                   [0.9, 0.9, 0.7, 0.7],
+                   [0.8, 0.8, 0.7, 0.7]];
+  } else if (levelSet === 'N') {
+    var success = [[1.0, 1.0],
+                   [1.0, 1.0],
+                   [1.0, 1.0],
+                   [1.0, 1.0, 1.0, 1.0],
+                   [1.0, 1.0, 1.0, 1.0],
+                   [1.0, 1.0, 1.0, 1.0],
+                   [1.0, 1.0, 1.0, 1.0],
+                   [1.0, 1.0, 1.0, 1.0],
+                   [1.0, 1.0, 1.0, 1.0],
+                   [1.0, 1.0, 1.0, 1.0]];
+  } else {
+    // This should never happen
+  }
+
+  var trials = [[15, 15],
+                [15, 15],
+                [15, 15],
+                [15, 15, 15, 15],
+                [15, 15, 15, 15],
+                [15, 15, 15, 15],
+                [15, 15, 15, 15],
+                [15, 15, 15, 15],
+                [15, 15, 15, 15],
+                [15, 15, 15, 15]];
+
+  var reverse = [[false, true],
+                 [false, true],
+                 [false, true],
+                 [false, true, false, true],
+                 [false, true, false, true],
+                 [false, true, false, true],
+                 [false, true, false, true],
+                 [false, true, false, true],
+                 [false, true, false, true],
+                 [false, true, false, true]];
+
+  setupTestValues(10, success, trials, reverse); 
+}
+
 // levels: The total numbers of levels
 // success: The probability of success in each region, 0-indexed by level.
 // trials: The number of trials in each region, 0-indexed by level.
 // reverse: If true, the current trial is a reversal of the previous trial
 //          Otherwise, it is independent. 0-Indexed by level.
-function initTestValues(levels, success, trials, reverse) {
+function setupTestValues(levels, success, trials, reverse) {
   testTrials = [[]].concat(trials);
   var l, i, j;
   var random = Alea();
@@ -719,10 +771,10 @@ function initTestValues(levels, success, trials, reverse) {
         side = Math.round(random());
         if (i > 0) {
           sideImageChangeover[l + 1].push(trials[l].slice(0, i).reduce(
-              function (x, y) {
-                return x + y;
-              },
-              0));
+            function (x, y) {
+              return x + y;
+            },
+            0));
         }
       }
       for (j = 0; j < trials[l][i]; ++j) {

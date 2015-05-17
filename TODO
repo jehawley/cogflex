@@ -4,6 +4,8 @@ Should consider moving config info to a data file
 
 Should consider refactoring how levels are made (add 0 and length to secStops, give all things in waveQueues the same type, more loops, make a generic function that just take a waveQueues object)
 
+Consider improving .csv build
+
 Consider reducing + normalizing audio volumes
 
 *Note - level 4 made of 84-93, it is also broken 

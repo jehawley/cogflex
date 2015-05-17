@@ -1,15 +1,27 @@
 function saveInitialData() {
   subjectID = $('#participantID').val();
+  
+  if ($('#skill').prop('checked')) {
+    levelSet = 'S';
+  } else if ($('#nonskill').prop('checked')) {
+    levelSet = 'N';
+  } else {
+    alert('Error: no level set selected');
+    return false;
+  }
+
   for (var i = 1; i < 11; ++i) {
     if($('#level' + i).prop('checked')) {
       levelList.push(i);
       levelQueue.push(i);
     }
   }
+
   if (levelList.length == 0) {
     alert('Error: No levels selected');
     return false;
   }
+
   chosenLevel = levelQueue.shift();
   $('#dataContainer').empty();
   return true;
@@ -75,51 +87,34 @@ function sendDataToServer () {
     }
 
     for (i = 0; i < sideChosenRecord[level].length; ++i){
-      //playDataString += subjectID + ",";
       playDataRow[0] = subjectID;
-      //playDataString += (year+month+day) + ",";
       playDataRow[1] = "" + year + month + day;
-      //playDataString += sessionID + ",";
       playDataRow[2] = sessionID;
       if (successP[level][i] === originalP) {
-        //playDataString += pair + ",";
         playDataRow[3] = pair;
       } else {
-        //playDataString += (pair + 1) + ",";
         playDataRow[3] = pair + 1;
       }
-      //playDataString += level + ",";
       playDataRow[4] = level;
-      //playDataString += successP[level][i] + ",";
       playDataRow[5] = successP[level][i]
       if (reversed[level][i]) {
-        //playDataString += 1 + ",";
         playDataRow[6] = 1;
       } else {
-        //playDataString += 0 + ",";
         playDataRow[6] = 0;
       }
       if (sideChosenRecord[level][i] === correctSideRecord[level][i]) {
-        //playDataString += 1 + ",";
         playDataRow[7] = 1;
       } else {
-        //playDataString += 0 + ",";
         playDataRow[7] = 0;
       }
       if (sideChosenRecord[level][i] === winLossRecord[level][i]) {
-        //playDataString += 1 + ",";
         playDataRow[8] = 1;
       } else {
-        //playDataString += 0 + ",";
         playDataRow[8] = 0;
       }
-      //playDataString += sideChosenRecord[level][i] + ",";
       playDataRow[9] = sideChosenRecord[level][i];
-      //playDataString += correctSideRecord[level][i] + ",";
       playDataRow[10] = correctSideRecord[level][i];
-      //playDataString += winLossRecord[level][i] + ",";
       playDataRow[11] = winLossRecord[level][i];
-      //playDataString += score;
       playDataRow[12] = score;
       playDataRow[13] = i;
       playDataRow[14] = fractionStars;

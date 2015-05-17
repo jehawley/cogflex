@@ -1,10 +1,12 @@
 // eventHandlers.js
 // Contains all key event handling functions for the game window
 function handleStartScreen(e) {
+  // 13 = Enter
   if ((e.type === 'keydown') &&
       (e.keyCode === 13) &&
       renderData.allImagesLoaded) {
     if (saveInitialData()) {
+      initTestValues();
       changeScreen(instructionScreen, handleInstructionScreen);
     }
   }
@@ -33,7 +35,6 @@ function handleChooseLevelScreen(e) {
 }
 
 function handleChooseLevelScreenEnd(e) {
-
 }
 
 function handleLevelScreen(e) {

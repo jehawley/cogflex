@@ -46,6 +46,7 @@ var chosenLevel;
 var levelScores = [];
 var levelList = [];
 var levelQueue = [];
+var levelSet;
 
 // Level screen data
 var starQueue = [];
