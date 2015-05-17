@@ -7,37 +7,6 @@ function init() {
   backCtx = document.getElementById('backC').getContext('2d');
   topCtx = document.getElementById('topC').getContext('2d');
   renderData.loadImages();
-  initTestValues(10,
-                 [[1.0, 1.0],
-                  [1.0, 1.0],
-                  [1.0, 1.0],
-                  [1.0, 1.0, 1.0, 1.0],
-                  [1.0, 1.0, 0.9, 0.9],
-                  [1.0, 1.0, 0.8, 0.8],
-                  [1.0, 1.0, 0.7, 0.7],
-                  [0.9, 0.9, 0.8, 0.8],
-                  [0.9, 0.9, 0.7, 0.7],
-                  [0.8, 0.8, 0.7, 0.7]],
-                 [[15, 15],
-                  [15, 15],
-                  [15, 15],
-                  [15, 15, 15, 15],
-                  [15, 15, 15, 15],
-                  [15, 15, 15, 15],
-                  [15, 15, 15, 15],
-                  [15, 15, 15, 15],
-                  [15, 15, 15, 15],
-                  [15, 15, 15, 15]],
-                 [[false, true],
-                  [false, true],
-                  [false, true],
-                  [false, true, false, true],
-                  [false, true, false, true],
-                  [false, true, false, true],
-                  [false, true, false, true],
-                  [false, true, false, true],
-                  [false, true, false, true],
-                  [false, true, false, true]]);
   changeScreen(startScreen, handleStartScreen);
 }
 

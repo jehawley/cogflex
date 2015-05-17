@@ -417,12 +417,11 @@ function renderLevelScreen() {
   
   while (objectIndices.length > 0 &&
          objectIndices[0] < (player.topHeight - OFFSET - 160)) {
-      objectIndices.shift();
+    objectIndices.shift();
   }
 
   if (fogged) {
-    fogGrad = ctx.createLinearGradient(0, fogHeight + 5 -
-                                          player.posY + OFFSET,
+    fogGrad = ctx.createLinearGradient(0, fogHeight + 5 - player.posY + OFFSET,
                                        0, HEIGHT);
     fogGrad.addColorStop(0, 'rgba(0, 0, 128, 0.6)');
     fogGrad.addColorStop(0.15, 'rgba(0, 0, 128, 1)');
@@ -531,34 +530,29 @@ function renderLevelScreen() {
   }
 
   starQueue.forEach(function (element, index, array) {
-                      element.x = element.frame / element.s * WIDTH * 0.5 +
-                                  (element.s - element.frame) / element.s *
-                                  element.xS + 
-                                  element.a * Math.sin(element.frame *
-                                                       element.p *
-                                                       Math.PI / 
-                                                       element.s);
-                      element.y = element.frame / element.s * 25 +
-                                  (element.s-element.frame) / element.s *
-                                  element.yS;
-                      element.frame += 1;
-                      if (element.frame > element.s) {
-                        delete array[index];
-                        scoreFlashState=20;
-                      }
-                      topCtx.drawImage(renderData.star,
-                                       element.x,
-                                       element.y,
-                                       20,
-                                       20);
-                    } );
+    element.x = element.frame / element.s * WIDTH * 0.5 +
+                (element.s - element.frame) / element.s * element.xS + 
+                element.a * Math.sin(element.frame * element.p *
+                                     Math.PI / element.s);
+    element.y = element.frame / element.s * 25 +
+                (element.s-element.frame) / element.s * element.yS;
+    element.frame += 1;
+    if (element.frame > element.s) {
+      delete array[index];
+      scoreFlashState=20;
+    }
+    topCtx.drawImage(renderData.star,
+                     element.x,
+                     element.y,
+                     20,
+                     20);
+  } );
 }
 
 function drawGameElement(element, index, array) {
   element.draw();
   if (element.length &&
-      ((player.posY + SHIP_WIDTH / 2) <
-       (element.posY + element.length / 2))) {
+      ((player.posY + SHIP_WIDTH / 2) < (element.posY + element.length / 2))) {
     fogged = true;
     fogHeight = element.posY + element.length;
   }

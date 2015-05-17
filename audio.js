@@ -9,7 +9,6 @@ var audioData = {
   totalSounds: 7
 };
 // Lets me turn sound off
-// TODO: Remove for actual release, or add button to toggle this in-game
 if (AUDIO_ON) {
   audioData.sparkleSmall = new Audio('sounds/sparkleSmall2.wav');
   audioData.sparkleBig = new Audio('sounds/sparkleBig2.wav');
