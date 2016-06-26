@@ -134,5 +134,8 @@ function sendDataToServer () {
          playData,
          function (data, textStatus, jqXHR) {
            console.log('success');
-         });
+         }).fail(function () {
+      alert('The data did not save to the remote server. Please save the data below manually.');
+      $('#dataFallback').text(playDataString);
+   });
 }
